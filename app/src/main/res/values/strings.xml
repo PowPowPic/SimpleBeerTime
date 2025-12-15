@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- =========================================================
+         App
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">Home</string>
+    <string name="nav_history">History</string>
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_graph">Graph</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="close_button_text">Close</string>
+    <string name="cancel_button_text">Cancel</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">Cost this week</string>
+    <string name="label_time_since_last">Time since last beer</string>
+
+    <string name="main_today_count">Today: %1$.1f bottles</string>
+    <string name="main_week_count">This week: %1$.1f bottles</string>
+    <string name="main_week_avg">Average per day: %1$.1f bottles</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">Cost today: %1$s%2$.2f</string>
+    <string name="main_week_cost">%1$s%2$.2f</string>
+
+    <string name="main_midnight_rule_note">Records between 0:00–3:00 count as previous day.</string>
+
+    <string name="main_button_add_one">Log 1 beer</string>
+    <string name="main_button_undo_last">Undo last beer</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">Beer logged</string>
+    <string name="msg_undo_success">Last beer has been removed</string>
+    <string name="msg_no_record_to_undo">There is no record to undo</string>
+    <string name="msg_all_records_deleted">All records have been deleted</string>
+
+    <!-- =========================================================
+         Settings (Dialog + Language/Price/Delete)
+         ========================================================= -->
+    <string name="settings_title">Settings</string>
+
+    <string name="settings_language_title">Language</string>
+    <string name="settings_language_description">Change the display language of the app.</string>
+
+    <string name="settings_price_title">Price per beer</string>
+    <string name="settings_price_description">Set the price per beer.</string>
+
+    <string name="settings_delete_title">Delete all data</string>
+    <string name="settings_delete_description">Delete all recorded drinking history.</string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">Settings dialog</string>
+    <string name="settings_cd_language">Language settings</string>
+    <string name="settings_cd_price">Price settings</string>
+    <string name="settings_cd_delete_all">Delete all data</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">Delete all records</string>
+    <string name="delete_all_message">Are you sure you want to delete all drinking records? This action cannot be undone.</string>
+    <string name="delete_all_confirm">Delete</string>
+    <string name="delete_all_cancel">Cancel</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">Set price per beer</string>
+    <string name="price_dialog_message">Enter the price per beer:</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">Language</string>
+    <string name="dialog_language_message">The app language will be changed the next time you open the app.</string>
+    <string name="dialog_language_ok">OK</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">System default</string>
+    <string name="language_apply_restart">Apply</string>
+    <string name="language_confirm_title">Apply language</string>
+    <string name="language_confirm_message">Apply the selected language?</string>
+    <string name="language_confirm_ok">Apply</string>
+    <string name="language_confirm_cancel">Cancel</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">History</string>
+
+    <string name="history_summary_title">Summary for this day</string>
+    <string name="history_summary_total">Total: %1$d bottles</string>
+    <string name="history_summary_avg">Average interval: %1$s</string>
+    <string name="history_summary_longest">Longest interval: %1$s</string>
+    <string name="history_summary_no_interval">No interval data</string>
+
+    <string name="history_item_title">Beer #%1$d</string>
+    <string name="history_item_first">First beer of the day</string>
+    <string name="history_item_interval">Interval: %1$s</string>
+
+    <string name="history_delete_title">Delete this record</string>
+    <string name="history_delete_message">Are you sure you want to delete this record?</string>
+    <string name="history_delete_yes">Yes</string>
+    <string name="history_delete_no">No</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_previous_day">Previous day</string>
+    <string name="history_cd_next_day">Next day</string>
+    <string name="history_cd_delete">Delete</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <!-- Accessibility (Calendar) -->
+    <string name="calendar_cd_previous_month">Previous month</string>
+    <string name="calendar_cd_next_month">Next month</string>
+
+    <!-- Weekday labels (Mon-first) -->
+    <string name="weekday_mon">Mon</string>
+    <string name="weekday_tue">Tue</string>
+    <string name="weekday_wed">Wed</string>
+    <string name="weekday_thu">Thu</string>
+    <string name="weekday_fri">Fri</string>
+    <string name="weekday_sat">Sat</string>
+    <string name="weekday_sun">Sun</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">Total bottles</string>
+    <string name="calendar_daily_average_label">Daily average</string>
+    <string name="calendar_total_cost_label">Total cost</string>
+    <string name="calendar_average_cost_label">Average cost</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/ day</string>
+    <string name="format_daily_average_beers">%1$.1f / day</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s%2$.2f / day</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_monthly_title">Monthly total bottles</string>
+    <string name="graph_weekly_title">Weekly average interval (0–24h)</string>
+    <string name="graph_now_button">Now</string>
+    <string name="graph_weekly_no_data">No sufficient data yet.\nWeeks with fewer than 2 bottles are shown as 24h.</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">Previous Year</string>
+    <string name="graph_cd_next_year">Next Year</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
+</resources>
