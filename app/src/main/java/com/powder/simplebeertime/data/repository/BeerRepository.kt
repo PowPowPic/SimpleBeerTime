@@ -4,34 +4,33 @@ import com.powder.simplebeertime.data.dao.BeerDao
 import com.powder.simplebeertime.data.entity.BeerRecord
 import kotlinx.coroutines.flow.Flow
 
-class BeerRepository(
-    private val dao: BeerDao
-) {
+class BeerRepository(private val beerDao: BeerDao) {
 
-    fun getAllRecords(): Flow<List<BeerRecord>> =
-        dao.getAllRecords()
+    val allRecords: Flow<List<BeerRecord>> = beerDao.getAllRecords()
 
-    suspend fun insertRecord(timestamp: Long = System.currentTimeMillis()) {
-        dao.insert(BeerRecord(timestamp = timestamp))
+    val latestRecord: Flow<BeerRecord?> = beerDao.getLatestRecord()
+
+    suspend fun insert(record: BeerRecord) {
+        beerDao.insert(record)
     }
 
-    suspend fun deleteRecord(id: Long) {
-        dao.deleteById(id)
+    suspend fun deleteById(id: Long) {
+        beerDao.deleteById(id)
     }
 
-    suspend fun getLatestRecord(): BeerRecord? {
-        return dao.getLatestRecord()
+    suspend fun deleteByTimestamp(timestamp: Long) {
+        beerDao.deleteByTimestamp(timestamp)
     }
 
-    suspend fun getRecordsBetween(start: Long, end: Long): List<BeerRecord> {
-        return dao.getRecordsBetween(start, end)
+    suspend fun deleteAll() {
+        beerDao.deleteAll()
     }
 
-    suspend fun deleteAllRecords() {
-        dao.deleteAll()
+    suspend fun getTotalAmountSince(startTime: Long): Double {
+        return beerDao.getTotalAmountSince(startTime)
     }
 
-    suspend fun deleteRecordByTimestamp(timestamp: Long) {
-        dao.deleteByTimestamp(timestamp)
+    suspend fun getTotalAmountBetween(startTime: Long, endTime: Long): Double {
+        return beerDao.getTotalAmountBetween(startTime, endTime)
     }
 }

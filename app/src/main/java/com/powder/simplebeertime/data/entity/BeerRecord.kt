@@ -5,6 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "beer_records")
 data class BeerRecord(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val timestamp: Long // 飲んだ時刻のミリ秒
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
+
+    val timestamp: Long,
+
+    val amount: Double = 1.0
 )

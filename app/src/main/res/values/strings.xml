@@ -27,11 +27,10 @@
          MainScreen
          ========================================================= -->
     <string name="label_week_cost">Cost this week</string>
-    <string name="label_time_since_last">Time since last beer</string>
 
-    <string name="main_today_count">Today: %1$.1f bottles</string>
-    <string name="main_week_count">This week: %1$.1f bottles</string>
-    <string name="main_week_avg">Average per day: %1$.1f bottles</string>
+    <string name="main_today_count">Today: %1$.1f beers</string>
+    <string name="main_week_count">This week: %1$.1f beers</string>
+    <string name="main_week_avg">Average per day: %1$.1f beers</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="main_today_cost">Cost today: %1$s%2$.2f</string>
@@ -41,6 +40,11 @@
 
     <string name="main_button_add_one">Log 1 beer</string>
     <string name="main_button_undo_last">Undo last beer</string>
+
+    <!-- 小数入力エリア -->
+    <string name="main_amount_prefix">About</string>
+    <string name="main_amount_suffix">beers</string>
+    <string name="main_button_add">Add</string>
 
     <!-- Toast / messages -->
     <string name="msg_beer_logged">Beer logged</string>
@@ -97,7 +101,7 @@
     <string name="title_history">History</string>
 
     <string name="history_summary_title">Summary for this day</string>
-    <string name="history_summary_total">Total: %1$d bottles</string>
+    <string name="history_summary_total">Total: %1$d beers</string>
     <string name="history_summary_avg">Average interval: %1$s</string>
     <string name="history_summary_longest">Longest interval: %1$s</string>
     <string name="history_summary_no_interval">No interval data</string>
@@ -133,7 +137,7 @@
     <string name="weekday_sun">Sun</string>
 
     <!-- Monthly summary labels -->
-    <string name="calendar_total_beers_label">Total bottles</string>
+    <string name="calendar_total_beers_label">Total beers</string>
     <string name="calendar_daily_average_label">Daily average</string>
     <string name="calendar_total_cost_label">Total cost</string>
     <string name="calendar_average_cost_label">Average cost</string>
@@ -149,10 +153,10 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_monthly_title">Monthly total bottles</string>
+    <string name="graph_monthly_title">Monthly total beers</string>
     <string name="graph_weekly_title">Weekly average interval (0–24h)</string>
     <string name="graph_now_button">Now</string>
-    <string name="graph_weekly_no_data">No sufficient data yet.\nWeeks with fewer than 2 bottles are shown as 24h.</string>
+    <string name="graph_weekly_no_data">No sufficient data yet.\nWeeks with fewer than 2 beers are shown as 24h.</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">Previous Year</string>

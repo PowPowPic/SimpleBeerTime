@@ -1,8 +1,16 @@
 package com.powder.simplebeertime.ui.settings
 
+import java.util.Currency
+import java.util.Locale
+
 fun currencySymbolFor(lang: AppLanguage): String {
     return when (lang) {
-        AppLanguage.SYSTEM -> "$"
+        AppLanguage.SYSTEM -> {
+            // 端末の地域から通貨を推定
+            val locale = Locale.getDefault()
+            runCatching { Currency.getInstance(locale).symbol }
+                .getOrElse { "$" } // フォールバック
+        }
         AppLanguage.ENGLISH -> "$"
         AppLanguage.JAPANESE -> "¥"
         AppLanguage.FRENCH -> "€"

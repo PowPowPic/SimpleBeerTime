@@ -2,299 +2,126 @@ package com.powder.simplebeertime.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.powder.simplebeertime.data.repository.BeerRepository
 import com.powder.simplebeertime.data.entity.BeerRecord
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import com.powder.simplebeertime.util.currentLogicalDate
+import com.powder.simplebeertime.data.repository.BeerRepository
 import com.powder.simplebeertime.util.toLogicalDate
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
-import java.time.temporal.ChronoUnit
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.temporal.WeekFields
 import java.time.LocalDate
+import java.time.ZoneId
 
-data class TodayStats(
-    val count: Double = 0.0,
-    val cost: Double = 0.0
-)
+class BeerViewModel(private val repository: BeerRepository) : ViewModel() {
 
-data class WeekStats(
-    val count: Double = 0.0,
-    val avgPerDay: Double = 0.0,
-    val costTotal: Double = 0.0,
-    val costAvgPerDay: Double = 0.0
-)
+    val allRecords: StateFlow<List<BeerRecord>> = repository.allRecords
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-data class MonthlyTotal(
-    val month: Int,
-    val totalBeers: Double
-)
+    val latestRecord: StateFlow<BeerRecord?> = repository.latestRecord
+        .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
-data class WeeklyIntervalPoint(
-    val year: Int,
-    val month: Int,
-    val weekOfMonth: Int,
-    val averageIntervalMillis: Long
-)
+    // 今日の統計（3時ルール適用）
+    data class TodayStats(val count: Double = 0.0, val firstTime: Long? = null)
 
-private data class WeekKey(
-    val weekBasedYear: Int,
-    val weekOfYear: Int
-)
+    private val _todayStats = MutableStateFlow(TodayStats())
+    val todayStats: StateFlow<TodayStats> = _todayStats.asStateFlow()
 
-class BeerViewModel(
-    private val repository: BeerRepository
-) : ViewModel() {
+    // 今週の統計
+    data class WeekStats(val count: Double = 0.0, val avgPerDay: Double = 0.0)
 
-    private val pricePerBeer = 500 // 円/杯 TODO: Settings画面で変更可能に
-
-    val allRecords: StateFlow<List<BeerRecord>> =
-        repository.getAllRecords()
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5000),
-                emptyList()
-            )
-
-    val todayStats: StateFlow<TodayStats> =
-        allRecords
-            .map { list ->
-                val today = currentLogicalDate()
-                val todayRecords = list.filter { record ->
-                    record.timestamp.toLogicalDate() == today
-                }
-                val count = todayRecords.size.toDouble()
-                TodayStats(
-                    count = count,
-                    cost = count * pricePerBeer
-                )
-            }
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5000),
-                TodayStats()
-            )
-
-    val weekStats: StateFlow<WeekStats> =
-        allRecords
-            .map { list ->
-                val today = currentLogicalDate()
-                val monday = today.with(DayOfWeek.MONDAY)
-                val sunday = monday.plusDays(6)
-
-                val weekRecords = list.filter { record ->
-                    val d = record.timestamp.toLogicalDate()
-                    !d.isBefore(monday) && !d.isAfter(sunday)
-                }
-
-                val count = weekRecords.size.toDouble()
-                val daysPassed = ChronoUnit.DAYS.between(monday, today) + 1
-
-                val avgPerDay =
-                    if (daysPassed > 0) count / daysPassed.toDouble() else 0.0
-                val costTotal = count * pricePerBeer
-                val costAvgPerDay =
-                    if (daysPassed > 0) costTotal / daysPassed.toDouble() else 0.0
-
-                WeekStats(
-                    count = count,
-                    avgPerDay = avgPerDay,
-                    costTotal = costTotal,
-                    costAvgPerDay = costAvgPerDay
-                )
-            }
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5000),
-                WeekStats()
-            )
-
-    private val _latestRecord = MutableStateFlow<BeerRecord?>(null)
-    val latestRecord: StateFlow<BeerRecord?> = _latestRecord
-
-    val todayCount: StateFlow<Double> =
-        allRecords
-            .map { list ->
-                val today = currentLogicalDate()
-                list.count { record ->
-                    record.timestamp.toLogicalDate() == today
-                }.toDouble()
-            }
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5000),
-                0.0
-            )
+    private val _weekStats = MutableStateFlow(WeekStats())
+    val weekStats: StateFlow<WeekStats> = _weekStats.asStateFlow()
 
     init {
         viewModelScope.launch {
-            _latestRecord.value = repository.getLatestRecord()
+            allRecords.collect { records ->
+                updateTodayStats(records)
+                updateWeekStats(records)
+            }
         }
     }
 
-    fun insertBeer() {
+    private fun updateTodayStats(records: List<BeerRecord>) {
+        val today = LocalDate.now()
+        val todayRecords = records.filter { record ->
+            record.timestamp.toLogicalDate(cutoffHour = 3) == today
+        }
+        val totalAmount = todayRecords.sumOf { it.amount }
+        val firstTime = todayRecords.minByOrNull { it.timestamp }?.timestamp
+
+        _todayStats.value = TodayStats(count = totalAmount, firstTime = firstTime)
+    }
+
+    private fun updateWeekStats(records: List<BeerRecord>) {
+        val today = LocalDate.now()
+        val startOfWeek = today.with(DayOfWeek.MONDAY)
+
+        val weekRecords = records.filter { record ->
+            val recordDate = record.timestamp.toLogicalDate(cutoffHour = 3)
+            !recordDate.isBefore(startOfWeek) && !recordDate.isAfter(today)
+        }
+
+        val totalAmount = weekRecords.sumOf { it.amount }
+        val daysPassed = (today.toEpochDay() - startOfWeek.toEpochDay() + 1).toInt()
+        val avg = if (daysPassed > 0) totalAmount / daysPassed else 0.0
+
+        _weekStats.value = WeekStats(count = totalAmount, avgPerDay = avg)
+    }
+
+    fun insertBeer(amount: Double = 1.0) {
         viewModelScope.launch {
-            repository.insertRecord()
-            _latestRecord.value = repository.getLatestRecord()
+            repository.insert(
+                BeerRecord(
+                    timestamp = System.currentTimeMillis(),
+                    amount = amount
+                )
+            )
         }
     }
 
     fun deleteLatestBeer() {
         viewModelScope.launch {
-            _latestRecord.value?.id?.let { id ->
-                repository.deleteRecord(id)
-                _latestRecord.value = repository.getLatestRecord()
+            latestRecord.value?.let { record ->
+                repository.deleteById(record.id)
             }
-        }
-    }
-
-    suspend fun getRecordsBetween(start: Long, end: Long): List<BeerRecord> {
-        return repository.getRecordsBetween(start, end)
-    }
-
-    fun deleteAllRecords() {
-        viewModelScope.launch {
-            repository.deleteAllRecords()
-            _latestRecord.value = null
         }
     }
 
     fun deleteRecordByTimestamp(timestamp: Long) {
         viewModelScope.launch {
-            repository.deleteRecordByTimestamp(timestamp)
+            repository.deleteByTimestamp(timestamp)
         }
     }
 
-    private companion object {
-        const val MAX_INTERVAL_MILLIS: Long = 24L * 60 * 60 * 1000L
+    fun deleteAllRecords() {
+        viewModelScope.launch {
+            repository.deleteAll()
+        }
     }
 
-    fun getMonthlyTotalsForYear(
-        year: Int,
-        cutoffHour: Int = 3
-    ): List<MonthlyTotal> {
-        val base = (1..12).associateWith { 0.0 }.toMutableMap()
+    // グラフ用：月別集計
+    data class MonthlyTotal(val month: Int, val totalBeers: Double)
 
-        allRecords.value.forEach { record ->
-            val logicalDate = record.timestamp.toLogicalDate(cutoffHour)
-            if (logicalDate.year == year) {
-                val m = logicalDate.monthValue
-                base[m] = (base[m] ?: 0.0) + 1.0
+    fun getMonthlyTotalsForYear(year: Int): List<MonthlyTotal> {
+        val records = allRecords.value
+        val result = mutableMapOf<Int, Double>()
+
+        for (month in 1..12) {
+            result[month] = 0.0
+        }
+
+        records.forEach { record ->
+            val date = record.timestamp.toLogicalDate(cutoffHour = 3)
+            if (date.year == year) {
+                val month = date.monthValue
+                result[month] = (result[month] ?: 0.0) + record.amount
             }
         }
 
-        return (1..12).map { m ->
-            MonthlyTotal(month = m, totalBeers = base[m] ?: 0.0)
-        }
-    }
-
-    fun getWeeklyIntervalPointsForWeekBasedYear(
-        weekBasedYear: Int,
-        cutoffHour: Int = 3,
-        zoneId: ZoneId = ZoneId.systemDefault()
-    ): List<WeeklyIntervalPoint> {
-
-        val grouped: Map<WeekKey, List<Long>> =
-            allRecords.value
-                .groupBy { record ->
-                    val logicalDate = record.timestamp.toLogicalDate(cutoffHour)
-                    weekKeyFromDate(logicalDate)
-                }
-                .mapValues { (_, list) -> list.map { it.timestamp }.sorted() }
-
-        val allWeekKeys = enumerateWeekKeysForWeekBasedYear(weekBasedYear)
-
-        val wf = WeekFields.ISO
-
-        return allWeekKeys.map { key ->
-            val timestamps = grouped[key].orEmpty()
-
-            val avgMillis = when {
-                timestamps.size >= 2 -> {
-                    val intervals = timestamps.zipWithNext { a, b ->
-                        val diff = b - a
-                        if (diff > 0) diff else 0L
-                    }.filter { it > 0L }
-
-                    if (intervals.isNotEmpty()) {
-                        intervals.average().toLong().coerceAtMost(MAX_INTERVAL_MILLIS)
-                    } else {
-                        MAX_INTERVAL_MILLIS
-                    }
-                }
-
-                timestamps.size == 1 -> {
-                    val only = timestamps.first()
-                    val monday = mondayOfWeek(only.toLogicalDate(cutoffHour))
-                    val nextWeekStart = monday.plusWeeks(7).atTime(3, 0)
-                    val nextWeekStartMillis = localDateTimeToMillis(nextWeekStart, zoneId)
-
-                    val diff = nextWeekStartMillis - only
-                    diff.coerceAtLeast(0L).coerceAtMost(MAX_INTERVAL_MILLIS)
-                }
-
-                else -> {
-                    MAX_INTERVAL_MILLIS
-                }
-            }
-
-            val repMonday = mondayFromWeekKey(key)
-            WeeklyIntervalPoint(
-                year = key.weekBasedYear,
-                month = repMonday.monthValue,
-                weekOfMonth = repMonday.get(wf.weekOfMonth()),
-                averageIntervalMillis = avgMillis
-            )
-        }.sortedWith(
-            compareBy<WeeklyIntervalPoint> { it.year }
-                .thenBy { it.month }
-                .thenBy { it.weekOfMonth }
-        )
-    }
-
-    private fun weekKeyFromDate(date: LocalDate): WeekKey {
-        val wf = WeekFields.ISO
-        return WeekKey(
-            weekBasedYear = date.get(wf.weekBasedYear()),
-            weekOfYear = date.get(wf.weekOfWeekBasedYear())
-        )
-    }
-
-    private fun enumerateWeekKeysForWeekBasedYear(targetWeekBasedYear: Int): List<WeekKey> {
-        val wf = WeekFields.ISO
-
-        val anchor = LocalDate.of(targetWeekBasedYear, 1, 4)
-
-        var cur = anchor
-            .with(wf.weekOfWeekBasedYear(), 1)
-            .with(wf.dayOfWeek(), 1)
-
-        val keys = mutableListOf<WeekKey>()
-        while (true) {
-            val key = weekKeyFromDate(cur)
-            if (key.weekBasedYear != targetWeekBasedYear && keys.isNotEmpty()) break
-            if (key.weekBasedYear == targetWeekBasedYear) {
-                keys.add(key)
-            }
-            cur = cur.plusWeeks(1)
-        }
-        return keys.distinct()
-    }
-
-    private fun mondayOfWeek(date: LocalDate): LocalDate {
-        return date.with(DayOfWeek.MONDAY)
-    }
-
-    private fun mondayFromWeekKey(key: WeekKey): LocalDate {
-        val wf = WeekFields.ISO
-        return LocalDate.of(key.weekBasedYear, 1, 4)
-            .with(wf.weekOfWeekBasedYear(), key.weekOfYear.toLong())
-            .with(wf.dayOfWeek(), 1)
-    }
-
-    private fun localDateTimeToMillis(ldt: LocalDateTime, zoneId: ZoneId): Long {
-        return ldt.atZone(zoneId).toInstant().toEpochMilli()
+        return result.map { (month, total) -> MonthlyTotal(month, total) }
     }
 }
