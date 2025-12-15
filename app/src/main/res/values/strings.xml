@@ -100,15 +100,13 @@
          ========================================================= -->
     <string name="title_history">History</string>
 
-    <string name="history_summary_title">Summary for this day</string>
-    <string name="history_summary_total">Total: %1$d beers</string>
-    <string name="history_summary_avg">Average interval: %1$s</string>
-    <string name="history_summary_longest">Longest interval: %1$s</string>
-    <string name="history_summary_no_interval">No interval data</string>
+    <!-- HistoryScreen (Week view) -->
+    <string name="history_cd_previous_week">Previous week</string>
+    <string name="history_cd_next_week">Next week</string>
+    <string name="history_week_summary_title">Summary of this week</string>
+    <string name="history_week_total">Total: about %1$.1f beers</string>
+    <string name="history_week_avg">Average: %1$.1f beers/day</string>
 
-    <string name="history_item_title">Beer #%1$d</string>
-    <string name="history_item_first">First beer of the day</string>
-    <string name="history_item_interval">Interval: %1$s</string>
 
     <string name="history_delete_title">Delete this record</string>
     <string name="history_delete_message">Are you sure you want to delete this record?</string>
@@ -116,8 +114,6 @@
     <string name="history_delete_no">No</string>
 
     <!-- Accessibility (History) -->
-    <string name="history_cd_previous_day">Previous day</string>
-    <string name="history_cd_next_day">Next day</string>
     <string name="history_cd_delete">Delete</string>
 
     <!-- =========================================================
@@ -153,10 +149,11 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_monthly_title">Monthly total beers</string>
-    <string name="graph_weekly_title">Weekly average interval (0–24h)</string>
     <string name="graph_now_button">Now</string>
     <string name="graph_weekly_no_data">No sufficient data yet.\nWeeks with fewer than 2 beers are shown as 24h.</string>
+
+    <string name="graph_monthly_title">Monthly total beers</string>
+    <string name="graph_weekly_title">Weekly average beers per day</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">Previous Year</string>

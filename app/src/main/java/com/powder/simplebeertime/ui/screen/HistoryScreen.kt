@@ -1,19 +1,16 @@
 package com.powder.simplebeertime.ui.screen
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,13 +20,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.powder.simplebeertime.R
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.util.currentLogicalDate
 import com.powder.simplebeertime.util.toLogicalDate
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -41,195 +42,185 @@ fun HistoryScreen(
 ) {
     val allRecords by viewModel.allRecords.collectAsState(initial = emptyList())
     val logicalToday = remember { currentLogicalDate(cutoffHour = 3) }
-    var selectedDate by rememberSaveable { mutableStateOf(logicalToday) }
 
-    val recordsForDate = remember(allRecords, selectedDate) {
-        allRecords
-            .filter { record ->
-                record.timestamp.toLogicalDate(cutoffHour = 3) == selectedDate
-            }
-            .sortedBy { it.timestamp }
+    // 現在表示している週の月曜日
+    var weekMonday by rememberSaveable {
+        mutableStateOf(logicalToday.with(DayOfWeek.MONDAY))
     }
 
-    val intervalItems = remember(recordsForDate) {
-        buildIntervalItems(recordsForDate.map { it.timestamp })
-    }
+    // 週の日曜日
+    val weekSunday = weekMonday.plusDays(6)
 
-    val intervalsMillis = intervalItems.mapNotNull { it.intervalMillis }
-    val totalCount = recordsForDate.size
-    val avgIntervalMillis = if (intervalsMillis.isNotEmpty()) {
-        intervalsMillis.sum() / intervalsMillis.size
-    } else {
-        null
-    }
-    val longestIntervalMillis = intervalsMillis.maxOrNull()
+    // 今週の月曜日（未来の週には進めないように）
+    val currentWeekMonday = logicalToday.with(DayOfWeek.MONDAY)
 
-    var itemToDelete by remember { mutableStateOf<IntervalItem?>(null) }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 16.dp)
-    ) {
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        DateBar(
-            selectedDate = selectedDate,
-            logicalToday = logicalToday,
-            onPreviousDay = { selectedDate = selectedDate.minusDays(1) },
-            onNextDay = {
-                if (selectedDate.isBefore(logicalToday)) {
-                    selectedDate = selectedDate.plusDays(1)
+    // 週の各曜日の合計を計算
+    val weekValues: List<Double> = remember(allRecords, weekMonday) {
+        (0..6).map { dayOffset ->
+            val date = weekMonday.plusDays(dayOffset.toLong())
+            allRecords
+                .filter { record ->
+                    record.timestamp.toLogicalDate(cutoffHour = 3) == date
                 }
-            }
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        SummarySection(
-            totalCount = totalCount,
-            avgIntervalMillis = avgIntervalMillis,
-            longestIntervalMillis = longestIntervalMillis
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(intervalItems) { item ->
-                IntervalCardSimple(
-                    item = item,
-                    onDeleteClick = { itemToDelete = item }
-                )
-            }
+                .sumOf { it.amount }
         }
     }
 
-    if (itemToDelete != null) {
-        DeleteIntervalDialog(
-            onDismiss = { itemToDelete = null },
-            onConfirmDelete = {
-                val target = itemToDelete
-                if (target != null) {
-                    viewModel.deleteRecordByTimestamp(target.currentTime)
-                }
-                itemToDelete = null
-            }
-        )
-    }
-}
+    // 週合計
+    val weekTotal = weekValues.sum()
 
-@Composable
-private fun DateBar(
-    selectedDate: LocalDate,
-    logicalToday: LocalDate,
-    onPreviousDay: () -> Unit,
-    onNextDay: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+    // 週平均
+    val weekAverage = weekTotal / 7.0
+
+    // 色分け用の判定
+    val max = weekValues.maxOrNull() ?: 0.0
+    val min = weekValues.minOrNull() ?: 0.0
+    val allZero = weekValues.all { it == 0.0 }
+    val allSame = weekValues.all { it == weekValues.first() }
+
+    fun valueColor(value: Double): Color = when {
+        allZero -> SimpleColors.PureBlue
+        allSame && weekValues.first() != 0.0 -> SimpleColors.TextPrimary
+        value == max -> SimpleColors.PureRed
+        value == min -> SimpleColors.PureBlue
+        else -> SimpleColors.TextPrimary
+    }
+
+    // 曜日ラベル
+    val dayLabels = listOf(
+        stringResource(R.string.weekday_mon),
+        stringResource(R.string.weekday_tue),
+        stringResource(R.string.weekday_wed),
+        stringResource(R.string.weekday_thu),
+        stringResource(R.string.weekday_fri),
+        stringResource(R.string.weekday_sat),
+        stringResource(R.string.weekday_sun)
+    )
+
+    // 日付フォーマット（ロケール対応）
     val currentLocale = Locale.getDefault()
-    val formatter = remember(currentLocale) {
+    val dateFormatter = remember(currentLocale) {
         val pattern = android.text.format.DateFormat.getBestDateTimePattern(
             currentLocale,
-            "yyyyMMMddEEE"
+            "MMMd"
         )
         DateTimeFormatter.ofPattern(pattern, currentLocale)
     }
 
-    val dateText = remember(selectedDate, formatter) {
-        selectedDate.format(formatter)
+    val weekRangeText = remember(weekMonday, weekSunday, dateFormatter) {
+        "${weekMonday.format(dateFormatter)} - ${weekSunday.format(dateFormatter)}"
     }
 
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        IconButton(onClick = onPreviousDay) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(R.string.history_cd_previous_day),
-                tint = SimpleColors.TextPrimary
-            )
-        }
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        Text(
-            text = dateText,
-            color = SimpleColors.TextPrimary
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        val isNextEnabled = selectedDate.isBefore(logicalToday)
-        IconButton(
-            onClick = { if (isNextEnabled) onNextDay() },
-            enabled = isNextEnabled
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = stringResource(R.string.history_cd_next_day),
-                tint = SimpleColors.TextPrimary
-            )
-        }
-    }
-}
-
-@Composable
-private fun SummarySection(
-    totalCount: Int,
-    avgIntervalMillis: Long?,
-    longestIntervalMillis: Long?
-) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
-        Text(
-            text = stringResource(R.string.history_summary_title),
-            color = SimpleColors.TextSecondary
-        )
 
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = stringResource(
-                id = R.string.history_summary_total,
-                totalCount
-            ),
-            color = SimpleColors.TextPrimary
-        )
+        // 広告スペース
+        Spacer(modifier = Modifier.height(30.dp))
 
-        if (avgIntervalMillis != null && longestIntervalMillis != null) {
-            Spacer(modifier = Modifier.height(4.dp))
+        // 週ナビゲーション
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            IconButton(onClick = { weekMonday = weekMonday.minusWeeks(1) }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.history_cd_previous_week),
+                    tint = SimpleColors.TextPrimary
+                )
+            }
+
+            Spacer(modifier = Modifier.width(16.dp))
+
             Text(
-                text = stringResource(
-                    id = R.string.history_summary_avg,
-                    formatIntervalHoursMinutes(avgIntervalMillis)
-                ),
+                text = weekRangeText,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
                 color = SimpleColors.TextPrimary
             )
-            Spacer(modifier = Modifier.height(4.dp))
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            // 未来の週には進めない
+            val canGoNext = weekMonday.isBefore(currentWeekMonday)
+            IconButton(
+                onClick = { if (canGoNext) weekMonday = weekMonday.plusWeeks(1) },
+                enabled = canGoNext
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    contentDescription = stringResource(R.string.history_cd_next_week),
+                    tint = if (canGoNext) SimpleColors.TextPrimary else SimpleColors.TextSecondary
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // サマリーセクション（センタリング）
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
-                text = stringResource(
-                    id = R.string.history_summary_longest,
-                    formatIntervalHoursMinutes(longestIntervalMillis)
-                ),
+                text = stringResource(R.string.history_week_summary_title),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = SimpleColors.TextSecondary
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = stringResource(R.string.history_week_total, weekTotal),
+                fontSize = 16.sp,
+                color = SimpleColors.TextPrimary
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = stringResource(R.string.history_week_avg, weekAverage),
+                fontSize = 16.sp,
                 color = SimpleColors.TextPrimary
             )
         }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // 曜日カード（Mon〜Sun）
+        dayLabels.forEachIndexed { index, label ->
+            val value = weekValues[index]
+            val date = weekMonday.plusDays(index.toLong())
+            val dateText = date.format(dateFormatter)
+
+            DayCard(
+                dayLabel = label,
+                dateText = dateText,
+                value = value,
+                valueColor = valueColor(value)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
 @Composable
-private fun IntervalCardSimple(
-    item: IntervalItem,
-    onDeleteClick: () -> Unit
+private fun DayCard(
+    dayLabel: String,
+    dateText: String,
+    value: Double,
+    valueColor: Color
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -239,131 +230,25 @@ private fun IntervalCardSimple(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp, horizontal = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-
+            // 曜日 + 日付（1行）
             Text(
-                text = stringResource(
-                    id = R.string.history_item_title,
-                    item.index
-                ),
-                modifier = Modifier.weight(1f),
+                text = "$dayLabel ($dateText)",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
                 color = SimpleColors.TextPrimary
             )
 
-            val intervalText = if (item.intervalMillis == null) {
-                stringResource(R.string.history_item_first)
-            } else {
-                stringResource(
-                    id = R.string.history_item_interval,
-                    formatIntervalHoursMinutes(item.intervalMillis)
-                )
-            }
-
+            // 数値（色分け）
             Text(
-                text = intervalText,
-                modifier = Modifier.weight(1f),
-                color = SimpleColors.TextPrimary
+                text = String.format(Locale.getDefault(), "%.1f", value),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = valueColor
             )
-
-            IconButton(onClick = onDeleteClick) {
-                Icon(
-                    imageVector = Icons.Filled.Delete,
-                    contentDescription = stringResource(R.string.history_cd_delete),
-                    tint = SimpleColors.PureRed
-                )
-            }
         }
     }
 }
-
-@Composable
-private fun DeleteIntervalDialog(
-    onDismiss: () -> Unit,
-    onConfirmDelete: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        containerColor = SimpleColors.DialogBackground,
-        titleContentColor = SimpleColors.TextPrimary,
-        textContentColor = SimpleColors.TextPrimary,
-        title = {
-            Text(
-                text = stringResource(id = R.string.history_delete_title)
-            )
-        },
-        text = {
-            Text(
-                text = stringResource(id = R.string.history_delete_message)
-            )
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmDelete()
-                }
-            ) {
-                Text(
-                    text = stringResource(id = R.string.history_delete_yes),
-                    color = SimpleColors.PureRed
-                )
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(
-                    text = stringResource(id = R.string.history_delete_no),
-                    color = SimpleColors.TextPrimary
-                )
-            }
-        }
-    )
-}
-
-private fun buildIntervalItems(
-    timestamps: List<Long>
-): List<IntervalItem> {
-    if (timestamps.isEmpty()) return emptyList()
-
-    val sorted = timestamps.sorted()
-    val result = mutableListOf<IntervalItem>()
-
-    for (i in sorted.indices) {
-        val current = sorted[i]
-        val previous = if (i == 0) null else sorted[i - 1]
-        val interval = if (previous == null) null else (current - previous)
-
-        result.add(
-            IntervalItem(
-                index = i + 1,
-                previousTime = previous,
-                currentTime = current,
-                intervalMillis = interval
-            )
-        )
-    }
-
-    return result
-}
-
-private fun formatIntervalHoursMinutes(millis: Long): String {
-    if (millis <= 0L) return "--"
-
-    val totalMinutes = millis / (1000 * 60)
-    val hours = totalMinutes / 60
-    val minutes = totalMinutes % 60
-
-    return if (hours > 0) {
-        String.format(Locale.getDefault(), "%dh %02dm", hours, minutes)
-    } else {
-        String.format(Locale.getDefault(), "%dmin", minutes)
-    }
-}
-
-private data class IntervalItem(
-    val index: Int,
-    val previousTime: Long?,
-    val currentTime: Long,
-    val intervalMillis: Long?
-)

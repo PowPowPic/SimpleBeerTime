@@ -1,5 +1,6 @@
 package com.powder.simplebeertime.ui.screen
 
+import android.text.format.DateFormat
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -55,24 +56,26 @@ fun CalendarScreen(
             }
     }
 
+    // ✅ LocalDate -> Double（日別合計）
     val dailyCounts = remember(recordsForMonth) {
-        val map = mutableMapOf<Int, Int>()
-        recordsForMonth.forEach { (date, _) ->
-            val day = date.dayOfMonth
-            map[day] = (map[day] ?: 0) + 1
+        val map = mutableMapOf<LocalDate, Double>()
+        recordsForMonth.forEach { (date, record) ->
+            map[date] = (map[date] ?: 0.0) + record.amount
         }
         map
     }
 
-    val totalBeers = dailyCounts.values.sum()
-    val daysInMonth = monthDate.lengthOfMonth()
-    val avgBeersPerDay =
-        if (daysInMonth > 0) totalBeers.toFloat() / daysInMonth else 0f
+    // ✅ 量は全部 Double で統一
+    val totalBeers: Double = dailyCounts.values.sum()
+    val daysInMonth: Int = monthDate.lengthOfMonth()
+    val avgBeersPerDay: Double = if (daysInMonth > 0) totalBeers / daysInMonth.toDouble() else 0.0
 
-    val totalCost = totalBeers * pricePerBeer
-    val avgCostPerDay =
-        if (daysInMonth > 0) totalCost / daysInMonth else 0f
+    // ✅ 金額も Double で統一（pricePerBeer は Float なので Double化）
+    val price: Double = pricePerBeer.toDouble()
+    val totalCost: Double = totalBeers * price
+    val avgCostPerDay: Double = if (daysInMonth > 0) totalCost / daysInMonth.toDouble() else 0.0
 
+    // ✅ 通貨文字列（strings 側の %1$s%2$.2f 前提）
     val totalCostText = String.format(
         Locale.getDefault(),
         stringResource(R.string.format_currency_amount),
@@ -88,7 +91,7 @@ fun CalendarScreen(
 
     val currentLocale = Locale.getDefault()
     val monthFormatter = remember(currentLocale) {
-        val pattern = android.text.format.DateFormat.getBestDateTimePattern(currentLocale, "yyyyMMM")
+        val pattern = DateFormat.getBestDateTimePattern(currentLocale, "yyyyMMM")
         DateTimeFormatter.ofPattern(pattern, currentLocale)
     }
     val monthTitle = remember(monthDate, monthFormatter) {
@@ -198,22 +201,16 @@ private fun WeekdayHeader() {
 @Composable
 private fun MonthGrid(
     monthDate: LocalDate,
-    dailyCounts: Map<Int, Int>
+    dailyCounts: Map<LocalDate, Double>
 ) {
     val firstDayOfMonth = monthDate
     val daysInMonth = firstDayOfMonth.lengthOfMonth()
-
     val firstDayOfWeekIndex = firstDayOfMonth.dayOfWeek.value - 1
 
     val cells = mutableListOf<Int?>()
     repeat(firstDayOfWeekIndex) { cells.add(null) }
-    for (day in 1..daysInMonth) {
-        cells.add(day)
-    }
-
-    while (cells.size % 7 != 0) {
-        cells.add(null)
-    }
+    for (day in 1..daysInMonth) cells.add(day)
+    while (cells.size % 7 != 0) cells.add(null)
 
     val rows: List<List<Int?>> = cells.chunked(7)
 
@@ -235,9 +232,10 @@ private fun MonthGrid(
                         contentAlignment = Alignment.Center
                     ) {
                         if (day != null) {
+                            val date = monthDate.withDayOfMonth(day)
                             DayCell(
                                 day = day,
-                                count = dailyCounts[day] ?: 0
+                                count = dailyCounts[date] ?: 0.0
                             )
                         } else {
                             DayCellEmpty()
@@ -252,21 +250,19 @@ private fun MonthGrid(
 @Composable
 private fun DayCell(
     day: Int,
-    count: Int
+    count: Double
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = day.toString(),
             fontSize = 14.sp,
             color = SimpleColors.TextPrimary
         )
 
-        if (count > 0) {
+        if (count > 0.0) {
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-                text = count.toString(),
+                text = String.format(Locale.getDefault(), "%.1f", count),
                 fontSize = 12.sp,
                 color = SimpleColors.PureRed
             )
@@ -278,9 +274,7 @@ private fun DayCell(
 
 @Composable
 private fun DayCellEmpty() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = " ", fontSize = 14.sp)
         Spacer(modifier = Modifier.height(14.dp))
     }
@@ -288,8 +282,8 @@ private fun DayCellEmpty() {
 
 @Composable
 fun MonthlySummarySection(
-    totalBeers: Int,
-    avgBeersPerDay: Float,
+    totalBeers: Double,
+    avgBeersPerDay: Double,
     totalCostText: String,
     avgCostPerDayText: String,
     modifier: Modifier = Modifier
@@ -308,7 +302,7 @@ fun MonthlySummarySection(
         ) {
             LabelValueBlock(
                 label = stringResource(R.string.calendar_total_beers_label),
-                value = totalBeers.toString(),
+                value = String.format(Locale.getDefault(), "%.1f", totalBeers),
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(16.dp))
