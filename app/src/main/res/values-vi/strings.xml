@@ -1,3 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- =========================================================
+         App (DO NOT TRANSLATE)
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_history">Lịch sử</string>
+    <string name="nav_calendar">Lịch</string>
+    <string name="nav_graph">Biểu đồ</string>
+    <string name="nav_settings">Cài đặt</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Hủy</string>
+    <string name="close_button_text">Đóng</string>
+    <string name="cancel_button_text">Hủy</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">Chi tiêu tuần này</string>
+
+    <string name="main_today_count">Hôm nay: %1$.1f bia</string>
+    <string name="main_week_count">Tuần này: %1$.1f bia</string>
+    <string name="main_week_avg">Trung bình/ngày: %1$.1f bia</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">Chi tiêu hôm nay: %1$s%2$.2f</string>
+    <string name="main_week_cost">%1$s%2$.2f</string>
+
+    <string name="main_midnight_rule_note">
+        Các bản ghi từ 0:00–3:00 được tính cho ngày trước đó.
+    </string>
+
+    <string name="main_button_add_one">Ghi 1 bia</string>
+    <string name="main_button_undo_last">Hoàn tác bia cuối</string>
+
+    <!-- Decimal input area -->
+    <string name="main_amount_prefix">Khoảng</string>
+    <string name="main_amount_suffix">bia</string>
+    <string name="main_button_add">Thêm</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">Đã ghi bia</string>
+    <string name="msg_undo_success">Đã xóa bia cuối</string>
+    <string name="msg_no_record_to_undo">Không có bản ghi để hoàn tác</string>
+    <string name="msg_all_records_deleted">Đã xóa tất cả bản ghi</string>
+
+    <!-- =========================================================
+         Settings
+         ========================================================= -->
+    <string name="settings_title">Cài đặt</string>
+
+    <string name="settings_language_title">Ngôn ngữ</string>
+    <string name="settings_language_description">Thay đổi ngôn ngữ hiển thị của ứng dụng.</string>
+
+    <string name="settings_price_title">Giá mỗi bia</string>
+    <string name="settings_price_description">Đặt giá cho mỗi bia.</string>
+
+    <string name="settings_delete_title">Xóa tất cả dữ liệu</string>
+    <string name="settings_delete_description">Xóa toàn bộ lịch sử uống.</string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">Hộp thoại cài đặt</string>
+    <string name="settings_cd_language">Cài đặt ngôn ngữ</string>
+    <string name="settings_cd_price">Cài đặt giá</string>
+    <string name="settings_cd_delete_all">Xóa tất cả dữ liệu</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">Xóa tất cả bản ghi</string>
+    <string name="delete_all_message">
+        Bạn có chắc muốn xóa tất cả bản ghi uống không?
+        Hành động này không thể hoàn tác.
+    </string>
+    <string name="delete_all_confirm">Xóa</string>
+    <string name="delete_all_cancel">Hủy</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">Đặt giá mỗi bia</string>
+    <string name="price_dialog_message">Nhập giá cho mỗi bia:</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">Ngôn ngữ</string>
+    <string name="dialog_language_message">
+        Ngôn ngữ của ứng dụng sẽ được áp dụng khi mở lại ứng dụng.
+    </string>
+    <string name="dialog_language_ok">OK</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">Ngôn ngữ hệ thống</string>
+    <string name="language_apply_restart">Áp dụng</string>
+    <string name="language_confirm_title">Áp dụng ngôn ngữ</string>
+    <string name="language_confirm_message">Áp dụng ngôn ngữ đã chọn?</string>
+    <string name="language_confirm_ok">Áp dụng</string>
+    <string name="language_confirm_cancel">Hủy</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">Lịch sử</string>
+
+    <string name="history_cd_previous_week">Tuần trước</string>
+    <string name="history_cd_next_week">Tuần sau</string>
+    <string name="history_week_summary_title">Lịch sử tuần này</string>
+    <string name="history_week_total">Tổng: khoảng %1$.1f bia</string>
+    <string name="history_week_avg">Trung bình: %1$.1f bia/ngày</string>
+
+    <string name="history_delete_title">Xóa bản ghi này</string>
+    <string name="history_delete_message">Bạn có muốn xóa bản ghi này không?</string>
+    <string name="history_delete_yes">Có</string>
+    <string name="history_delete_no">Không</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_delete">Xóa</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <string name="calendar_cd_previous_month">Tháng trước</string>
+    <string name="calendar_cd_next_month">Tháng sau</string>
+
+    <!-- Weekday labels -->
+    <string name="weekday_mon">T2</string>
+    <string name="weekday_tue">T3</string>
+    <string name="weekday_wed">T4</string>
+    <string name="weekday_thu">T5</string>
+    <string name="weekday_fri">T6</string>
+    <string name="weekday_sat">T7</string>
+    <string name="weekday_sun">CN</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">Tổng số bia</string>
+    <string name="calendar_daily_average_label">Trung bình/ngày</string>
+    <string name="calendar_total_cost_label">Tổng chi tiêu</string>
+    <string name="calendar_average_cost_label">Chi tiêu trung bình</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/ ngày</string>
+    <string name="format_daily_average_beers">%1$.1f / ngày</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s%2$.2f / ngày</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_now_button">Bây giờ</string>
+    <string name="graph_weekly_no_data">
+        Chưa đủ dữ liệu.
+        Các tuần có ít hơn 2 bia sẽ hiển thị là 24 giờ.
+    </string>
+
+    <string name="graph_monthly_title">Tổng bia theo tháng</string>
+    <string name="graph_weekly_title">Trung bình tuần (bia/ngày)</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">Năm trước</string>
+    <string name="graph_cd_next_year">Năm sau</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
 </resources>

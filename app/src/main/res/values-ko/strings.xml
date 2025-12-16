@@ -1,3 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- =========================================================
+         App (DO NOT TRANSLATE)
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">홈</string>
+    <string name="nav_history">기록</string>
+    <string name="nav_calendar">달력</string>
+    <string name="nav_graph">그래프</string>
+    <string name="nav_settings">설정</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">확인</string>
+    <string name="common_cancel">취소</string>
+    <string name="close_button_text">닫기</string>
+    <string name="cancel_button_text">취소</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">이번 주 비용</string>
+
+    <string name="main_today_count">오늘: %1$.1f잔</string>
+    <string name="main_week_count">이번 주: %1$.1f잔</string>
+    <string name="main_week_avg">일일 평균: %1$.1f잔</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">오늘 비용: %1$s%2$.2f</string>
+    <string name="main_week_cost">%1$s%2$.2f</string>
+
+    <string name="main_midnight_rule_note">0:00~3:00 사이의 기록은 전날로 계산됩니다.</string>
+
+    <string name="main_button_add_one">1잔 추가</string>
+    <string name="main_button_undo_last">마지막 취소</string>
+
+    <!-- Decimal input area -->
+    <string name="main_amount_prefix">약</string>
+    <string name="main_amount_suffix">잔</string>
+    <string name="main_button_add">추가</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">기록되었습니다</string>
+    <string name="msg_undo_success">마지막 기록이 삭제되었습니다</string>
+    <string name="msg_no_record_to_undo">취소할 기록이 없습니다</string>
+    <string name="msg_all_records_deleted">모든 기록이 삭제되었습니다</string>
+
+    <!-- =========================================================
+         Settings
+         ========================================================= -->
+    <string name="settings_title">설정</string>
+
+    <string name="settings_language_title">언어</string>
+    <string name="settings_language_description">앱 표시 언어를 변경합니다.</string>
+
+    <string name="settings_price_title">잔당 가격</string>
+    <string name="settings_price_description">한 잔당 가격을 설정합니다.</string>
+
+    <string name="settings_delete_title">모든 데이터 삭제</string>
+    <string name="settings_delete_description">기록된 음주 내역을 모두 삭제합니다.</string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">설정 대화상자</string>
+    <string name="settings_cd_language">언어 설정</string>
+    <string name="settings_cd_price">가격 설정</string>
+    <string name="settings_cd_delete_all">모든 데이터 삭제</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">모든 데이터 삭제</string>
+    <string name="delete_all_message">모든 음주 기록을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="delete_all_confirm">삭제</string>
+    <string name="delete_all_cancel">취소</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">잔당 가격 설정</string>
+    <string name="price_dialog_message">한 잔당 가격을 입력하세요:</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">언어</string>
+    <string name="dialog_language_message">앱 언어는 다음 실행 시 적용됩니다.</string>
+    <string name="dialog_language_ok">확인</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">시스템 언어</string>
+    <string name="language_apply_restart">적용</string>
+    <string name="language_confirm_title">언어 적용</string>
+    <string name="language_confirm_message">선택한 언어를 적용할까요?</string>
+    <string name="language_confirm_ok">적용</string>
+    <string name="language_confirm_cancel">취소</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">기록</string>
+
+    <string name="history_cd_previous_week">이전 주</string>
+    <string name="history_cd_next_week">다음 주</string>
+    <string name="history_week_summary_title">이번 주 기록</string>
+    <string name="history_week_total">합계: 약 %1$.1f잔</string>
+    <string name="history_week_avg">평균: %1$.1f잔/일</string>
+
+    <string name="history_delete_title">이 기록 삭제</string>
+    <string name="history_delete_message">이 기록을 삭제하시겠습니까?</string>
+    <string name="history_delete_yes">예</string>
+    <string name="history_delete_no">아니요</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_delete">삭제</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <string name="calendar_cd_previous_month">이전 달</string>
+    <string name="calendar_cd_next_month">다음 달</string>
+
+    <!-- Weekday labels -->
+    <string name="weekday_mon">월</string>
+    <string name="weekday_tue">화</string>
+    <string name="weekday_wed">수</string>
+    <string name="weekday_thu">목</string>
+    <string name="weekday_fri">금</string>
+    <string name="weekday_sat">토</string>
+    <string name="weekday_sun">일</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">총 잔 수</string>
+    <string name="calendar_daily_average_label">일일 평균</string>
+    <string name="calendar_total_cost_label">총 비용</string>
+    <string name="calendar_average_cost_label">평균 비용</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/일</string>
+    <string name="format_daily_average_beers">%1$.1f /일</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s%2$.2f /일</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_now_button">지금</string>
+    <string name="graph_weekly_no_data">데이터가 부족합니다.\n2잔 미만인 주는 24h로 표시됩니다.</string>
+
+    <string name="graph_monthly_title">월별 총 잔 수</string>
+    <string name="graph_weekly_title">주간 일일 평균 잔 수</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">이전 해</string>
+    <string name="graph_cd_next_year">다음 해</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
 </resources>

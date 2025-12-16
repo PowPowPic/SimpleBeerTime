@@ -1,2 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <!-- =========================================================
+         App (DO NOT TRANSLATE)
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">ホーム</string>
+    <string name="nav_history">履歴</string>
+    <string name="nav_calendar">カレンダー</string>
+    <string name="nav_graph">グラフ</string>
+    <string name="nav_settings">設定</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">キャンセル</string>
+    <string name="close_button_text">閉じる</string>
+    <string name="cancel_button_text">キャンセル</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">今週の支出</string>
+
+    <string name="main_today_count">今日：%1$.1f本</string>
+    <string name="main_week_count">今週：%1$.1f本</string>
+    <string name="main_week_avg">1日平均：%1$.1f本</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">今日の支出：%1$s%2$.2f</string>
+    <string name="main_week_cost">%1$s%2$.2f</string>
+
+    <string name="main_midnight_rule_note">0:00〜3:00の記録は前日分として扱います。</string>
+
+    <string name="main_button_add_one">1本追加</string>
+    <string name="main_button_undo_last">直前を取り消す</string>
+
+    <!-- 小数入力エリア -->
+    <string name="main_amount_prefix">約</string>
+    <string name="main_amount_suffix">本</string>
+    <string name="main_button_add">追加</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">追加しました</string>
+    <string name="msg_undo_success">直前の記録を削除しました</string>
+    <string name="msg_no_record_to_undo">取り消せる記録がありません</string>
+    <string name="msg_all_records_deleted">全データを削除しました</string>
+
+    <!-- =========================================================
+         Settings
+         ========================================================= -->
+    <string name="settings_title">設定</string>
+
+    <string name="settings_language_title">言語</string>
+    <string name="settings_language_description">アプリの表示言語を変更します。</string>
+
+    <string name="settings_price_title">1本単価</string>
+    <string name="settings_price_description">1本あたりの金額を設定します。</string>
+
+    <string name="settings_delete_title">全データ削除</string>
+    <string name="settings_delete_description">記録した飲酒履歴をすべて削除します。</string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">設定ダイアログ</string>
+    <string name="settings_cd_language">言語設定</string>
+    <string name="settings_cd_price">単価設定</string>
+    <string name="settings_cd_delete_all">全データ削除</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">全データ削除</string>
+    <string name="delete_all_message">すべての飲酒記録を削除しますか？この操作は元に戻せません。</string>
+    <string name="delete_all_confirm">削除</string>
+    <string name="delete_all_cancel">キャンセル</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">1本単価を設定</string>
+    <string name="price_dialog_message">1本あたりの金額を入力してください：</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">言語</string>
+    <string name="dialog_language_message">アプリの言語は次回起動時に変更されます。</string>
+    <string name="dialog_language_ok">OK</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">システムの言語</string>
+    <string name="language_apply_restart">適用</string>
+    <string name="language_confirm_title">言語を適用</string>
+    <string name="language_confirm_message">選択した言語を適用しますか？</string>
+    <string name="language_confirm_ok">適用</string>
+    <string name="language_confirm_cancel">キャンセル</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">履歴</string>
+
+    <string name="history_cd_previous_week">前の週</string>
+    <string name="history_cd_next_week">次の週</string>
+    <string name="history_week_summary_title">今週の履歴</string>
+    <string name="history_week_total">合計：約%1$.1f本</string>
+    <string name="history_week_avg">平均：%1$.1f本/日</string>
+
+    <string name="history_delete_title">この記録を削除</string>
+    <string name="history_delete_message">この記録を削除しますか？</string>
+    <string name="history_delete_yes">はい</string>
+    <string name="history_delete_no">いいえ</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_delete">削除</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <string name="calendar_cd_previous_month">前の月</string>
+    <string name="calendar_cd_next_month">次の月</string>
+
+    <!-- Weekday labels (Mon-first) -->
+    <string name="weekday_mon">月</string>
+    <string name="weekday_tue">火</string>
+    <string name="weekday_wed">水</string>
+    <string name="weekday_thu">木</string>
+    <string name="weekday_fri">金</string>
+    <string name="weekday_sat">土</string>
+    <string name="weekday_sun">日</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">合計本数</string>
+    <string name="calendar_daily_average_label">1日平均</string>
+    <string name="calendar_total_cost_label">合計支出</string>
+    <string name="calendar_average_cost_label">平均支出</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/日</string>
+    <string name="format_daily_average_beers">%1$.1f /日</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s%2$.2f /日</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_now_button">今</string>
+    <string name="graph_weekly_no_data">データが不足しています。\n2本未満の週は24hとして表示されます。</string>
+
+    <string name="graph_monthly_title">月別 合計本数</string>
+    <string name="graph_weekly_title">週別 1日平均本数</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">前年</string>
+    <string name="graph_cd_next_year">翌年</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
+</resources>

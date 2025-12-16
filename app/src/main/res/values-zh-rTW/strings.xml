@@ -1,2 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <!-- =========================================================
+         App (DO NOT TRANSLATE)
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">首頁</string>
+    <string name="nav_history">記錄</string>
+    <string name="nav_calendar">日曆</string>
+    <string name="nav_graph">圖表</string>
+    <string name="nav_settings">設定</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">確定</string>
+    <string name="common_cancel">取消</string>
+    <string name="close_button_text">關閉</string>
+    <string name="cancel_button_text">取消</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">本週支出</string>
+
+    <string name="main_today_count">今天：%1$.1f 瓶</string>
+    <string name="main_week_count">本週：%1$.1f 瓶</string>
+    <string name="main_week_avg">每日平均：%1$.1f 瓶</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">今日支出：%1$s%2$.2f</string>
+    <string name="main_week_cost">%1$s%2$.2f</string>
+
+    <string name="main_midnight_rule_note">
+        0:00–3:00 之間的記錄會計入前一天。
+    </string>
+
+    <string name="main_button_add_one">記錄 1 瓶</string>
+    <string name="main_button_undo_last">復原上一瓶</string>
+
+    <!-- Decimal input area -->
+    <string name="main_amount_prefix">約</string>
+    <string name="main_amount_suffix">瓶</string>
+    <string name="main_button_add">新增</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">已記錄</string>
+    <string name="msg_undo_success">已刪除上一筆</string>
+    <string name="msg_no_record_to_undo">沒有可復原的記錄</string>
+    <string name="msg_all_records_deleted">已刪除所有記錄</string>
+
+    <!-- =========================================================
+         Settings
+         ========================================================= -->
+    <string name="settings_title">設定</string>
+
+    <string name="settings_language_title">語言</string>
+    <string name="settings_language_description">變更應用程式顯示語言。</string>
+
+    <string name="settings_price_title">每瓶價格</string>
+    <string name="settings_price_description">設定每瓶的價格。</string>
+
+    <string name="settings_delete_title">刪除所有資料</string>
+    <string name="settings_delete_description">刪除所有飲酒記錄。</string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">設定對話框</string>
+    <string name="settings_cd_language">語言設定</string>
+    <string name="settings_cd_price">價格設定</string>
+    <string name="settings_cd_delete_all">刪除所有資料</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">刪除所有記錄</string>
+    <string name="delete_all_message">
+        確定要刪除所有飲酒記錄嗎？
+        此操作無法復原。
+    </string>
+    <string name="delete_all_confirm">刪除</string>
+    <string name="delete_all_cancel">取消</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">設定每瓶價格</string>
+    <string name="price_dialog_message">請輸入每瓶的價格：</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">語言</string>
+    <string name="dialog_language_message">
+        應用程式語言將於下次開啟時套用。
+    </string>
+    <string name="dialog_language_ok">確定</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">系統語言</string>
+    <string name="language_apply_restart">套用</string>
+    <string name="language_confirm_title">套用語言</string>
+    <string name="language_confirm_message">要套用所選語言嗎？</string>
+    <string name="language_confirm_ok">套用</string>
+    <string name="language_confirm_cancel">取消</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">記錄</string>
+
+    <string name="history_cd_previous_week">上一週</string>
+    <string name="history_cd_next_week">下一週</string>
+    <string name="history_week_summary_title">本週記錄</string>
+    <string name="history_week_total">合計：約 %1$.1f 瓶</string>
+    <string name="history_week_avg">平均：%1$.1f 瓶/天</string>
+
+    <string name="history_delete_title">刪除此記錄</string>
+    <string name="history_delete_message">確定要刪除此記錄嗎？</string>
+    <string name="history_delete_yes">是</string>
+    <string name="history_delete_no">否</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_delete">刪除</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <string name="calendar_cd_previous_month">上一個月</string>
+    <string name="calendar_cd_next_month">下一個月</string>
+
+    <!-- Weekday labels -->
+    <string name="weekday_mon">一</string>
+    <string name="weekday_tue">二</string>
+    <string name="weekday_wed">三</string>
+    <string name="weekday_thu">四</string>
+    <string name="weekday_fri">五</string>
+    <string name="weekday_sat">六</string>
+    <string name="weekday_sun">日</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">總瓶數</string>
+    <string name="calendar_daily_average_label">每日平均</string>
+    <string name="calendar_total_cost_label">總支出</string>
+    <string name="calendar_average_cost_label">平均支出</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/ 天</string>
+    <string name="format_daily_average_beers">%1$.1f / 天</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s%2$.2f / 天</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_now_button">現在</string>
+    <string name="graph_weekly_no_data">
+        資料不足。
+        少於 2 瓶的週將顯示為 24 小時。
+    </string>
+
+    <string name="graph_monthly_title">每月瓶數總計</string>
+    <string name="graph_weekly_title">每週平均（瓶/天）</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">上一年</string>
+    <string name="graph_cd_next_year">下一年</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
+</resources>

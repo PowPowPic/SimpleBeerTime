@@ -1,3 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- =========================================================
+         App (DO NOT TRANSLATE)
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">หน้าแรก</string>
+    <string name="nav_history">ประวัติ</string>
+    <string name="nav_calendar">ปฏิทิน</string>
+    <string name="nav_graph">กราฟ</string>
+    <string name="nav_settings">การตั้งค่า</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">ตกลง</string>
+    <string name="common_cancel">ยกเลิก</string>
+    <string name="close_button_text">ปิด</string>
+    <string name="cancel_button_text">ยกเลิก</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">ค่าใช้จ่ายสัปดาห์นี้</string>
+
+    <string name="main_today_count">วันนี้: %1$.1f ขวด</string>
+    <string name="main_week_count">สัปดาห์นี้: %1$.1f ขวด</string>
+    <string name="main_week_avg">เฉลี่ยต่อวัน: %1$.1f ขวด</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">ค่าใช้จ่ายวันนี้: %1$s%2$.2f</string>
+    <string name="main_week_cost">%1$s%2$.2f</string>
+
+    <string name="main_midnight_rule_note">
+        บันทึกระหว่างเวลา 0:00–3:00 จะนับเป็นของวันก่อนหน้า
+    </string>
+
+    <string name="main_button_add_one">เพิ่ม 1 ขวด</string>
+    <string name="main_button_undo_last">ยกเลิกล่าสุด</string>
+
+    <!-- Decimal input area -->
+    <string name="main_amount_prefix">ประมาณ</string>
+    <string name="main_amount_suffix">ขวด</string>
+    <string name="main_button_add">เพิ่ม</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">บันทึกเรียบร้อยแล้ว</string>
+    <string name="msg_undo_success">ลบรายการล่าสุดแล้ว</string>
+    <string name="msg_no_record_to_undo">ไม่มีรายการให้ยกเลิก</string>
+    <string name="msg_all_records_deleted">ลบข้อมูลทั้งหมดแล้ว</string>
+
+    <!-- =========================================================
+         Settings
+         ========================================================= -->
+    <string name="settings_title">การตั้งค่า</string>
+
+    <string name="settings_language_title">ภาษา</string>
+    <string name="settings_language_description">
+        เปลี่ยนภาษาที่แสดงในแอป
+    </string>
+
+    <string name="settings_price_title">ราคาต่อขวด</string>
+    <string name="settings_price_description">
+        ตั้งราคาต่อขวด
+    </string>
+
+    <string name="settings_delete_title">ลบข้อมูลทั้งหมด</string>
+    <string name="settings_delete_description">
+        ลบประวัติการดื่มทั้งหมด
+    </string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">กล่องโต้ตอบการตั้งค่า</string>
+    <string name="settings_cd_language">การตั้งค่าภาษา</string>
+    <string name="settings_cd_price">การตั้งค่าราคา</string>
+    <string name="settings_cd_delete_all">ลบข้อมูลทั้งหมด</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">ลบข้อมูลทั้งหมด</string>
+    <string name="delete_all_message">
+        คุณต้องการลบข้อมูลการดื่มทั้งหมดหรือไม่?
+        การดำเนินการนี้ไม่สามารถย้อนกลับได้
+    </string>
+    <string name="delete_all_confirm">ลบ</string>
+    <string name="delete_all_cancel">ยกเลิก</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">ตั้งราคาต่อขวด</string>
+    <string name="price_dialog_message">กรอกราคาต่อขวด:</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">ภาษา</string>
+    <string name="dialog_language_message">
+        ภาษาของแอปจะถูกเปลี่ยนเมื่อเปิดแอปใหม่
+    </string>
+    <string name="dialog_language_ok">ตกลง</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">ภาษาของระบบ</string>
+    <string name="language_apply_restart">นำไปใช้</string>
+    <string name="language_confirm_title">นำภาษาไปใช้</string>
+    <string name="language_confirm_message">ต้องการใช้ภาษาที่เลือกหรือไม่?</string>
+    <string name="language_confirm_ok">นำไปใช้</string>
+    <string name="language_confirm_cancel">ยกเลิก</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">ประวัติ</string>
+
+    <string name="history_cd_previous_week">สัปดาห์ก่อนหน้า</string>
+    <string name="history_cd_next_week">สัปดาห์ถัดไป</string>
+    <string name="history_week_summary_title">ประวัติสัปดาห์นี้</string>
+    <string name="history_week_total">รวม: ประมาณ %1$.1f ขวด</string>
+    <string name="history_week_avg">เฉลี่ย: %1$.1f ขวด/วัน</string>
+
+    <string name="history_delete_title">ลบรายการนี้</string>
+    <string name="history_delete_message">ต้องการลบรายการนี้หรือไม่?</string>
+    <string name="history_delete_yes">ใช่</string>
+    <string name="history_delete_no">ไม่</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_delete">ลบ</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <string name="calendar_cd_previous_month">เดือนก่อนหน้า</string>
+    <string name="calendar_cd_next_month">เดือนถัดไป</string>
+
+    <!-- Weekday labels -->
+    <string name="weekday_mon">จ.</string>
+    <string name="weekday_tue">อ.</string>
+    <string name="weekday_wed">พ.</string>
+    <string name="weekday_thu">พฤ.</string>
+    <string name="weekday_fri">ศ.</string>
+    <string name="weekday_sat">ส.</string>
+    <string name="weekday_sun">อา.</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">จำนวนทั้งหมด</string>
+    <string name="calendar_daily_average_label">เฉลี่ยต่อวัน</string>
+    <string name="calendar_total_cost_label">ค่าใช้จ่ายรวม</string>
+    <string name="calendar_average_cost_label">ค่าใช้จ่ายเฉลี่ย</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/วัน</string>
+    <string name="format_daily_average_beers">%1$.1f /วัน</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s%2$.2f /วัน</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_now_button">ตอนนี้</string>
+    <string name="graph_weekly_no_data">
+        ข้อมูลไม่เพียงพอ
+        สัปดาห์ที่มีน้อยกว่า 2 ขวดจะแสดงเป็น 24 ชม.
+    </string>
+
+    <string name="graph_monthly_title">จำนวนขวดรวมรายเดือน</string>
+    <string name="graph_weekly_title">ค่าเฉลี่ยรายสัปดาห์ (ขวด/วัน)</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">ปีก่อนหน้า</string>
+    <string name="graph_cd_next_year">ปีถัดไป</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
 </resources>
