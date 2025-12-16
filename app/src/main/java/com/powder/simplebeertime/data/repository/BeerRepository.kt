@@ -33,4 +33,7 @@ class BeerRepository(private val beerDao: BeerDao) {
     suspend fun getTotalAmountBetween(startTime: Long, endTime: Long): Double {
         return beerDao.getTotalAmountBetween(startTime, endTime)
     }
+    suspend fun deleteByTimestampRange(fromMillis: Long, toMillis: Long) {
+        beerDao.deleteByTimestampRange(fromMillis, toMillis)
+    }
 }

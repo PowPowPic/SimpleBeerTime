@@ -174,4 +174,10 @@
     <!-- Format (do not translate) -->
     <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
 
+    <string name="edit_day_dialog_title">編輯數量</string>
+    <string name="delete_day_dialog_title">刪除此日期？</string>
+    <string name="delete_day_dialog_message">此日期記錄的所有啤酒將被刪除。</string>
+    <string name="history_cd_edit">編輯</string>
+
+
 </resources>

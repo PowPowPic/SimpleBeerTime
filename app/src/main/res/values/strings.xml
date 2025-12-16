@@ -167,4 +167,10 @@
     <!-- Format (do not translate) -->
     <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
 
+    <!-- History Edit/Delete dialogs -->
+    <string name="edit_day_dialog_title">Edit amount</string>
+    <string name="delete_day_dialog_title">Delete this day?</string>
+    <string name="delete_day_dialog_message">This will delete all beers logged for this day.</string>
+    <string name="history_cd_edit">Edit</string>
+
 </resources>

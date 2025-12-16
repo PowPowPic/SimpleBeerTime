@@ -164,4 +164,10 @@
     <!-- Format (do not translate) -->
     <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
 
+    <string name="edit_day_dialog_title">本数を編集</string>
+    <string name="delete_day_dialog_title">この日を削除しますか？</string>
+    <string name="delete_day_dialog_message">この日のビール記録をすべて削除します。</string>
+    <string name="history_cd_edit">編集</string>
+
+
 </resources>

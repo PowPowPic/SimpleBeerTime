@@ -164,4 +164,10 @@
     <!-- Format (do not translate) -->
     <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
 
+    <string name="edit_day_dialog_title">Miktarı düzenle</string>
+    <string name="delete_day_dialog_title">Bu günü sil?</string>
+    <string name="delete_day_dialog_message">Bu gün için kaydedilen tüm biralar silinecek.</string>
+    <string name="history_cd_edit">Düzenle</string>
+
+
 </resources>

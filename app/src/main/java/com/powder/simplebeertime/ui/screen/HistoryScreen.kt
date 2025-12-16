@@ -6,6 +6,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -26,6 +28,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.powder.simplebeertime.R
+import com.powder.simplebeertime.ui.dialog.DeleteDayConfirmDialog
+import com.powder.simplebeertime.ui.dialog.EditDayAmountDialog
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.util.currentLogicalDate
@@ -53,6 +57,10 @@ fun HistoryScreen(
 
     // 今週の月曜日（未来の週には進めないように）
     val currentWeekMonday = logicalToday.with(DayOfWeek.MONDAY)
+
+    // ダイアログ用の状態
+    var editingDate by remember { mutableStateOf<LocalDate?>(null) }
+    var deletingDate by remember { mutableStateOf<LocalDate?>(null) }
 
     // 週の各曜日の合計を計算
     val weekValues: List<Double> = remember(allRecords, weekMonday) {
@@ -205,13 +213,42 @@ fun HistoryScreen(
                 dayLabel = label,
                 dateText = dateText,
                 value = value,
-                valueColor = valueColor(value)
+                valueColor = valueColor(value),
+                onEditClick = { editingDate = date },
+                onDeleteClick = { deletingDate = date }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
         }
 
         Spacer(modifier = Modifier.height(24.dp))
+    }
+
+    // 編集ダイアログ
+    editingDate?.let { date ->
+        val currentAmount = weekValues.getOrNull(
+            (date.toEpochDay() - weekMonday.toEpochDay()).toInt()
+        ) ?: 0.0
+
+        EditDayAmountDialog(
+            currentAmount = currentAmount,
+            onDismiss = { editingDate = null },
+            onConfirm = { newAmount ->
+                viewModel.updateDayAmount(date, newAmount)
+                editingDate = null
+            }
+        )
+    }
+
+    // 削除確認ダイアログ
+    deletingDate?.let { date ->
+        DeleteDayConfirmDialog(
+            onDismiss = { deletingDate = null },
+            onConfirm = {
+                viewModel.deleteDay(date)
+                deletingDate = null
+            }
+        )
     }
 }
 
@@ -220,7 +257,9 @@ private fun DayCard(
     dayLabel: String,
     dateText: String,
     value: Double,
-    valueColor: Color
+    valueColor: Color,
+    onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -230,16 +269,16 @@ private fun DayCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(start = 16.dp, end = 4.dp, top = 8.dp, bottom = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             // 曜日 + 日付（1行）
             Text(
                 text = "$dayLabel ($dateText)",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = SimpleColors.TextPrimary
+                color = SimpleColors.TextPrimary,
+                modifier = Modifier.weight(1f)
             )
 
             // 数値（色分け）
@@ -249,6 +288,24 @@ private fun DayCard(
                 fontWeight = FontWeight.Bold,
                 color = valueColor
             )
+
+            // 編集アイコン（青）
+            IconButton(onClick = onEditClick) {
+                Icon(
+                    imageVector = Icons.Outlined.Edit,
+                    contentDescription = stringResource(R.string.history_cd_edit),
+                    tint = SimpleColors.PureBlue
+                )
+            }
+
+            // 削除アイコン（赤）
+            IconButton(onClick = onDeleteClick) {
+                Icon(
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = stringResource(R.string.history_cd_delete),
+                    tint = SimpleColors.PureRed
+                )
+            }
         }
     }
 }

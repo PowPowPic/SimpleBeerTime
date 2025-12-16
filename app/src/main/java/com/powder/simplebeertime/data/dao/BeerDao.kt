@@ -33,4 +33,7 @@ interface BeerDao {
 
     @Query("SELECT COALESCE(SUM(amount), 0.0) FROM beer_records WHERE timestamp >= :startTime AND timestamp < :endTime")
     suspend fun getTotalAmountBetween(startTime: Long, endTime: Long): Double
+
+    @Query("DELETE FROM beer_records WHERE timestamp >= :fromMillis AND timestamp < :toMillis")
+    suspend fun deleteByTimestampRange(fromMillis: Long, toMillis: Long)
 }

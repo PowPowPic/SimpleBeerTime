@@ -164,4 +164,10 @@
     <!-- Format (do not translate) -->
     <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
 
+    <string name="edit_day_dialog_title">수량 편집</string>
+    <string name="delete_day_dialog_title">이 날짜를 삭제할까요?</string>
+    <string name="delete_day_dialog_message">이 날짜에 기록된 모든 맥주가 삭제됩니다.</string>
+    <string name="history_cd_edit">편집</string>
+
+
 </resources>

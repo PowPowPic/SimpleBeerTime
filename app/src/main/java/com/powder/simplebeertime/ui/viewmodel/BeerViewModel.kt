@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -100,6 +99,56 @@ class BeerViewModel(private val repository: BeerRepository) : ViewModel() {
     fun deleteAllRecords() {
         viewModelScope.launch {
             repository.deleteAll()
+        }
+    }
+
+    /**
+     * 指定した論理日付のレコードを全て削除
+     */
+    fun deleteDay(date: LocalDate) {
+        viewModelScope.launch {
+            val fromMillis = date.atTime(3, 0)
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli()
+            val toMillis = date.plusDays(1).atTime(3, 0)
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli()
+            repository.deleteByTimestampRange(fromMillis, toMillis)
+        }
+    }
+
+    /**
+     * 指定した論理日付の合計を新しい値に更新
+     * （全削除 → 代表1件を挿入）
+     */
+    fun updateDayAmount(date: LocalDate, newAmount: Double) {
+        viewModelScope.launch {
+            // 1. その日のレコードを全削除
+            val fromMillis = date.atTime(3, 0)
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli()
+            val toMillis = date.plusDays(1).atTime(3, 0)
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli()
+            repository.deleteByTimestampRange(fromMillis, toMillis)
+
+            // 2. 新しい値が0より大きければ、代表1件を挿入（正午）
+            if (newAmount > 0.0) {
+                val noonMillis = date.atTime(12, 0)
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant()
+                    .toEpochMilli()
+                repository.insert(
+                    BeerRecord(
+                        timestamp = noonMillis,
+                        amount = newAmount
+                    )
+                )
+            }
         }
     }
 

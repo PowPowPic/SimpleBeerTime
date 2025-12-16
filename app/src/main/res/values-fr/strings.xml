@@ -164,4 +164,10 @@
     <!-- Format (do not translate) -->
     <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
 
+    <string name="edit_day_dialog_title">Modifier la quantité</string>
+    <string name="delete_day_dialog_title">Supprimer ce jour ?</string>
+    <string name="delete_day_dialog_message">Toutes les bières enregistrées pour ce jour seront supprimées.</string>
+    <string name="history_cd_edit">Modifier</string>
+
+
 </resources>
