@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- =========================================================
+         App (DO NOT TRANSLATE)
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_history">السجل</string>
+    <string name="nav_calendar">التقويم</string>
+    <string name="nav_graph">الرسم</string>
+    <string name="nav_settings">إعدادات</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">حسنًا</string>
+    <string name="common_cancel">إلغاء</string>
+    <string name="close_button_text">إغلاق</string>
+    <string name="cancel_button_text">إلغاء</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">تكلفة هذا الأسبوع</string>
+
+    <string name="main_today_count">اليوم: %1$.1f مشروبات</string>
+    <string name="main_week_count">هذا الأسبوع: %1$.1f مشروبات</string>
+    <string name="main_week_avg">المتوسط اليومي: %1$.1f مشروبات</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">تكلفة اليوم: %1$s%2$.2f</string>
+    <string name="main_week_cost">%1$s%2$.2f</string>
+
+    <string name="main_midnight_rule_note">يتم احتساب السجلات بين 0:00 و3:00 لليوم السابق.</string>
+
+    <string name="main_button_add_one">تسجيل مشروب واحد</string>
+    <string name="main_button_undo_last">التراجع عن آخر مشروب</string>
+
+    <!-- Decimal input area -->
+    <string name="main_amount_prefix">حوالي</string>
+    <string name="main_amount_suffix">مشروبات</string>
+    <string name="main_button_add">إضافة</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">تم تسجيل المشروب</string>
+    <string name="msg_undo_success">تمت إزالة آخر مشروب</string>
+    <string name="msg_no_record_to_undo">لا يوجد سجل للتراجع عنه</string>
+    <string name="msg_all_records_deleted">تم حذف جميع السجلات</string>
+
+    <!-- =========================================================
+         Settings
+         ========================================================= -->
+    <string name="settings_title">إعدادات</string>
+
+    <string name="settings_language_title">اللغة</string>
+    <string name="settings_language_description">تغيير لغة عرض التطبيق.</string>
+
+    <string name="settings_price_title">سعر المشروب</string>
+    <string name="settings_price_description">تحديد سعر المشروب الواحد.</string>
+
+    <string name="settings_delete_title">حذف جميع البيانات</string>
+    <string name="settings_delete_description">حذف جميع سجلات الشرب.</string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">مربع حوار الإعدادات</string>
+    <string name="settings_cd_language">إعدادات اللغة</string>
+    <string name="settings_cd_price">إعدادات السعر</string>
+    <string name="settings_cd_delete_all">حذف جميع البيانات</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">حذف جميع السجلات</string>
+    <string name="delete_all_message">هل أنت متأكد من حذف جميع سجلات الشرب؟ لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="delete_all_confirm">حذف</string>
+    <string name="delete_all_cancel">إلغاء</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">تحديد سعر المشروب</string>
+    <string name="price_dialog_message">أدخل سعر المشروب الواحد:</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">اللغة</string>
+    <string name="dialog_language_message">سيتم تغيير لغة التطبيق عند فتحه مرة أخرى.</string>
+    <string name="dialog_language_ok">حسنًا</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">لغة النظام</string>
+    <string name="language_apply_restart">تطبيق</string>
+    <string name="language_confirm_title">تطبيق اللغة</string>
+    <string name="language_confirm_message">هل تريد تطبيق اللغة المحددة؟</string>
+    <string name="language_confirm_ok">تطبيق</string>
+    <string name="language_confirm_cancel">إلغاء</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">السجل</string>
+
+    <string name="history_cd_previous_week">الأسبوع السابق</string>
+    <string name="history_cd_next_week">الأسبوع التالي</string>
+    <string name="history_week_summary_title">ملخص هذا الأسبوع</string>
+    <string name="history_week_total">الإجمالي: حوالي %1$.1f مشروبات</string>
+    <string name="history_week_avg">المتوسط: %1$.1f مشروبات/يوم</string>
+
+    <string name="history_delete_title">حذف هذا السجل</string>
+    <string name="history_delete_message">هل تريد حذف هذا السجل؟</string>
+    <string name="history_delete_yes">نعم</string>
+    <string name="history_delete_no">لا</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_delete">حذف</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <string name="calendar_cd_previous_month">الشهر السابق</string>
+    <string name="calendar_cd_next_month">الشهر التالي</string>
+
+    <!-- Weekday labels -->
+    <string name="weekday_mon">الاثنين</string>
+    <string name="weekday_tue">الثلاثاء</string>
+    <string name="weekday_wed">الأربعاء</string>
+    <string name="weekday_thu">الخميس</string>
+    <string name="weekday_fri">الجمعة</string>
+    <string name="weekday_sat">السبت</string>
+    <string name="weekday_sun">الأحد</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">إجمالي المشروبات</string>
+    <string name="calendar_daily_average_label">المتوسط اليومي</string>
+    <string name="calendar_total_cost_label">إجمالي التكلفة</string>
+    <string name="calendar_average_cost_label">متوسط التكلفة</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/ يوم</string>
+    <string name="format_daily_average_beers">%1$.1f / يوم</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s%2$.2f / يوم</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_now_button">الآن</string>
+    <string name="graph_weekly_no_data">لا توجد بيانات كافية بعد.\nتُعرض الأسابيع التي تحتوي على أقل من مشروبين كـ 24 ساعة.</string>
+
+    <string name="graph_monthly_title">إجمالي المشروبات الشهري</string>
+    <string name="graph_weekly_title">متوسط المشروبات اليومي أسبوعيًا</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">السنة السابقة</string>
+    <string name="graph_cd_next_year">السنة التالية</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
+</resources>
