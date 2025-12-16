@@ -102,7 +102,7 @@
 
     <string name="history_cd_previous_week">前の週</string>
     <string name="history_cd_next_week">次の週</string>
-    <string name="history_week_summary_title">今週の履歴</string>
+    <string name="history_week_summary_title">この週の履歴</string>
     <string name="history_week_total">合計：約%1$.1f本</string>
     <string name="history_week_avg">平均：%1$.1f本/日</string>
 

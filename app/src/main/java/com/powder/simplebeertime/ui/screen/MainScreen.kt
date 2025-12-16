@@ -19,6 +19,8 @@ import com.powder.simplebeertime.ui.settings.currencySymbolFor
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import kotlin.math.roundToInt
+import androidx.compose.runtime.saveable.rememberSaveable
+
 
 @Composable
 fun MainScreen(
@@ -36,16 +38,27 @@ fun MainScreen(
     val currencySymbol = currencySymbolFor(currentLang)
 
     // 小数入力用の状態
-    var amountText by remember { mutableStateOf("") }
+    // ✅ placeholder ではなく「実値」として初期値を入れる（そのままAdd/Doneで反映される）
+    var amountText by rememberSaveable { mutableStateOf("1.4") }
 
     // 小数入力を処理する関数
     fun addCustomAmount() {
-        val raw = amountText.toDoubleOrNull() ?: return
-        if (raw <= 0) return
+        // ✅ 空欄のままOK/Doneを押した場合も「1.4」として扱いたい
+        val rawText = amountText.trim().ifEmpty { "1.4" }
+
+        val raw = rawText.toDoubleOrNull() ?: return
+        if (raw <= 0) {
+            // 0以下は何もしないが、入力欄はデフォルトに戻す
+            amountText = "1.4"
+            return
+        }
+
         // 小数第1位まで丸める
         val v = (raw * 10).roundToInt() / 10.0
         viewModel.insertBeer(amount = v)
-        amountText = ""
+
+        // ✅ 追加後は毎回 1.4 に戻す（ユーザーが毎回打ち直さなくてよい）
+        amountText = "1.4"
     }
 
     // ▼ 支出計算
@@ -175,7 +188,7 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // 🍺 小数入力エリア: 約 [ 1.4 ] beers [Add]
+        // 🍺 小数入力エリア: About [ 1.4 ] beers [Add]
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -198,12 +211,7 @@ fun MainScreen(
                 },
                 modifier = Modifier.width(80.dp),
                 singleLine = true,
-                placeholder = {
-                    Text(
-                        text = "1.4",
-                        color = SimpleColors.TextSecondary
-                    )
-                },
+                // ✅ placeholder は使わない（見えてるのに反映されない問題を避ける）
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Done
@@ -273,7 +281,7 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // ② 青文字リンク
+        // ② 青文字リンク（ベタ書き英語はシリーズ共通仕様）
         Box(
             modifier = Modifier
                 .fillMaxWidth()

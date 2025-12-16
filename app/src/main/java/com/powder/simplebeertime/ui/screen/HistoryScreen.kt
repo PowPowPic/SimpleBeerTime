@@ -79,20 +79,26 @@ fun HistoryScreen(
 
     // 週平均
     val weekAverage = weekTotal / 7.0
+    val weekAverageColor: Color = when {
+        weekTotal == 0.0 -> SimpleColors.PureBlue      // 全部0の週
+        weekAverage >= 3.1 -> SimpleColors.PureRed     // 3.1以上は赤
+        weekAverage <= 1.4 -> SimpleColors.PureBlue    // 1.4以下は青
+        else -> SimpleColors.TextPrimary               // それ以外は黒
+    }
+
 
     // 色分け用の判定
-    val max = weekValues.maxOrNull() ?: 0.0
-    val min = weekValues.minOrNull() ?: 0.0
+    // 色分けルール（固定閾値）
     val allZero = weekValues.all { it == 0.0 }
-    val allSame = weekValues.all { it == weekValues.first() }
 
+    // 0.0〜1.4：青 / 1.5〜2.9：黒 / 3.0以上：赤
     fun valueColor(value: Double): Color = when {
         allZero -> SimpleColors.PureBlue
-        allSame && weekValues.first() != 0.0 -> SimpleColors.TextPrimary
-        value == max -> SimpleColors.PureRed
-        value == min -> SimpleColors.PureBlue
+        value >= 3.1 -> SimpleColors.PureRed
+        value <= 1.4 -> SimpleColors.PureBlue
         else -> SimpleColors.TextPrimary
     }
+
 
     // 曜日ラベル
     val dayLabels = listOf(
@@ -197,8 +203,9 @@ fun HistoryScreen(
             Text(
                 text = stringResource(R.string.history_week_avg, weekAverage),
                 fontSize = 16.sp,
-                color = SimpleColors.TextPrimary
+                color = weekAverageColor
             )
+
         }
 
         Spacer(modifier = Modifier.height(24.dp))
