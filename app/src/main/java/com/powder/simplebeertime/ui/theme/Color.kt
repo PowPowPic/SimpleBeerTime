@@ -37,9 +37,8 @@ object SimpleColors {
     val PureBlue = Color(0xFF0000FF)
     val PureRed = Color(0xFFFF0000)
 
-    // Dialog Background (クリーム色)
-    val DialogBackground = Color(0xFFFFF3E0)
 
-    // Settings Dialog Background (少し濃いめのゴールド)
-    val SettingsDialogBackground = Color(0xFFFFE0B2)
+    val DialogBackground = Color(0xFFFFF3CC)
+
+    val SettingsDialogBackground = Color(0xFFFFE8A6)
 }
