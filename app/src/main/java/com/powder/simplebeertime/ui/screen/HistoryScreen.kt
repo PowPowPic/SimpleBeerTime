@@ -38,6 +38,8 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import androidx.compose.foundation.clickable
+
 
 @Composable
 fun HistoryScreen(
@@ -221,9 +223,11 @@ fun HistoryScreen(
                 dateText = dateText,
                 value = value,
                 valueColor = valueColor(value),
+                onCardClick = { editingDate = date },   // ★カードタップ＝編集
                 onEditClick = { editingDate = date },
                 onDeleteClick = { deletingDate = date }
             )
+
 
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -265,11 +269,14 @@ private fun DayCard(
     dateText: String,
     value: Double,
     valueColor: Color,
+    onCardClick: () -> Unit,
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onCardClick),
         elevation = CardDefaults.cardElevation(2.dp),
         colors = CardDefaults.cardColors(containerColor = SimpleColors.Card)
     ) {
