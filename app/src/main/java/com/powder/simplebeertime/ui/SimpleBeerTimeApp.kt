@@ -8,13 +8,15 @@ import androidx.compose.ui.Modifier
 import com.powder.simplebeertime.ui.navigation.AppNavHost
 import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.PriceViewModel
+import com.powder.simplebeertime.ui.viewmodel.AdViewModel
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 
 @Composable
 fun SimpleBeerTimeApp(
     beerViewModel: BeerViewModel,
     languageViewModel: LanguageViewModel,
-    priceViewModel: PriceViewModel
+    priceViewModel: PriceViewModel,
+    adViewModel: AdViewModel
 ) {
     MaterialTheme {
         Surface(
@@ -24,7 +26,8 @@ fun SimpleBeerTimeApp(
             AppNavHost(
                 beerViewModel = beerViewModel,
                 languageViewModel = languageViewModel,
-                priceViewModel = priceViewModel
+                priceViewModel = priceViewModel,
+                adViewModel = adViewModel
             )
         }
     }

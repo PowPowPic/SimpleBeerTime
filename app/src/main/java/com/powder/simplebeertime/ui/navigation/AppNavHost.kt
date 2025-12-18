@@ -1,5 +1,6 @@
 package com.powder.simplebeertime.ui.navigation
 
+import android.app.Activity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,9 +15,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -31,7 +34,10 @@ import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.PriceSettingDialog
 import com.powder.simplebeertime.ui.settings.PriceViewModel
 import com.powder.simplebeertime.ui.settings.SettingsDialog
+import com.powder.simplebeertime.ui.viewmodel.AdViewModel
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
+import com.powder.simplebeertime.util.AdManager
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -39,8 +45,12 @@ fun AppNavHost(
     beerViewModel: BeerViewModel,
     languageViewModel: LanguageViewModel,
     priceViewModel: PriceViewModel,
+    adViewModel: AdViewModel,
     navController: NavHostController = rememberNavController()
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
     // 1. ダイアログの状態 (ここで一元管理)
     val showSettingsDialog = remember { mutableStateOf(false) }
     val showLanguageDialog = remember { mutableStateOf(false) }
@@ -62,7 +72,23 @@ fun AppNavHost(
     // 4. Pager状態
     val pagerState = rememberPagerState(pageCount = { screens.size })
 
-    // 連動ロジックA
+    // 広告表示と遷移の処理
+    fun navigateToGraph() {
+        scope.launch {
+            if (adViewModel.shouldShowAd()) {
+                AdManager.showInterstitial(context as Activity) {
+                    adViewModel.onAdShown()
+                    scope.launch {
+                        pagerState.animateScrollToPage(screens.indexOf(Screen.Graph))
+                    }
+                }
+            } else {
+                pagerState.animateScrollToPage(screens.indexOf(Screen.Graph))
+            }
+        }
+    }
+
+    // 連動ロジックA (BottomBar等からの遷移用)
     LaunchedEffect(pagerState.currentPage) {
         val targetScreen = screens[pagerState.currentPage]
         val currentRoute = navController.currentDestination?.route
@@ -84,6 +110,8 @@ fun AppNavHost(
             val route = entry.destination.route
             val pageIndex = screens.indexOfFirst { it.route == route }
             if (pageIndex >= 0 && pageIndex != pagerState.currentPage) {
+                // Graphへの遷移時のみ広告チェックを行うための特別な処理が必要な場合はここで行う
+                // ただし、現在はNavBarのonClickで制御するのがクリーン
                 pagerState.animateScrollToPage(pageIndex)
             }
         }
@@ -94,7 +122,10 @@ fun AppNavHost(
         bottomBar = {
             NavBar(
                 navController = navController,
-                onSettingsClick = { showSettingsDialog.value = true }
+                onSettingsClick = { showSettingsDialog.value = true },
+                onGraphClick = {
+                    navigateToGraph()
+                }
             )
         }
     ) { innerPadding ->
@@ -128,7 +159,8 @@ fun AppNavHost(
             // 画面本体 (Pager)
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                userScrollEnabled = true // ユーザーのスワイプでも広告を出すべきか？指示書は「Graphタップ」がトリガー。
             ) { page ->
                 when (screens[page]) {
                     Screen.Main -> {

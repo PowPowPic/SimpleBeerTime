@@ -8,9 +8,7 @@ plugins {
 
 android {
     namespace = "com.powder.simplebeertime"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.powder.simplebeertime"
@@ -73,4 +71,7 @@ dependencies {
 
     // Material Icons Extended
     implementation("androidx.compose.material:material-icons-extended:1.6.0")
+
+    // Google Mobile Ads
+    implementation("com.google.android.gms:play-services-ads:23.6.0")
 }

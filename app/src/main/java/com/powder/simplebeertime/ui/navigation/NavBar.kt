@@ -17,7 +17,8 @@ import com.powder.simplebeertime.ui.theme.SimpleColors
 @Composable
 fun NavBar(
     navController: NavHostController,
-    onSettingsClick: () -> Unit
+    onSettingsClick: () -> Unit,
+    onGraphClick: () -> Unit
 ) {
     val items = listOf(
         Screen.Main,
@@ -41,6 +42,8 @@ fun NavBar(
                 onClick = {
                     if (screen == Screen.Settings) {
                         onSettingsClick()
+                    } else if (screen == Screen.Graph) {
+                        onGraphClick()
                     } else {
                         if (currentRoute != screen.route) {
                             navController.navigate(screen.route) {

@@ -15,6 +15,8 @@ import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.LanguageViewModelFactory
 import com.powder.simplebeertime.ui.settings.PriceViewModel
 import com.powder.simplebeertime.ui.settings.PriceViewModelFactory
+import com.powder.simplebeertime.ui.viewmodel.AdViewModel
+import com.powder.simplebeertime.ui.viewmodel.AdViewModelFactory
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModelFactory
 import kotlinx.coroutines.flow.first
@@ -40,6 +42,11 @@ class MainActivity : ComponentActivity() {
         PriceViewModelFactory(
             PricePreferencesRepository(applicationContext.settingsDataStore)
         )
+    }
+
+    private val adViewModel: AdViewModel by viewModels {
+        val app = application as BeerApplication
+        AdViewModelFactory(app.container.adPreferencesRepository)
     }
 
     private fun tagToLocale(tag: String): Locale? {
@@ -92,7 +99,8 @@ class MainActivity : ComponentActivity() {
             SimpleBeerTimeApp(
                 beerViewModel = beerViewModel,
                 languageViewModel = languageViewModel,
-                priceViewModel = priceViewModel
+                priceViewModel = priceViewModel,
+                adViewModel = adViewModel
             )
         }
     }
