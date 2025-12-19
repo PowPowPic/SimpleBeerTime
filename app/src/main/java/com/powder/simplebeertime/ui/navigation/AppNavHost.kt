@@ -4,8 +4,11 @@ import android.app.Activity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.powder.simplebeertime.ui.ads.TopBannerAd
 import com.powder.simplebeertime.ui.screen.CalendarScreen
 import com.powder.simplebeertime.ui.screen.GraphScreen
 import com.powder.simplebeertime.ui.screen.HistoryScreen
@@ -38,6 +42,8 @@ import com.powder.simplebeertime.ui.viewmodel.AdViewModel
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.util.AdManager
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.layout.statusBarsPadding
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -51,17 +57,20 @@ fun AppNavHost(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    // 1. ダイアログの状態 (ここで一元管理)
+    // --- ダイアログの状態（一元管理） ---
     val showSettingsDialog = remember { mutableStateOf(false) }
     val showLanguageDialog = remember { mutableStateOf(false) }
     val showPriceDialog = remember { mutableStateOf(false) }
 
-    // 2. 単価の状態
+    // --- 単価の状態 ---
     val priceState = priceViewModel
         .pricePerBeer
         .collectAsState(initial = 5.00f)
 
-    // 3. 画面の定義
+    // --- 広告削除状態（上部バナー表示用） ---
+    val isAdFreeState = adViewModel.isAdFree.collectAsState(initial = false)
+
+    // --- 画面定義 ---
     val screens = listOf(
         Screen.Main,
         Screen.History,
@@ -69,26 +78,32 @@ fun AppNavHost(
         Screen.Graph
     )
 
-    // 4. Pager状態
+    // --- Pager状態 ---
     val pagerState = rememberPagerState(pageCount = { screens.size })
 
-    // 広告表示と遷移の処理
+    // --- 広告表示とGraph遷移（Graphタップ時のみ） ---
     fun navigateToGraph() {
         scope.launch {
             if (adViewModel.shouldShowAd()) {
-                AdManager.showInterstitial(context as Activity) {
-                    adViewModel.onAdShown()
-                    scope.launch {
-                        pagerState.animateScrollToPage(screens.indexOf(Screen.Graph))
+                AdManager.showInterstitial(
+                    activity = context as Activity,
+                    onAdClosed = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(screens.indexOf(Screen.Graph))
+                        }
+                    },
+                    onAdShown = {
+                        // ★広告が実際に表示され、閉じられたときだけ枠を消費
+                        adViewModel.onAdShown()
                     }
-                }
+                )
             } else {
                 pagerState.animateScrollToPage(screens.indexOf(Screen.Graph))
             }
         }
     }
 
-    // 連動ロジックA (BottomBar等からの遷移用)
+    // --- 連動ロジックA（Pager→Nav） ---
     LaunchedEffect(pagerState.currentPage) {
         val targetScreen = screens[pagerState.currentPage]
         val currentRoute = navController.currentDestination?.route
@@ -104,14 +119,13 @@ fun AppNavHost(
         }
     }
 
-    // 連動ロジックB
+    // --- 連動ロジックB（Nav→Pager） ---
     LaunchedEffect(navController) {
         navController.currentBackStackEntryFlow.collect { entry ->
             val route = entry.destination.route
             val pageIndex = screens.indexOfFirst { it.route == route }
             if (pageIndex >= 0 && pageIndex != pagerState.currentPage) {
-                // Graphへの遷移時のみ広告チェックを行うための特別な処理が必要な場合はここで行う
-                // ただし、現在はNavBarのonClickで制御するのがクリーン
+                // スワイプでも広告を出さない方針なので、ここでは広告処理なし
                 pagerState.animateScrollToPage(pageIndex)
             }
         }
@@ -119,13 +133,30 @@ fun AppNavHost(
 
     Scaffold(
         containerColor = Color.Transparent,
+
+        // ★上部バナー（全画面共通）
+        topBar = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .statusBarsPadding()   // ★これを追加
+                    .wrapContentHeight()
+            ) {
+                TopBannerAd(
+                    isAdFree = isAdFreeState.value,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                )
+            }
+        },
+
+
         bottomBar = {
             NavBar(
                 navController = navController,
                 onSettingsClick = { showSettingsDialog.value = true },
-                onGraphClick = {
-                    navigateToGraph()
-                }
+                onGraphClick = { navigateToGraph() }
             )
         }
     ) { innerPadding ->
@@ -136,14 +167,15 @@ fun AppNavHost(
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            Color(0xFFFFF8E1),  // ビール色（薄い黄色）
-                            Color(0xFFFFB300)   // ビール色（琥珀色）
+                            Color(0xFFFFF8E1),  // 薄い黄色
+                            Color(0xFFFFB300)   // 琥珀色
                         )
                     )
                 )
                 .padding(innerPadding)
         ) {
-            // ダミーNavHost (NavBarの状態維持用)
+
+            // --- ダミーNavHost（NavBar状態維持用） ---
             Box(Modifier.fillMaxSize()) {
                 NavHost(
                     navController = navController,
@@ -156,11 +188,11 @@ fun AppNavHost(
                 }
             }
 
-            // 画面本体 (Pager)
+            // --- 画面本体（Pager） ---
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.fillMaxSize(),
-                userScrollEnabled = true // ユーザーのスワイプでも広告を出すべきか？指示書は「Graphタップ」がトリガー。
+                userScrollEnabled = true
             ) { page ->
                 when (screens[page]) {
                     Screen.Main -> {
@@ -171,9 +203,11 @@ fun AppNavHost(
                             onSettingsClick = { showSettingsDialog.value = true }
                         )
                     }
+
                     Screen.History -> {
                         HistoryScreen(viewModel = beerViewModel)
                     }
+
                     Screen.Calendar -> {
                         CalendarScreen(
                             viewModel = beerViewModel,
@@ -181,16 +215,18 @@ fun AppNavHost(
                             pricePerBeer = priceState.value
                         )
                     }
+
                     Screen.Graph -> {
                         GraphScreen(viewModel = beerViewModel)
                     }
+
                     else -> {}
                 }
             }
 
-            // --- ダイアログ表示 (一元管理) ---
+            // --- ダイアログ表示（一元管理） ---
 
-            // 1. 設定メニュー
+            // 1) 設定メニュー
             if (showSettingsDialog.value) {
                 SettingsDialog(
                     onDismiss = { showSettingsDialog.value = false },
@@ -208,7 +244,7 @@ fun AppNavHost(
                 )
             }
 
-            // 2. 言語設定
+            // 2) 言語設定
             if (showLanguageDialog.value) {
                 LanguageSettingDialog(
                     languageViewModel = languageViewModel,
@@ -216,7 +252,7 @@ fun AppNavHost(
                 )
             }
 
-            // 3. 単価設定
+            // 3) 単価設定
             if (showPriceDialog.value) {
                 PriceSettingDialog(
                     currentPrice = priceState.value,

@@ -1,5 +1,6 @@
 package com.powder.simplebeertime.ui.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -38,8 +39,6 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import androidx.compose.foundation.clickable
-
 
 @Composable
 fun HistoryScreen(
@@ -88,19 +87,16 @@ fun HistoryScreen(
         else -> SimpleColors.TextPrimary               // それ以外は黒
     }
 
-
-    // 色分け用の判定
-    // 色分けルール（固定閾値）
+    // 色分け用の判定（固定閾値）
     val allZero = weekValues.all { it == 0.0 }
 
-    // 0.0〜1.4：青 / 1.5〜2.9：黒 / 3.0以上：赤
+    // 0.0〜1.4：青 / 1.5〜3.0：黒 / 3.1以上：赤
     fun valueColor(value: Double): Color = when {
         allZero -> SimpleColors.PureBlue
         value >= 3.1 -> SimpleColors.PureRed
         value <= 1.4 -> SimpleColors.PureBlue
         else -> SimpleColors.TextPrimary
     }
-
 
     // 曜日ラベル
     val dayLabels = listOf(
@@ -133,15 +129,14 @@ fun HistoryScreen(
             .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
+        // 広告スペース（詰める）
+        Spacer(modifier = Modifier.height(12.dp))
 
-        // 広告スペース
-        Spacer(modifier = Modifier.height(30.dp))
-
-        // 週ナビゲーション
+        // 週ナビゲーション（詰める）
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
@@ -153,7 +148,7 @@ fun HistoryScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(12.dp))
 
             Text(
                 text = weekRangeText,
@@ -162,7 +157,7 @@ fun HistoryScreen(
                 color = SimpleColors.TextPrimary
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(12.dp))
 
             // 未来の週には進めない
             val canGoNext = weekMonday.isBefore(currentWeekMonday)
@@ -178,9 +173,9 @@ fun HistoryScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-        // サマリーセクション（センタリング）
+        // サマリーセクション（詰める）
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -192,7 +187,7 @@ fun HistoryScreen(
                 color = SimpleColors.TextSecondary
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             Text(
                 text = stringResource(R.string.history_week_total, weekTotal),
@@ -200,17 +195,16 @@ fun HistoryScreen(
                 color = SimpleColors.TextPrimary
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(2.dp))
 
             Text(
                 text = stringResource(R.string.history_week_avg, weekAverage),
                 fontSize = 16.sp,
                 color = weekAverageColor
             )
-
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         // 曜日カード（Mon〜Sun）
         dayLabels.forEachIndexed { index, label ->
@@ -223,16 +217,15 @@ fun HistoryScreen(
                 dateText = dateText,
                 value = value,
                 valueColor = valueColor(value),
-                onCardClick = { editingDate = date },   // ★カードタップ＝編集
+                onCardClick = { editingDate = date },   // カードタップ＝編集
                 onEditClick = { editingDate = date },
                 onDeleteClick = { deletingDate = date }
             )
 
-
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(6.dp))
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(12.dp))
     }
 
     // 編集ダイアログ
@@ -283,7 +276,7 @@ private fun DayCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 4.dp, top = 8.dp, bottom = 8.dp),
+                .padding(start = 16.dp, end = 4.dp, top = 6.dp, bottom = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // 曜日 + 日付（1行）

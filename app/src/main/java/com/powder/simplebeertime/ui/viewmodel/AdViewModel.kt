@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.powder.simplebeertime.data.preferences.AdPreferencesRepository
-import com.powder.simplebeertime.data.preferences.AdTimeSlot
 import com.powder.simplebeertime.util.AdTimeUtils
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class AdViewModel(private val repository: AdPreferencesRepository) : ViewModel() {
+
+    // ★ 追加：UI側が広告削除状態を監視できるように公開
+    val isAdFree: Flow<Boolean> = repository.isAdFree
 
     suspend fun shouldShowAd(): Boolean {
         val isAdFree = repository.isAdFree.first()
