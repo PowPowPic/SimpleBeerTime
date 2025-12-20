@@ -1,12 +1,14 @@
 package com.powder.simplebeertime.ui.screen
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -32,11 +34,25 @@ import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.util.currentLogicalDate
 import com.powder.simplebeertime.util.toLogicalDate
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
+import java.time.temporal.WeekFields
 import java.util.Locale
+
+private const val WEEKS_PER_PAGE = 10
+
+private data class WeekKey(
+    val weekBasedYear: Int,
+    val weekOfWeekBasedYear: Int
+)
+
+private data class WeekPageData(
+    val values: List<Double>,
+    val labels: List<String>
+)
 
 @Composable
 fun GraphScreen(
@@ -54,29 +70,90 @@ fun GraphScreen(
         computeMonthlyTotals(selectedYear, allRecords, logicalToday)
     }
 
-    // 下段：直近10週の週平均
-    val weekAvgList = remember(allRecords, logicalToday) {
-        computeLast10WeekAverages(logicalToday, allRecords)
+    // 下段：週データ
+    val weekFields = remember { WeekFields.ISO }
+    val currentMonday = remember(logicalToday) { logicalToday.with(DayOfWeek.MONDAY) }
+
+    // レコードを週ごとにグループ化
+    val recordsByWeek: Map<WeekKey, List<com.powder.simplebeertime.data.entity.BeerRecord>> = remember(allRecords, weekFields) {
+        allRecords.groupBy { record ->
+            val d = record.timestamp.toLogicalDate(cutoffHour = 3)
+            WeekKey(
+                weekBasedYear = d.get(weekFields.weekBasedYear()),
+                weekOfWeekBasedYear = d.get(weekFields.weekOfWeekBasedYear())
+            )
+        }
     }
 
-    // 下段：週ラベル
-    val weekLabels = remember(logicalToday) {
-        computeLast10WeekLabels(logicalToday)
+    var pageCount by remember { mutableIntStateOf(1) }
+
+    // ページデータ生成
+    val allPages: List<WeekPageData> = remember(pageCount, currentMonday, recordsByWeek, weekFields) {
+        (0 until pageCount).map { pageIndex: Int ->
+            val weeksBack = pageIndex * WEEKS_PER_PAGE
+            val endMonday = currentMonday.minusWeeks(weeksBack.toLong())
+
+            val mondays: List<LocalDate> = (WEEKS_PER_PAGE - 1 downTo 0).map { back: Int ->
+                endMonday.minusWeeks(back.toLong())
+            }
+
+            // 週ごとの平均（SUM(amount) / 7.0）
+            val values: List<Double> = mondays.map { monday: LocalDate ->
+                val key = WeekKey(
+                    weekBasedYear = monday.get(weekFields.weekBasedYear()),
+                    weekOfWeekBasedYear = monday.get(weekFields.weekOfWeekBasedYear())
+                )
+                val weekRecords = recordsByWeek[key].orEmpty()
+                val weekTotal = weekRecords.sumOf { it.amount }
+                weekTotal / 7.0
+            }
+
+            // ラベル（M/d形式）
+            val fmt = DateTimeFormatter.ofPattern("M/d", Locale.getDefault())
+            val labels: List<String> = mondays.map { monday: LocalDate ->
+                monday.format(fmt)
+            }
+
+            WeekPageData(
+                values = values,
+                labels = labels
+            )
+        }.reversed()
+    }
+
+    val allValues = remember(allPages) { allPages.flatMap { it.values } }
+    val allLabels = remember(allPages) { allPages.flatMap { it.labels } }
+
+    // 横スクロール（週グラフ用）
+    val horizontalScrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
+
+    // 初期表示時に右端（最新週）へスクロール
+    LaunchedEffect(allValues.size) {
+        horizontalScrollState.scrollTo(horizontalScrollState.maxValue)
+    }
+
+    // 左端に近づいたら過去週を追加
+    LaunchedEffect(horizontalScrollState.value) {
+        if (horizontalScrollState.value < 100 && pageCount < 100) {
+            pageCount++
+        }
     }
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
-            .padding(top = 35.dp, bottom = 12.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(40.dp)
+            .padding(horizontal = 16.dp, vertical = 0.dp),
+        verticalArrangement = Arrangement.Top
     ) {
-        // 🔼 上段：月別棒グラフ
+        // 広告スペース
+        Spacer(modifier = Modifier.height(35.dp))
+
+        // ── 上段：月別棒グラフ ──
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(280.dp),
+                .height(250.dp),
             elevation = CardDefaults.cardElevation(4.dp),
             colors = CardDefaults.cardColors(containerColor = SimpleColors.GraphBackground)
         ) {
@@ -89,7 +166,8 @@ fun GraphScreen(
                     text = stringResource(R.string.graph_monthly_title),
                     color = SimpleColors.TextPrimary
                 )
-                Spacer(modifier = Modifier.height(2.dp))
+
+                Spacer(modifier = Modifier.height(4.dp))
 
                 YearNavigationHeader(
                     year = selectedYear,
@@ -100,24 +178,21 @@ fun GraphScreen(
 
                 Spacer(modifier = Modifier.height(6.dp))
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                ) {
-                    MonthlyBarChart(
-                        values = monthlyTotals,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
+                MonthlyBarChart(
+                    values = monthlyTotals,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
 
-        // 🔽 下段：週別折れ線グラフ
+        // 2つのカード間の余白
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // ── 下段：週別折れ線グラフ ──
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(280.dp),
+                .height(250.dp),
             elevation = CardDefaults.cardElevation(4.dp),
             colors = CardDefaults.cardColors(containerColor = SimpleColors.GraphBackground)
         ) {
@@ -126,10 +201,34 @@ fun GraphScreen(
                     .fillMaxSize()
                     .padding(12.dp)
             ) {
-                Text(
-                    text = stringResource(R.string.graph_weekly_title),
-                    color = SimpleColors.TextPrimary
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.graph_weekly_title),
+                        color = SimpleColors.TextPrimary
+                    )
+
+                    // Nowボタン（右端へ戻る）
+                    Button(
+                        onClick = {
+                            coroutineScope.launch {
+                                horizontalScrollState.animateScrollTo(horizontalScrollState.maxValue)
+                            }
+                        },
+                        modifier = Modifier.height(28.dp),
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = SimpleColors.ButtonPrimary)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.graph_now_button),
+                            fontSize = 12.sp,
+                            color = SimpleColors.TextPrimary
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -137,17 +236,24 @@ fun GraphScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
+                        .horizontalScroll(horizontalScrollState)
                 ) {
+                    val chartWidthPerWeek = 40.dp
+                    val totalWidth = chartWidthPerWeek * allValues.size
+
                     WeeklyLineChart(
-                        values = weekAvgList,
-                        labels = weekLabels,
-                        modifier = Modifier.fillMaxSize()
+                        values = allValues,
+                        labels = allLabels,
+                        modifier = Modifier
+                            .width(totalWidth.coerceAtLeast(300.dp))
+                            .fillMaxHeight()
                     )
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        // bottom側の余白
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
@@ -155,52 +261,7 @@ fun GraphScreen(
 // ロジック関数
 // ========================================
 
-/** 週の開始日（月曜）を求める */
-private fun startOfWeekMonday(date: LocalDate): LocalDate {
-    return date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-}
-
-/** 直近10週の週開始日（月曜）リスト（古い→新しい順） */
-private fun last10WeeksStartMondays(logicalToday: LocalDate): List<LocalDate> {
-    val thisWeekStart = startOfWeekMonday(logicalToday)
-    return (9 downTo 0).map { weeksAgo ->
-        thisWeekStart.minusWeeks(weeksAgo.toLong())
-    }
-}
-
-/** 直近10週の週平均（SUM(amount)/7.0） */
-private fun computeLast10WeekAverages(
-    logicalToday: LocalDate,
-    records: List<com.powder.simplebeertime.data.entity.BeerRecord>
-): List<Double> {
-    val weekStarts = last10WeeksStartMondays(logicalToday)
-    val totalsByWeekStart = weekStarts.associateWith { 0.0 }.toMutableMap()
-
-    for (r in records) {
-        val logicalDate = r.timestamp.toLogicalDate(cutoffHour = 3)
-        val weekStart = startOfWeekMonday(logicalDate)
-        if (totalsByWeekStart.containsKey(weekStart)) {
-            totalsByWeekStart[weekStart] = (totalsByWeekStart[weekStart] ?: 0.0) + r.amount
-        }
-    }
-
-    return weekStarts.map { ws ->
-        val total = totalsByWeekStart[ws] ?: 0.0
-        total / 7.0
-    }
-}
-
-/** 直近10週のラベル（M/d形式） */
-private fun computeLast10WeekLabels(
-    logicalToday: LocalDate,
-    locale: Locale = Locale.getDefault()
-): List<String> {
-    val weekStarts = last10WeeksStartMondays(logicalToday)
-    val fmt = DateTimeFormatter.ofPattern("M/d", locale)
-    return weekStarts.map { it.format(fmt) }
-}
-
-/** 月別合計（1〜12月） */
+/** 月別合計を計算（1〜12月） */
 private fun computeMonthlyTotals(
     year: Int,
     records: List<com.powder.simplebeertime.data.entity.BeerRecord>,
@@ -240,6 +301,7 @@ private fun YearNavigationHeader(
                 tint = SimpleColors.TextPrimary
             )
         }
+
         Text(
             text = year.toString(),
             fontSize = 18.sp,
@@ -247,6 +309,7 @@ private fun YearNavigationHeader(
             modifier = Modifier.padding(horizontal = 16.dp),
             color = SimpleColors.TextPrimary
         )
+
         IconButton(
             onClick = onNextYear,
             enabled = canGoNext
@@ -401,7 +464,7 @@ private fun MonthlyBarChart(
     }
 }
 
-/** ✅ 週平均の「数値ラベル」だけ色分けするルール */
+/** 週平均の「数値ラベル」だけ色分けするルール */
 private fun weeklyAvgLabelColor(value: Double): Int {
     return when {
         value < 2.0 -> SimpleColors.PureBlue.toArgb()
@@ -428,7 +491,7 @@ private fun WeeklyLineChart(
     Canvas(modifier = modifier) {
         val paddingLeft = 44f
         val paddingBottom = 48f
-        val paddingTop = 36f
+        val paddingTop = 28f
         val paddingRight = 36f
 
         val w = size.width
@@ -534,16 +597,15 @@ private fun WeeklyLineChart(
             // ポイント
             drawCircle(
                 color = SimpleColors.ButtonPrimary,
-                radius = 6f,
+                radius = 5f,
                 center = Offset(x, y)
             )
 
-            // 数値ラベル（%.2f）- 必ず表示（色はルールで変更）
+            // 数値ラベル（%.2f）
             val labelText = String.format(Locale.getDefault(), "%.2f", v)
             var labelY = y - 14f
             if (labelY < paddingTop + 20f) labelY = y + 28f
 
-            // ✅ ここで「数値ラベル色」を決める
             pointLabelPaint.color = weeklyAvgLabelColor(v)
 
             // 白縁取り
@@ -553,7 +615,7 @@ private fun WeeklyLineChart(
                 labelY,
                 pointLabelOutlinePaint
             )
-            // 色文字（青/赤/黒）
+            // 色文字
             drawContext.canvas.nativeCanvas.drawText(
                 labelText,
                 x,
@@ -562,7 +624,16 @@ private fun WeeklyLineChart(
             )
         }
 
-        // X軸ラベル（週開始日）
+        // X軸ラベル
+        val labelStep = when {
+            labels.size > 60 -> 8
+            labels.size > 45 -> 6
+            labels.size > 30 -> 4
+            labels.size > 20 -> 3
+            labels.size > 12 -> 2
+            else -> 1
+        }
+
         val xPaint = android.graphics.Paint().apply {
             textSize = 22f
             color = android.graphics.Color.BLACK
@@ -572,9 +643,10 @@ private fun WeeklyLineChart(
         }
 
         labels.forEachIndexed { i, label ->
+            if (i % labelStep != 0) return@forEachIndexed
             val x = paddingLeft + stepX * i
-            val y = paddingTop + chartH + 30f
-            drawContext.canvas.nativeCanvas.drawText(label, x, y, xPaint)
+            val yy = paddingTop + chartH + 30f
+            drawContext.canvas.nativeCanvas.drawText(label, x, yy, xPaint)
         }
     }
 }

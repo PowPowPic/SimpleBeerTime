@@ -146,7 +146,7 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Ahora</string>
+    <string name="graph_now_button">Último</string>
     <string name="graph_weekly_no_data">Datos insuficientes.\nLas semanas con menos de 2 cervezas se muestran como 24 h.</string>
 
     <string name="graph_monthly_title">Total mensual de cervezas</string>

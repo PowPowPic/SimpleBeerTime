@@ -146,7 +146,7 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Jetzt</string>
+    <string name="graph_now_button">Neu</string>
     <string name="graph_weekly_no_data">Noch nicht genügend Daten.\nWochen mit weniger als 2 Bieren werden als 24 h angezeigt.</string>
 
     <string name="graph_monthly_title">Monatliche Biere gesamt</string>

@@ -163,7 +163,7 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Sekarang</string>
+    <string name="graph_now_button">Baru</string>
     <string name="graph_weekly_no_data">
         Data belum cukup.
         Minggu dengan kurang dari 2 bir ditampilkan sebagai 24 jam.

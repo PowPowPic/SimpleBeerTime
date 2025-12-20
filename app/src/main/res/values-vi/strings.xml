@@ -153,7 +153,7 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Bây giờ</string>
+    <string name="graph_now_button">Mới</string>
     <string name="graph_weekly_no_data">
         Chưa đủ dữ liệu.
         Các tuần có ít hơn 2 bia sẽ hiển thị là 24 giờ.

@@ -146,7 +146,7 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">今</string>
+    <string name="graph_now_button">最新</string>
     <string name="graph_weekly_no_data">データが不足しています。\n2本未満の週は24hとして表示されます。</string>
 
     <string name="graph_monthly_title">月別 合計本数</string>

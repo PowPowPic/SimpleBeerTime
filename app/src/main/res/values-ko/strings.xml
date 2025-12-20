@@ -146,7 +146,7 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">지금</string>
+    <string name="graph_now_button">최신</string>
     <string name="graph_weekly_no_data">데이터가 부족합니다.\n2잔 미만인 주는 24h로 표시됩니다.</string>
 
     <string name="graph_monthly_title">월별 총 잔 수</string>

@@ -146,7 +146,7 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">الآن</string>
+    <string name="graph_now_button">الأحدث</string>
     <string name="graph_weekly_no_data">لا توجد بيانات كافية بعد.\nتُعرض الأسابيع التي تحتوي على أقل من مشروبين كـ 24 ساعة.</string>
 
     <string name="graph_monthly_title">إجمالي المشروبات الشهري</string>

@@ -146,7 +146,7 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Şimdi</string>
+    <string name="graph_now_button">Yeni</string>
     <string name="graph_weekly_no_data">Yeterli veri yok.\n2 biradan az olan haftalar 24s olarak gösterilir.</string>
 
     <string name="graph_monthly_title">Aylık toplam bira</string>

@@ -146,7 +146,7 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Maint.</string>
+    <string name="graph_now_button">Dernier</string>
     <string name="graph_weekly_no_data">Pas assez de données.\nLes semaines avec moins de 2 bières sont affichées comme 24 h.</string>
 
     <string name="graph_monthly_title">Total mensuel de bières</string>

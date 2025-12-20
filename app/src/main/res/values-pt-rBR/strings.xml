@@ -159,7 +159,7 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Agora</string>
+    <string name="graph_now_button">Novo</string>
     <string name="graph_weekly_no_data">
         Dados insuficientes.
         Semanas com menos de 2 cervejas são exibidas como 24 h.
