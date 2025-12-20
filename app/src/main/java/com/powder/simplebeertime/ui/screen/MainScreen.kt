@@ -6,6 +6,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,8 +20,6 @@ import com.powder.simplebeertime.ui.settings.currencySymbolFor
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import kotlin.math.roundToInt
-import androidx.compose.runtime.saveable.rememberSaveable
-
 
 @Composable
 fun MainScreen(
@@ -68,13 +67,13 @@ fun MainScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 30.dp),
+            // ✅ 履歴画面と同じ横paddingに揃える（位置が揃った感が出る）
+            .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-
-        // 🔶 広告スペース
-        Spacer(modifier = Modifier.height(90.dp))
+        // ✅ 履歴画面と同じ「広告スペース（詰める）」に合わせる
+        Spacer(modifier = Modifier.height(12.dp))
 
         // 🪪 カード1：今週の本数＆平均
         Card(
@@ -91,18 +90,12 @@ fun MainScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(
-                        R.string.main_week_count,
-                        weekStats.count
-                    ),
+                    text = stringResource(R.string.main_week_count, weekStats.count),
                     color = SimpleColors.TextPrimary
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = stringResource(
-                        R.string.main_week_avg,
-                        weekStats.avgPerDay
-                    ),
+                    text = stringResource(R.string.main_week_avg, weekStats.avgPerDay),
                     color = SimpleColors.TextPrimary
                 )
             }
@@ -129,11 +122,7 @@ fun MainScreen(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = stringResource(
-                        R.string.main_week_cost,
-                        currencySymbol,
-                        weekCostTotal
-                    ),
+                    text = stringResource(R.string.main_week_cost, currencySymbol, weekCostTotal),
                     style = MaterialTheme.typography.titleMedium,
                     color = SimpleColors.TextPrimary
                 )
@@ -155,19 +144,12 @@ fun MainScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(
-                        R.string.main_today_count,
-                        todayStats.count
-                    ),
+                    text = stringResource(R.string.main_today_count, todayStats.count),
                     color = SimpleColors.TextPrimary
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = stringResource(
-                        R.string.main_today_cost,
-                        currencySymbol,
-                        todayCost
-                    ),
+                    text = stringResource(R.string.main_today_cost, currencySymbol, todayCost),
                     color = SimpleColors.TextPrimary
                 )
             }
@@ -211,7 +193,6 @@ fun MainScreen(
                 },
                 modifier = Modifier.width(80.dp),
                 singleLine = true,
-                // ✅ placeholder は使わない（見えてるのに反映されない問題を避ける）
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Done
@@ -279,13 +260,15 @@ fun MainScreen(
             )
         }
 
+        // ✅ 残りスペースを押し下げて、青文字リンクを「ナビバー直上」へ
         Spacer(modifier = Modifier.weight(1f))
 
         // ② 青文字リンク（ベタ書き英語はシリーズ共通仕様）
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp)
+                // ✅ 直上に寄せたいので bottom padding は最小（Scaffold側の bottom padding を信頼）
+                .padding(bottom = 4.dp)
                 .clickable { onSettingsClick() },
             contentAlignment = Alignment.Center
         ) {
