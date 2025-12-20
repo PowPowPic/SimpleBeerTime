@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -38,7 +39,6 @@ import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalAdjusters
 import java.time.temporal.WeekFields
 import java.util.Locale
 
@@ -140,9 +140,13 @@ fun GraphScreen(
         }
     }
 
+    // 小さい画面用の保険スクロール
+    val verticalScrollState = rememberScrollState()
+
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(verticalScrollState)
             .padding(horizontal = 16.dp, vertical = 0.dp),
         verticalArrangement = Arrangement.Top
     ) {
@@ -238,7 +242,7 @@ fun GraphScreen(
                         .weight(1f)
                         .horizontalScroll(horizontalScrollState)
                 ) {
-                    val chartWidthPerWeek = 40.dp
+                    val chartWidthPerWeek = 50.dp
                     val totalWidth = chartWidthPerWeek * allValues.size
 
                     WeeklyLineChart(
@@ -624,26 +628,16 @@ private fun WeeklyLineChart(
             )
         }
 
-        // X軸ラベル
-        val labelStep = when {
-            labels.size > 60 -> 8
-            labels.size > 45 -> 6
-            labels.size > 30 -> 4
-            labels.size > 20 -> 3
-            labels.size > 12 -> 2
-            else -> 1
-        }
-
+        // X軸ラベル（常に全て表示）
         val xPaint = android.graphics.Paint().apply {
-            textSize = 22f
+            textSize = 20f
             color = android.graphics.Color.BLACK
             textAlign = android.graphics.Paint.Align.CENTER
-            alpha = 160
+            alpha = 180
             isAntiAlias = true
         }
 
         labels.forEachIndexed { i, label ->
-            if (i % labelStep != 0) return@forEachIndexed
             val x = paddingLeft + stepX * i
             val yy = paddingTop + chartH + 30f
             drawContext.canvas.nativeCanvas.drawText(label, x, yy, xPaint)
