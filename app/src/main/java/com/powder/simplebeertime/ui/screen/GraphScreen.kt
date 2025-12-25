@@ -1,16 +1,15 @@
 package com.powder.simplebeertime.ui.screen
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -19,10 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
@@ -91,7 +88,7 @@ fun GraphScreen(
     var pageCount by remember { mutableIntStateOf(1) }
 
     // ページデータ生成
-    val allPages: List<WeekPageData> = remember(pageCount, currentMonday, recordsByWeek, weekFields) {
+    val allPages: List<WeekPageData> = remember(pageCount, currentMonday, recordsByWeek, weekFields, logicalToday) {
         (0 until pageCount).map { pageIndex: Int ->
             val weeksBack = pageIndex * WEEKS_PER_PAGE
             val endMonday = currentMonday.minusWeeks(weeksBack.toLong())
@@ -100,7 +97,7 @@ fun GraphScreen(
                 endMonday.minusWeeks(back.toLong())
             }
 
-            // 週ごとの平均（SUM(amount) / 7.0）
+            // 週ごとの平均（今週は経過日数で割る）
             val values: List<Double> = mondays.map { monday: LocalDate ->
                 val key = WeekKey(
                     weekBasedYear = monday.get(weekFields.weekBasedYear()),
@@ -108,7 +105,17 @@ fun GraphScreen(
                 )
                 val weekRecords = recordsByWeek[key].orEmpty()
                 val weekTotal = weekRecords.sumOf { it.amount }
-                weekTotal / 7.0
+
+                // ✅ 今週かどうかで割る日数を変える
+                val daysToAverage = if (monday == currentMonday) {
+                    // 今週：月曜から今日までの日数（1〜7）
+                    (logicalToday.toEpochDay() - monday.toEpochDay() + 1).toInt().coerceIn(1, 7)
+                } else {
+                    // 過去の週：7日
+                    7
+                }
+
+                weekTotal / daysToAverage.toDouble()
             }
 
             // ラベル（M/d形式）
@@ -218,33 +225,21 @@ fun GraphScreen(
                         color = SimpleColors.TextPrimary
                     )
 
-                    // Nowボタン（グラデーション）
-                    Box(
-                        modifier = Modifier
-                            .height(28.dp)
-                            .clip(RoundedCornerShape(14.dp))
-                            .background(
-                                Brush.horizontalGradient(
-                                    colors = listOf(
-                                        SimpleColors.ButtonStart,
-                                        SimpleColors.ButtonEnd,
-                                        SimpleColors.ButtonStart
-                                    )
-                                )
-                            )
-                            .clickable {
-                                coroutineScope.launch {
-                                    horizontalScrollState.animateScrollTo(horizontalScrollState.maxValue)
-                                }
+                    // Nowボタン（右端へ戻る）
+                    Button(
+                        onClick = {
+                            coroutineScope.launch {
+                                horizontalScrollState.animateScrollTo(horizontalScrollState.maxValue)
                             }
-                            .padding(horizontal = 12.dp),
-                        contentAlignment = Alignment.Center
+                        },
+                        modifier = Modifier.height(28.dp),
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = SimpleColors.ButtonPrimary)
                     ) {
                         Text(
                             text = stringResource(R.string.graph_now_button),
                             fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
+                            color = SimpleColors.TextPrimary
                         )
                     }
                 }
