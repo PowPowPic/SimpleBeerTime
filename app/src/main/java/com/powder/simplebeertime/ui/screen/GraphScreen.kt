@@ -1,15 +1,16 @@
 package com.powder.simplebeertime.ui.screen
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -18,8 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
@@ -215,21 +218,33 @@ fun GraphScreen(
                         color = SimpleColors.TextPrimary
                     )
 
-                    // Nowボタン（右端へ戻る）
-                    Button(
-                        onClick = {
-                            coroutineScope.launch {
-                                horizontalScrollState.animateScrollTo(horizontalScrollState.maxValue)
+                    // Nowボタン（グラデーション）
+                    Box(
+                        modifier = Modifier
+                            .height(28.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(
+                                Brush.horizontalGradient(
+                                    colors = listOf(
+                                        SimpleColors.ButtonStart,
+                                        SimpleColors.ButtonEnd,
+                                        SimpleColors.ButtonStart
+                                    )
+                                )
+                            )
+                            .clickable {
+                                coroutineScope.launch {
+                                    horizontalScrollState.animateScrollTo(horizontalScrollState.maxValue)
+                                }
                             }
-                        },
-                        modifier = Modifier.height(28.dp),
-                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = SimpleColors.ButtonPrimary)
+                            .padding(horizontal = 12.dp),
+                        contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = stringResource(R.string.graph_now_button),
                             fontSize = 12.sp,
-                            color = SimpleColors.TextPrimary
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
                         )
                     }
                 }

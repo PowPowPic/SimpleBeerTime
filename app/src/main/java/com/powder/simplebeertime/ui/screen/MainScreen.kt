@@ -1,7 +1,9 @@
 package com.powder.simplebeertime.ui.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -9,7 +11,11 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -64,6 +70,15 @@ fun MainScreen(
     val weekCostTotal = weekStats.count * pricePerBeer
     val todayCost = todayStats.count * pricePerBeer
 
+    // カードグラデーション
+    val cardGradient = Brush.horizontalGradient(
+        colors = listOf(
+            SimpleColors.CardStart,
+            SimpleColors.CardEnd,
+            SimpleColors.CardStart
+        )
+    )
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -76,17 +91,16 @@ fun MainScreen(
         Spacer(modifier = Modifier.height(12.dp))
 
         // 🪪 カード1：今週の本数＆平均
-        Card(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 12.dp),
-            elevation = CardDefaults.cardElevation(4.dp),
-            colors = CardDefaults.cardColors(containerColor = SimpleColors.Card)
+                .padding(bottom = 12.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(cardGradient)
+                .padding(vertical = 12.dp)
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -102,17 +116,16 @@ fun MainScreen(
         }
 
         // 🪪 カード2：今週の支出
-        Card(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 12.dp),
-            elevation = CardDefaults.cardElevation(4.dp),
-            colors = CardDefaults.cardColors(containerColor = SimpleColors.Card)
+                .padding(bottom = 12.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(cardGradient)
+                .padding(vertical = 12.dp)
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -130,17 +143,16 @@ fun MainScreen(
         }
 
         // 🪪 カード3：今日の本数＆支出
-        Card(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            elevation = CardDefaults.cardElevation(4.dp),
-            colors = CardDefaults.cardColors(containerColor = SimpleColors.Card)
+                .padding(bottom = 16.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(cardGradient)
+                .padding(vertical = 12.dp)
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -157,16 +169,11 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 🍺 ボタン: Log 1 beer
-        Button(
-            onClick = { viewModel.insertBeer() },
-            colors = ButtonDefaults.buttonColors(containerColor = SimpleColors.ButtonPrimary)
-        ) {
-            Text(
-                text = stringResource(R.string.main_button_add_one),
-                color = SimpleColors.TextPrimary
-            )
-        }
+        // 🍺 ボタン: Log 1 beer（グラデーション）
+        GradientButton(
+            text = stringResource(R.string.main_button_add_one),
+            onClick = { viewModel.insertBeer() }
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -218,31 +225,22 @@ fun MainScreen(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            Button(
+            // Addボタン（グラデーション）
+            GradientButton(
+                text = stringResource(R.string.main_button_add),
                 onClick = { addCustomAmount() },
-                modifier = Modifier.height(40.dp),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = SimpleColors.ButtonPrimary)
-            ) {
-                Text(
-                    text = stringResource(R.string.main_button_add),
-                    color = SimpleColors.TextPrimary
-                )
-            }
+                width = 70.dp,
+                height = 40.dp
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // 🍺 ボタン: Undo last beer
-        Button(
-            onClick = { viewModel.deleteLatestBeer() },
-            colors = ButtonDefaults.buttonColors(containerColor = SimpleColors.ButtonPrimary)
-        ) {
-            Text(
-                text = stringResource(R.string.main_button_undo_last),
-                color = SimpleColors.TextPrimary
-            )
-        }
+        // 🍺 ボタン: Undo last beer（グラデーション）
+        GradientButton(
+            text = stringResource(R.string.main_button_undo_last),
+            onClick = { viewModel.deleteLatestBeer() }
+        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -279,5 +277,37 @@ fun MainScreen(
                 color = SimpleColors.PureBlue
             )
         }
+    }
+}
+
+@Composable
+private fun GradientButton(
+    text: String,
+    onClick: () -> Unit,
+    width: androidx.compose.ui.unit.Dp = 180.dp,
+    height: androidx.compose.ui.unit.Dp = 44.dp
+) {
+    val buttonGradient = Brush.horizontalGradient(
+        colors = listOf(
+            SimpleColors.ButtonStart,
+            SimpleColors.ButtonEnd,
+            SimpleColors.ButtonStart
+        )
+    )
+
+    Box(
+        modifier = Modifier
+            .width(width)
+            .height(height)
+            .clip(RoundedCornerShape(22.dp))
+            .background(buttonGradient)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            fontWeight = FontWeight.Bold,
+            color = Color.White
+        )
     }
 }

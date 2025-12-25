@@ -17,12 +17,20 @@ object SimpleColors {
 
     // Card (ビール色：琥珀)
     val Card = Color(0xFFFFE082)
+    
+    // Card Gradient（グラデーション用）
+    val CardStart = Color(0xFFE6C86E)         // カード左側：濃いめ
+    val CardEnd = Color(0xFFFFF0B0)           // カード右側：薄め
 
     // Graph Background (明るいクリーム)
     val GraphBackground = Color(0xFFFFFDE7)
 
     // Primary Button / Active Nav (ビール色：ダークアンバー)
     val ButtonPrimary = Color(0xFFFF8F00)
+    
+    // Button Gradient（グラデーション用）
+    val ButtonStart = Color(0xFFE67A00)       // ボタン左：濃いめ
+    val ButtonEnd = Color(0xFFFFB040)         // ボタン右：薄め
 
     // Text (タイトル・数値など)
     val TextPrimary = Color(0xFF2B2B2B)
