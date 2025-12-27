@@ -97,7 +97,7 @@ fun GraphScreen(
                 endMonday.minusWeeks(back.toLong())
             }
 
-            // 週ごとの平均（今週は経過日数で割る）
+            // 週ごとの平均（今週は「レコードがある日まで」で割る）
             val values: List<Double> = mondays.map { monday: LocalDate ->
                 val key = WeekKey(
                     weekBasedYear = monday.get(weekFields.weekBasedYear()),
@@ -106,12 +106,21 @@ fun GraphScreen(
                 val weekRecords = recordsByWeek[key].orEmpty()
                 val weekTotal = weekRecords.sumOf { it.amount }
 
-                // ✅ 今週かどうかで割る日数を変える
+                // ✅ 今週かどうか、今日にレコードがあるかどうかで割る日数を決定
                 val daysToAverage = if (monday == currentMonday) {
-                    // 今週：月曜から今日までの日数（1〜7）
-                    (logicalToday.toEpochDay() - monday.toEpochDay() + 1).toInt().coerceIn(1, 7)
+                    // 今週の場合：今日にレコードがあるかチェック
+                    val hasTodayRecord = weekRecords.any { record ->
+                        record.timestamp.toLogicalDate(cutoffHour = 3) == logicalToday
+                    }
+                    if (hasTodayRecord) {
+                        // 今日にレコードがある → 月曜から今日までの日数（1〜7）
+                        (logicalToday.toEpochDay() - monday.toEpochDay() + 1).toInt().coerceIn(1, 7)
+                    } else {
+                        // 今日にレコードがない → 月曜から昨日までの日数（0〜6、最低1）
+                        (logicalToday.toEpochDay() - monday.toEpochDay()).toInt().coerceIn(1, 7)
+                    }
                 } else {
-                    // 過去の週：7日
+                    // 過去の週：常に7日で割る（未入力日は0本扱い）
                     7
                 }
 
