@@ -67,13 +67,20 @@ fun CalendarScreen(
 
     // ✅ 量は全部 Double で統一
     val totalBeers: Double = dailyCounts.values.sum()
-    val daysInMonth: Int = monthDate.lengthOfMonth()
-    val avgBeersPerDay: Double = if (daysInMonth > 0) totalBeers / daysInMonth.toDouble() else 0.0
+
+    // ★ 修正：当月なら今日までの日数、過去の月ならその月の日数で割る
+    val daysToUse: Int = if (monthDate.year == logicalToday.year && monthDate.month == logicalToday.month) {
+        logicalToday.dayOfMonth  // 今月なら今日まで
+    } else {
+        monthDate.lengthOfMonth()  // 過去の月ならその月の日数
+    }
+
+    val avgBeersPerDay: Double = if (daysToUse > 0) totalBeers / daysToUse.toDouble() else 0.0
 
     // ✅ 金額も Double で統一（pricePerBeer は Float なので Double化）
     val price: Double = pricePerBeer.toDouble()
     val totalCost: Double = totalBeers * price
-    val avgCostPerDay: Double = if (daysInMonth > 0) totalCost / daysInMonth.toDouble() else 0.0
+    val avgCostPerDay: Double = if (daysToUse > 0) totalCost / daysToUse.toDouble() else 0.0
 
     // ✅ 通貨文字列（strings 側の %1$s%2$.2f 前提）
     val totalCostText = String.format(

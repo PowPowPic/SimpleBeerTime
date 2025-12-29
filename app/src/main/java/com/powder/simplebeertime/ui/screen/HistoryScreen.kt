@@ -80,8 +80,18 @@ fun HistoryScreen(
     // 週合計
     val weekTotal = weekValues.sum()
 
+    // ★ 修正：当週なら今日までの日数、過去の週なら7日で割る
+    val isCurrentWeek = weekMonday == currentWeekMonday
+    val daysToUse = if (isCurrentWeek) {
+        // 今週なら月曜から今日までの日数
+        (logicalToday.toEpochDay() - weekMonday.toEpochDay() + 1).toInt()
+    } else {
+        // 過去の週なら7日
+        7
+    }
+
     // 週平均
-    val weekAverage = weekTotal / 7.0
+    val weekAverage = if (daysToUse > 0) weekTotal / daysToUse else 0.0
     val weekAverageColor: Color = when {
         weekTotal == 0.0 -> SimpleColors.PureBlue      // 全部0の週
         weekAverage >= 3.1 -> SimpleColors.PureRed     // 3.1以上は赤
