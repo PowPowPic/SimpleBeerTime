@@ -14,17 +14,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.powder.simplebeertime.R
 import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.currencySymbolFor
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
+import com.powder.simplebeertime.util.currentLogicalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
 import kotlin.math.roundToInt
 
 @Composable
@@ -35,12 +42,35 @@ fun MainScreen(
     onSettingsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     val todayStats by viewModel.todayStats.collectAsState()
     val weekStats by viewModel.weekStats.collectAsState()
 
     // 言語設定から通貨記号を取得
     val currentLang by languageViewModel.appLanguage.collectAsState()
     val currencySymbol = currencySymbolFor(currentLang)
+
+    // 日付をライフサイクルに連動して更新
+    var logicalDate by remember { mutableStateOf(currentLogicalDate()) }
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                logicalDate = currentLogicalDate()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
+    // ロケールに応じた日付フォーマット
+    val dateFormatter = remember {
+        DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
+            .withLocale(Locale.getDefault())
+    }
 
     // 小数入力用の状態
     // ✅ placeholder ではなく「実値」として初期値を入れる（そのままAdd/Doneで反映される）
@@ -88,6 +118,16 @@ fun MainScreen(
         verticalArrangement = Arrangement.Top
     ) {
         // ✅ 履歴画面と同じ「広告スペース（詰める）」に合わせる
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // 今日の日付（ロケール対応）
+        Text(
+            text = logicalDate.format(dateFormatter),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            color = SimpleColors.TextPrimary
+        )
+
         Spacer(modifier = Modifier.height(12.dp))
 
         // 🪪 カード1：今週の本数＆平均
