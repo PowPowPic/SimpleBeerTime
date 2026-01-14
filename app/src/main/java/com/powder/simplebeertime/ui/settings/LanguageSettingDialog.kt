@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -32,6 +31,12 @@ import com.powder.simplebeertime.R
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.unit.sp
+
+
 
 @Composable
 fun LanguageSettingDialog(
@@ -281,21 +286,28 @@ private fun LanguageOption(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onSelect() }
-            .height(48.dp),
+            .padding(vertical = 0.dp),  // 縦の余白なし
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // ✅ RadioButtonのサイズを小さく（20dp）
         RadioButton(
             selected = selected,
             onClick = onSelect,
+            modifier = Modifier.size(36.dp),  // 全体サイズを36dpに縮小
             colors = RadioButtonDefaults.colors(
                 selectedColor = SimpleColors.TextPrimary,
                 unselectedColor = SimpleColors.TextSecondary
             )
         )
-        Spacer(modifier = Modifier.width(8.dp))
+
+        // ✅ 間隔を狭く（8dp → 4dp）
+        Spacer(modifier = Modifier.width(4.dp))
+
+        // ✅ テキストサイズを少し小さく
         Text(
             text = label,
-            color = SimpleColors.TextPrimary
+            color = SimpleColors.TextPrimary,
+            fontSize = 15.sp
         )
     }
 }

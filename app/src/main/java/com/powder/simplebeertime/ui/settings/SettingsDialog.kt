@@ -23,11 +23,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.powder.simplebeertime.R
 import com.powder.simplebeertime.ui.theme.SimpleColors
+
+// 削除項目用の赤色
+private val DeleteRed = Color(0xFFFF0000)
 
 @Composable
 fun SettingsDialog(
@@ -86,11 +90,13 @@ fun SettingsDialog(
                     color = SimpleColors.TextSecondary.copy(alpha = 0.5f)
                 )
 
+                // ✅ 削除行は赤字で表示
                 SettingsRow(
                     icon = Icons.Filled.DeleteForever,
                     title = stringResource(R.string.settings_delete_title),
                     description = stringResource(R.string.settings_delete_description),
                     contentDescription = stringResource(R.string.settings_cd_delete_all),
+                    tintColor = DeleteRed,  // 赤色指定
                     onClick = {
                         showDeleteAllDialog.value = true
                     }
@@ -125,6 +131,7 @@ private fun SettingsRow(
     title: String,
     description: String,
     contentDescription: String? = null,
+    tintColor: Color = SimpleColors.TextPrimary,  // デフォルトは通常色
     onClick: () -> Unit
 ) {
     Column(
@@ -140,19 +147,19 @@ private fun SettingsRow(
                 imageVector = icon,
                 contentDescription = contentDescription,
                 modifier = Modifier.padding(end = 8.dp),
-                tint = SimpleColors.TextPrimary
+                tint = tintColor  // ✅ 指定された色を使用
             )
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                color = SimpleColors.TextPrimary
+                color = tintColor  // ✅ 指定された色を使用
             )
         }
         Spacer(modifier = Modifier.height(2.dp))
         Text(
             text = description,
             style = MaterialTheme.typography.bodySmall,
-            color = SimpleColors.TextSecondary
+            color = if (tintColor == DeleteRed) tintColor else SimpleColors.TextSecondary  // ✅ 削除行は説明も赤
         )
     }
 }
