@@ -38,6 +38,8 @@
 
     <string name="main_midnight_rule_note">0:00〜3:00の記録は前日分として扱います。</string>
 
+    <string name="main_currency_hint">通貨記号が正しく表示されない場合は⚙設定から言語設定をお試しください。</string>
+
     <string name="main_button_add_one">1本追加</string>
     <string name="main_button_undo_last">直前を取り消す</string>
 

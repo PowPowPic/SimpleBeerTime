@@ -9,7 +9,7 @@
     <!-- =========================================================
          Navigation
          ========================================================= -->
-    <string name="nav_home">Ana</string>
+    <string name="nav_home">Ana Sayfa</string>
     <string name="nav_history">Geçmiş</string>
     <string name="nav_calendar">Takvim</string>
     <string name="nav_graph">Grafik</string>
@@ -28,29 +28,35 @@
          ========================================================= -->
     <string name="label_week_cost">Bu haftaki harcama</string>
 
-    <string name="main_today_count">Bugün: %1$.1f bira</string>
-    <string name="main_week_count">Bu hafta: %1$.1f bira</string>
-    <string name="main_week_avg">Günlük ort.: %1$.1f bira</string>
+    <string name="main_today_count">Bugün: %1$.1f şişe</string>
+    <string name="main_week_count">Bu hafta: %1$.1f şişe</string>
+    <string name="main_week_avg">Günlük ort.: %1$.1f şişe</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">Bugünkü harcama: %1$s%2$.2f</string>
+    <string name="main_today_cost">Bugünün harcaması: %1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
-    <string name="main_midnight_rule_note">0:00–3:00 arasındaki kayıtlar bir önceki güne sayılır.</string>
+    <string name="main_midnight_rule_note">
+        0:00–3:00 arasındaki kayıtlar bir önceki güne sayılır.
+    </string>
 
-    <string name="main_button_add_one">1 bira ekle</string>
-    <string name="main_button_undo_last">Son birayı geri al</string>
+    <string name="main_currency_hint">
+        Para birimi simgesi doğru görüntülenmiyorsa, lütfen ⚙Ayarlar’dan dili değiştirmeyi deneyin.
+    </string>
+
+    <string name="main_button_add_one">1 şişe ekle</string>
+    <string name="main_button_undo_last">Geri al</string>
 
     <!-- Decimal input area -->
-    <string name="main_amount_prefix">Yaklaşık</string>
-    <string name="main_amount_suffix">bira</string>
+    <string name="main_amount_prefix">Yakl.</string>
+    <string name="main_amount_suffix">şişe</string>
     <string name="main_button_add">Ekle</string>
 
     <!-- Toast / messages -->
-    <string name="msg_beer_logged">Bira kaydedildi</string>
-    <string name="msg_undo_success">Son bira silindi</string>
+    <string name="msg_beer_logged">Eklendi</string>
+    <string name="msg_undo_success">Son kayıt silindi</string>
     <string name="msg_no_record_to_undo">Geri alınacak kayıt yok</string>
-    <string name="msg_all_records_deleted">Tüm kayıtlar silindi</string>
+    <string name="msg_all_records_deleted">Tüm veriler silindi</string>
 
     <!-- =========================================================
          Settings
@@ -58,13 +64,19 @@
     <string name="settings_title">Ayarlar</string>
 
     <string name="settings_language_title">Dil</string>
-    <string name="settings_language_description">Uygulamanın görüntüleme dilini değiştirin.</string>
+    <string name="settings_language_description">
+        Uygulamanın görüntüleme dilini değiştirin.
+    </string>
 
-    <string name="settings_price_title">Bira başına fiyat</string>
-    <string name="settings_price_description">Bira başına fiyatı ayarlayın.</string>
+    <string name="settings_price_title">Şişe başına fiyat</string>
+    <string name="settings_price_description">
+        Şişe başına fiyatı ayarlayın.
+    </string>
 
     <string name="settings_delete_title">Tüm verileri sil</string>
-    <string name="settings_delete_description">Tüm içim geçmişini silin.</string>
+    <string name="settings_delete_description">
+        Kaydedilmiş tüm içki geçmişini silin.
+    </string>
 
     <!-- Accessibility (Settings) -->
     <string name="settings_cd_dialog">Ayarlar iletişim kutusu</string>
@@ -73,25 +85,33 @@
     <string name="settings_cd_delete_all">Tüm verileri sil</string>
 
     <!-- Delete all confirm dialog -->
-    <string name="delete_all_title">Tüm kayıtları sil</string>
-    <string name="delete_all_message">Tüm içim kayıtlarını silmek istiyor musunuz? Bu işlem geri alınamaz.</string>
+    <string name="delete_all_title">Tüm verileri sil</string>
+    <string name="delete_all_message">
+        Tüm içki kayıtlarını silmek istiyor musunuz? Bu işlem geri alınamaz.
+    </string>
     <string name="delete_all_confirm">Sil</string>
     <string name="delete_all_cancel">İptal</string>
 
     <!-- Price dialog -->
-    <string name="price_dialog_title">Bira başına fiyatı ayarla</string>
-    <string name="price_dialog_message">Bira başına fiyatı girin:</string>
+    <string name="price_dialog_title">Şişe başına fiyatı ayarla</string>
+    <string name="price_dialog_message">
+        Şişe başına fiyatı girin:
+    </string>
 
     <!-- Language dialog -->
     <string name="dialog_language_title">Dil</string>
-    <string name="dialog_language_message">Uygulama dili, uygulamayı bir sonraki açışınızda değiştirilecektir.</string>
+    <string name="dialog_language_message">
+        Uygulama dili bir sonraki açılışta değiştirilecektir.
+    </string>
     <string name="dialog_language_ok">OK</string>
 
     <!-- Language selection -->
-    <string name="language_system_default">Sistem varsayılanı</string>
+    <string name="language_system_default">Sistem dili</string>
     <string name="language_apply_restart">Uygula</string>
     <string name="language_confirm_title">Dili uygula</string>
-    <string name="language_confirm_message">Seçilen dili uygulansın mı?</string>
+    <string name="language_confirm_message">
+        Seçilen dili uygulamak istiyor musunuz?
+    </string>
     <string name="language_confirm_ok">Uygula</string>
     <string name="language_confirm_cancel">İptal</string>
 
@@ -102,9 +122,9 @@
 
     <string name="history_cd_previous_week">Önceki hafta</string>
     <string name="history_cd_next_week">Sonraki hafta</string>
-    <string name="history_week_summary_title">Bu haftanın kayıtları</string>
-    <string name="history_week_total">Toplam: yakl. %1$.1f bira</string>
-    <string name="history_week_avg">Ortalama: %1$.1f bira/gün</string>
+    <string name="history_week_summary_title">Bu haftanın geçmişi</string>
+    <string name="history_week_total">Toplam: yakl. %1$.1f şişe</string>
+    <string name="history_week_avg">Ortalama: %1$.1f şişe/gün</string>
 
     <string name="history_delete_title">Bu kaydı sil</string>
     <string name="history_delete_message">Bu kaydı silmek istiyor musunuz?</string>
@@ -120,7 +140,7 @@
     <string name="calendar_cd_previous_month">Önceki ay</string>
     <string name="calendar_cd_next_month">Sonraki ay</string>
 
-    <!-- Weekday labels (short) -->
+    <!-- Weekday labels (Mon-first) -->
     <string name="weekday_mon">Pzt</string>
     <string name="weekday_tue">Sal</string>
     <string name="weekday_wed">Çar</string>
@@ -130,27 +150,29 @@
     <string name="weekday_sun">Paz</string>
 
     <!-- Monthly summary labels -->
-    <string name="calendar_total_beers_label">Toplam bira</string>
+    <string name="calendar_total_beers_label">Toplam</string>
     <string name="calendar_daily_average_label">Günlük ort.</string>
     <string name="calendar_total_cost_label">Toplam harcama</string>
     <string name="calendar_average_cost_label">Ortalama harcama</string>
 
     <!-- Formats -->
-    <string name="per_day_suffix">/ gün</string>
-    <string name="format_daily_average_beers">%1$.1f / gün</string>
+    <string name="per_day_suffix">/gün</string>
+    <string name="format_daily_average_beers">%1$.1f /gün</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f / gün</string>
+    <string name="format_currency_per_day">%1$s%2$.2f /gün</string>
 
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Yeni</string>
-    <string name="graph_weekly_no_data">Yeterli veri yok.\n2 biradan az olan haftalar 24s olarak gösterilir.</string>
+    <string name="graph_now_button">En yeni</string>
+    <string name="graph_weekly_no_data">
+        Yeterli veri yok.\n2 şişeden az olan haftalar 24 saat olarak gösterilir.
+    </string>
 
-    <string name="graph_monthly_title">Aylık toplam bira</string>
-    <string name="graph_weekly_title">Haftalık ortalama (bira/gün)</string>
+    <string name="graph_monthly_title">Aylık toplam</string>
+    <string name="graph_weekly_title">Haftalık günlük ortalama</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">Önceki yıl</string>
@@ -166,8 +188,9 @@
 
     <string name="edit_day_dialog_title">Miktarı düzenle</string>
     <string name="delete_day_dialog_title">Bu günü sil?</string>
-    <string name="delete_day_dialog_message">Bu gün için kaydedilen tüm biralar silinecek.</string>
+    <string name="delete_day_dialog_message">
+        Bu günün tüm bira kayıtları silinecek.
+    </string>
     <string name="history_cd_edit">Düzenle</string>
-
 
 </resources>

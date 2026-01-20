@@ -298,6 +298,22 @@ fun MainScreen(
             )
         }
 
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // ② 通貨記号の案内文（赤字）
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = stringResource(R.string.main_currency_hint),
+                modifier = Modifier.fillMaxWidth(0.9f),
+                textAlign = TextAlign.Start,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color(0xFFFF0000)
+            )
+        }
+
         // ✅ 残りスペースを押し下げて、青文字リンクを「ナビバー直上」へ
         Spacer(modifier = Modifier.weight(1f))
 

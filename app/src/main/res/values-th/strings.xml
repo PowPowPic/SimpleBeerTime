@@ -37,11 +37,15 @@
     <string name="main_week_cost">%1$s%2$.2f</string>
 
     <string name="main_midnight_rule_note">
-        บันทึกระหว่างเวลา 0:00–3:00 จะนับเป็นของวันก่อนหน้า
+        บันทึกระหว่างเวลา 0:00–3:00 จะถูกนับเป็นของวันก่อนหน้า
+    </string>
+
+    <string name="main_currency_hint">
+        หากสัญลักษณ์สกุลเงินแสดงไม่ถูกต้อง โปรดลองเปลี่ยนภาษาใน ⚙การตั้งค่า
     </string>
 
     <string name="main_button_add_one">เพิ่ม 1 ขวด</string>
-    <string name="main_button_undo_last">ยกเลิกล่าสุด</string>
+    <string name="main_button_undo_last">ยกเลิก</string>
 
     <!-- Decimal input area -->
     <string name="main_amount_prefix">ประมาณ</string>
@@ -49,7 +53,7 @@
     <string name="main_button_add">เพิ่ม</string>
 
     <!-- Toast / messages -->
-    <string name="msg_beer_logged">บันทึกเรียบร้อยแล้ว</string>
+    <string name="msg_beer_logged">เพิ่มแล้ว</string>
     <string name="msg_undo_success">ลบรายการล่าสุดแล้ว</string>
     <string name="msg_no_record_to_undo">ไม่มีรายการให้ยกเลิก</string>
     <string name="msg_all_records_deleted">ลบข้อมูลทั้งหมดแล้ว</string>
@@ -71,7 +75,7 @@
 
     <string name="settings_delete_title">ลบข้อมูลทั้งหมด</string>
     <string name="settings_delete_description">
-        ลบประวัติการดื่มทั้งหมด
+        ลบประวัติการดื่มทั้งหมดที่บันทึกไว้
     </string>
 
     <!-- Accessibility (Settings) -->
@@ -83,28 +87,31 @@
     <!-- Delete all confirm dialog -->
     <string name="delete_all_title">ลบข้อมูลทั้งหมด</string>
     <string name="delete_all_message">
-        คุณต้องการลบข้อมูลการดื่มทั้งหมดหรือไม่?
-        การดำเนินการนี้ไม่สามารถย้อนกลับได้
+        คุณต้องการลบประวัติการดื่มทั้งหมดหรือไม่? การดำเนินการนี้ไม่สามารถย้อนกลับได้
     </string>
     <string name="delete_all_confirm">ลบ</string>
     <string name="delete_all_cancel">ยกเลิก</string>
 
     <!-- Price dialog -->
     <string name="price_dialog_title">ตั้งราคาต่อขวด</string>
-    <string name="price_dialog_message">กรอกราคาต่อขวด:</string>
+    <string name="price_dialog_message">
+        กรุณากรอกราคาต่อขวด:
+    </string>
 
     <!-- Language dialog -->
     <string name="dialog_language_title">ภาษา</string>
     <string name="dialog_language_message">
-        ภาษาของแอปจะถูกเปลี่ยนเมื่อเปิดแอปใหม่
+        ภาษาของแอปจะเปลี่ยนเมื่อเปิดแอปครั้งถัดไป
     </string>
     <string name="dialog_language_ok">ตกลง</string>
 
     <!-- Language selection -->
     <string name="language_system_default">ภาษาของระบบ</string>
     <string name="language_apply_restart">นำไปใช้</string>
-    <string name="language_confirm_title">นำภาษาไปใช้</string>
-    <string name="language_confirm_message">ต้องการใช้ภาษาที่เลือกหรือไม่?</string>
+    <string name="language_confirm_title">ใช้ภาษา</string>
+    <string name="language_confirm_message">
+        คุณต้องการใช้ภาษาที่เลือกหรือไม่?
+    </string>
     <string name="language_confirm_ok">นำไปใช้</string>
     <string name="language_confirm_cancel">ยกเลิก</string>
 
@@ -120,7 +127,7 @@
     <string name="history_week_avg">เฉลี่ย: %1$.1f ขวด/วัน</string>
 
     <string name="history_delete_title">ลบรายการนี้</string>
-    <string name="history_delete_message">ต้องการลบรายการนี้หรือไม่?</string>
+    <string name="history_delete_message">คุณต้องการลบรายการนี้หรือไม่?</string>
     <string name="history_delete_yes">ใช่</string>
     <string name="history_delete_no">ไม่</string>
 
@@ -133,17 +140,17 @@
     <string name="calendar_cd_previous_month">เดือนก่อนหน้า</string>
     <string name="calendar_cd_next_month">เดือนถัดไป</string>
 
-    <!-- Weekday labels -->
-    <string name="weekday_mon">จ.</string>
-    <string name="weekday_tue">อ.</string>
-    <string name="weekday_wed">พ.</string>
-    <string name="weekday_thu">พฤ.</string>
-    <string name="weekday_fri">ศ.</string>
-    <string name="weekday_sat">ส.</string>
-    <string name="weekday_sun">อา.</string>
+    <!-- Weekday labels (Mon-first) -->
+    <string name="weekday_mon">จ</string>
+    <string name="weekday_tue">อ</string>
+    <string name="weekday_wed">พ</string>
+    <string name="weekday_thu">พฤ</string>
+    <string name="weekday_fri">ศ</string>
+    <string name="weekday_sat">ส</string>
+    <string name="weekday_sun">อา</string>
 
     <!-- Monthly summary labels -->
-    <string name="calendar_total_beers_label">จำนวนทั้งหมด</string>
+    <string name="calendar_total_beers_label">รวมทั้งหมด</string>
     <string name="calendar_daily_average_label">เฉลี่ยต่อวัน</string>
     <string name="calendar_total_cost_label">ค่าใช้จ่ายรวม</string>
     <string name="calendar_average_cost_label">ค่าใช้จ่ายเฉลี่ย</string>
@@ -161,12 +168,11 @@
          ========================================================= -->
     <string name="graph_now_button">ล่าสุด</string>
     <string name="graph_weekly_no_data">
-        ข้อมูลไม่เพียงพอ
-        สัปดาห์ที่มีน้อยกว่า 2 ขวดจะแสดงเป็น 24 ชม.
+        ข้อมูลไม่เพียงพอ\nสัปดาห์ที่มีน้อยกว่า 2 ขวดจะแสดงเป็น 24 ชั่วโมง
     </string>
 
-    <string name="graph_monthly_title">จำนวนขวดรวมรายเดือน</string>
-    <string name="graph_weekly_title">ค่าเฉลี่ยรายสัปดาห์ (ขวด/วัน)</string>
+    <string name="graph_monthly_title">รวมรายเดือน</string>
+    <string name="graph_weekly_title">เฉลี่ยต่อวันรายสัปดาห์</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">ปีก่อนหน้า</string>
@@ -182,8 +188,9 @@
 
     <string name="edit_day_dialog_title">แก้ไขจำนวน</string>
     <string name="delete_day_dialog_title">ลบวันนี้หรือไม่?</string>
-    <string name="delete_day_dialog_message">เบียร์ทั้งหมดที่บันทึกไว้ในวันนี้จะถูกลบ</string>
+    <string name="delete_day_dialog_message">
+        ลบบันทึกเบียร์ทั้งหมดของวันนี้
+    </string>
     <string name="history_cd_edit">แก้ไข</string>
-
 
 </resources>

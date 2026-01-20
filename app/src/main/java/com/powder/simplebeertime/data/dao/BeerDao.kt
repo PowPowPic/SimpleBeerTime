@@ -18,6 +18,10 @@ interface BeerDao {
     @Query("SELECT * FROM beer_records ORDER BY timestamp DESC LIMIT 1")
     fun getLatestRecord(): Flow<BeerRecord?>
 
+    // ★ 直接最新レコードを取得（suspend関数）
+    @Query("SELECT * FROM beer_records ORDER BY timestamp DESC LIMIT 1")
+    suspend fun getLatestRecordDirect(): BeerRecord?
+
     @Query("DELETE FROM beer_records WHERE id = :id")
     suspend fun deleteById(id: Long)
 

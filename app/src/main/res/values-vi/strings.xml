@@ -28,31 +28,35 @@
          ========================================================= -->
     <string name="label_week_cost">Chi tiêu tuần này</string>
 
-    <string name="main_today_count">Hôm nay: %1$.1f bia</string>
-    <string name="main_week_count">Tuần này: %1$.1f bia</string>
-    <string name="main_week_avg">Trung bình/ngày: %1$.1f bia</string>
+    <string name="main_today_count">Hôm nay: %1$.1f chai</string>
+    <string name="main_week_count">Tuần này: %1$.1f chai</string>
+    <string name="main_week_avg">TB/ngày: %1$.1f chai</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="main_today_cost">Chi tiêu hôm nay: %1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
     <string name="main_midnight_rule_note">
-        Các bản ghi từ 0:00–3:00 được tính cho ngày trước đó.
+        Các bản ghi từ 0:00 đến 3:00 sẽ được tính cho ngày hôm trước.
     </string>
 
-    <string name="main_button_add_one">Ghi 1 bia</string>
-    <string name="main_button_undo_last">Hoàn tác bia cuối</string>
+    <string name="main_currency_hint">
+        Nếu ký hiệu tiền tệ không hiển thị đúng, vui lòng thử đổi ngôn ngữ trong ⚙Cài đặt.
+    </string>
+
+    <string name="main_button_add_one">Thêm 1 chai</string>
+    <string name="main_button_undo_last">Hoàn tác</string>
 
     <!-- Decimal input area -->
     <string name="main_amount_prefix">Khoảng</string>
-    <string name="main_amount_suffix">bia</string>
+    <string name="main_amount_suffix">chai</string>
     <string name="main_button_add">Thêm</string>
 
     <!-- Toast / messages -->
-    <string name="msg_beer_logged">Đã ghi bia</string>
-    <string name="msg_undo_success">Đã xóa bia cuối</string>
+    <string name="msg_beer_logged">Đã thêm</string>
+    <string name="msg_undo_success">Đã xóa bản ghi gần nhất</string>
     <string name="msg_no_record_to_undo">Không có bản ghi để hoàn tác</string>
-    <string name="msg_all_records_deleted">Đã xóa tất cả bản ghi</string>
+    <string name="msg_all_records_deleted">Đã xóa tất cả dữ liệu</string>
 
     <!-- =========================================================
          Settings
@@ -60,13 +64,19 @@
     <string name="settings_title">Cài đặt</string>
 
     <string name="settings_language_title">Ngôn ngữ</string>
-    <string name="settings_language_description">Thay đổi ngôn ngữ hiển thị của ứng dụng.</string>
+    <string name="settings_language_description">
+        Thay đổi ngôn ngữ hiển thị của ứng dụng.
+    </string>
 
-    <string name="settings_price_title">Giá mỗi bia</string>
-    <string name="settings_price_description">Đặt giá cho mỗi bia.</string>
+    <string name="settings_price_title">Giá mỗi chai</string>
+    <string name="settings_price_description">
+        Đặt giá cho mỗi chai.
+    </string>
 
     <string name="settings_delete_title">Xóa tất cả dữ liệu</string>
-    <string name="settings_delete_description">Xóa toàn bộ lịch sử uống.</string>
+    <string name="settings_delete_description">
+        Xóa toàn bộ lịch sử uống đã ghi lại.
+    </string>
 
     <!-- Accessibility (Settings) -->
     <string name="settings_cd_dialog">Hộp thoại cài đặt</string>
@@ -75,22 +85,23 @@
     <string name="settings_cd_delete_all">Xóa tất cả dữ liệu</string>
 
     <!-- Delete all confirm dialog -->
-    <string name="delete_all_title">Xóa tất cả bản ghi</string>
+    <string name="delete_all_title">Xóa tất cả dữ liệu</string>
     <string name="delete_all_message">
-        Bạn có chắc muốn xóa tất cả bản ghi uống không?
-        Hành động này không thể hoàn tác.
+        Bạn có chắc chắn muốn xóa tất cả bản ghi uống không? Thao tác này không thể hoàn tác.
     </string>
     <string name="delete_all_confirm">Xóa</string>
     <string name="delete_all_cancel">Hủy</string>
 
     <!-- Price dialog -->
-    <string name="price_dialog_title">Đặt giá mỗi bia</string>
-    <string name="price_dialog_message">Nhập giá cho mỗi bia:</string>
+    <string name="price_dialog_title">Đặt giá mỗi chai</string>
+    <string name="price_dialog_message">
+        Vui lòng nhập giá cho mỗi chai:
+    </string>
 
     <!-- Language dialog -->
     <string name="dialog_language_title">Ngôn ngữ</string>
     <string name="dialog_language_message">
-        Ngôn ngữ của ứng dụng sẽ được áp dụng khi mở lại ứng dụng.
+        Ngôn ngữ của ứng dụng sẽ được thay đổi khi mở lại lần sau.
     </string>
     <string name="dialog_language_ok">OK</string>
 
@@ -98,7 +109,9 @@
     <string name="language_system_default">Ngôn ngữ hệ thống</string>
     <string name="language_apply_restart">Áp dụng</string>
     <string name="language_confirm_title">Áp dụng ngôn ngữ</string>
-    <string name="language_confirm_message">Áp dụng ngôn ngữ đã chọn?</string>
+    <string name="language_confirm_message">
+        Bạn có muốn áp dụng ngôn ngữ đã chọn không?
+    </string>
     <string name="language_confirm_ok">Áp dụng</string>
     <string name="language_confirm_cancel">Hủy</string>
 
@@ -110,8 +123,8 @@
     <string name="history_cd_previous_week">Tuần trước</string>
     <string name="history_cd_next_week">Tuần sau</string>
     <string name="history_week_summary_title">Lịch sử tuần này</string>
-    <string name="history_week_total">Tổng: khoảng %1$.1f bia</string>
-    <string name="history_week_avg">Trung bình: %1$.1f bia/ngày</string>
+    <string name="history_week_total">Tổng: khoảng %1$.1f chai</string>
+    <string name="history_week_avg">Trung bình: %1$.1f chai/ngày</string>
 
     <string name="history_delete_title">Xóa bản ghi này</string>
     <string name="history_delete_message">Bạn có muốn xóa bản ghi này không?</string>
@@ -127,7 +140,7 @@
     <string name="calendar_cd_previous_month">Tháng trước</string>
     <string name="calendar_cd_next_month">Tháng sau</string>
 
-    <!-- Weekday labels -->
+    <!-- Weekday labels (Mon-first) -->
     <string name="weekday_mon">T2</string>
     <string name="weekday_tue">T3</string>
     <string name="weekday_wed">T4</string>
@@ -137,30 +150,29 @@
     <string name="weekday_sun">CN</string>
 
     <!-- Monthly summary labels -->
-    <string name="calendar_total_beers_label">Tổng số bia</string>
-    <string name="calendar_daily_average_label">Trung bình/ngày</string>
+    <string name="calendar_total_beers_label">Tổng</string>
+    <string name="calendar_daily_average_label">TB/ngày</string>
     <string name="calendar_total_cost_label">Tổng chi tiêu</string>
-    <string name="calendar_average_cost_label">Chi tiêu trung bình</string>
+    <string name="calendar_average_cost_label">Chi tiêu TB</string>
 
     <!-- Formats -->
-    <string name="per_day_suffix">/ ngày</string>
-    <string name="format_daily_average_beers">%1$.1f / ngày</string>
+    <string name="per_day_suffix">/ngày</string>
+    <string name="format_daily_average_beers">%1$.1f /ngày</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f / ngày</string>
+    <string name="format_currency_per_day">%1$s%2$.2f /ngày</string>
 
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Mới</string>
+    <string name="graph_now_button">Mới nhất</string>
     <string name="graph_weekly_no_data">
-        Chưa đủ dữ liệu.
-        Các tuần có ít hơn 2 bia sẽ hiển thị là 24 giờ.
+        Không đủ dữ liệu.\nCác tuần có dưới 2 chai sẽ hiển thị là 24 giờ.
     </string>
 
-    <string name="graph_monthly_title">Tổng bia theo tháng</string>
-    <string name="graph_weekly_title">Trung bình tuần (bia/ngày)</string>
+    <string name="graph_monthly_title">Tổng theo tháng</string>
+    <string name="graph_weekly_title">TB/ngày theo tuần</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">Năm trước</string>
@@ -176,8 +188,9 @@
 
     <string name="edit_day_dialog_title">Chỉnh sửa số lượng</string>
     <string name="delete_day_dialog_title">Xóa ngày này?</string>
-    <string name="delete_day_dialog_message">Tất cả bia đã ghi lại trong ngày này sẽ bị xóa.</string>
+    <string name="delete_day_dialog_message">
+        Xóa tất cả bản ghi bia của ngày này.
+    </string>
     <string name="history_cd_edit">Chỉnh sửa</string>
-
 
 </resources>

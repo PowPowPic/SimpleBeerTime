@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.powder.simplebeertime.R
 import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.currencySymbolFor
+import com.powder.simplebeertime.ui.settings.formatCurrencyAmount
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.util.currentLogicalDate
@@ -82,16 +83,12 @@ fun CalendarScreen(
     val totalCost: Double = totalBeers * price
     val avgCostPerDay: Double = if (daysToUse > 0) totalCost / daysToUse.toDouble() else 0.0
 
-    // ✅ 通貨文字列（strings 側の %1$s%2$.2f 前提）
-    val totalCostText = String.format(
-        Locale.getDefault(),
-        stringResource(R.string.format_currency_amount),
-        currencySymbol,
-        totalCost
-    )
-    val avgCostPerDayText = String.format(
-        Locale.getDefault(),
-        stringResource(R.string.format_currency_per_day),
+    // ✅ 合計支出は通貨に応じたフォーマット（JPY系は整数、USD系は小数2桁）
+    val totalCostText = formatCurrencyAmount(currentLang, currencySymbol, totalCost)
+    
+    // ★ 平均支出は stringResource を使用し、常に小数点第2位まで表示
+    val avgCostPerDayText = stringResource(
+        R.string.format_currency_per_day,
         currencySymbol,
         avgCostPerDay
     )

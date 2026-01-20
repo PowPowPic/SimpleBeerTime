@@ -36,4 +36,9 @@ class BeerRepository(private val beerDao: BeerDao) {
     suspend fun deleteByTimestampRange(fromMillis: Long, toMillis: Long) {
         beerDao.deleteByTimestampRange(fromMillis, toMillis)
     }
+
+    // ★ 直接最新レコードを取得（suspend関数）
+    suspend fun getLatestRecordDirect(): BeerRecord? {
+        return beerDao.getLatestRecordDirect()
+    }
 }

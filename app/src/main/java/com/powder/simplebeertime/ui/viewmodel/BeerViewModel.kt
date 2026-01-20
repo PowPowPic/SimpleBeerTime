@@ -84,7 +84,8 @@ class BeerViewModel(private val repository: BeerRepository) : ViewModel() {
 
     fun deleteLatestBeer() {
         viewModelScope.launch {
-            latestRecord.value?.let { record ->
+            // ★ StateFlowではなく、直接DBから最新レコードを取得して削除
+            repository.getLatestRecordDirect()?.let { record ->
                 repository.deleteById(record.id)
             }
         }

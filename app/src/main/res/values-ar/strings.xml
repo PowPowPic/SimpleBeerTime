@@ -12,13 +12,13 @@
     <string name="nav_home">الرئيسية</string>
     <string name="nav_history">السجل</string>
     <string name="nav_calendar">التقويم</string>
-    <string name="nav_graph">الرسم</string>
+    <string name="nav_graph">الإحصاءات</string>
     <string name="nav_settings">إعدادات</string>
 
     <!-- =========================================================
          Common
          ========================================================= -->
-    <string name="common_ok">حسنًا</string>
+    <string name="common_ok">موافق</string>
     <string name="common_cancel">إلغاء</string>
     <string name="close_button_text">إغلاق</string>
     <string name="cancel_button_text">إلغاء</string>
@@ -26,31 +26,33 @@
     <!-- =========================================================
          MainScreen
          ========================================================= -->
-    <string name="label_week_cost">تكلفة هذا الأسبوع</string>
+    <string name="label_week_cost">مصروف هذا الأسبوع</string>
 
-    <string name="main_today_count">اليوم: %1$.1f مشروبات</string>
-    <string name="main_week_count">هذا الأسبوع: %1$.1f مشروبات</string>
-    <string name="main_week_avg">المتوسط اليومي: %1$.1f مشروبات</string>
+    <string name="main_today_count">اليوم: %1$.1f زجاجة</string>
+    <string name="main_week_count">هذا الأسبوع: %1$.1f زجاجة</string>
+    <string name="main_week_avg">المتوسط اليومي: %1$.1f زجاجة</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">تكلفة اليوم: %1$s%2$.2f</string>
+    <string name="main_today_cost">مصروف اليوم: %1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
-    <string name="main_midnight_rule_note">يتم احتساب السجلات بين 0:00 و3:00 لليوم السابق.</string>
+    <string name="main_midnight_rule_note">يتم احتساب السجلات بين 00:00 و03:00 على أنها لليوم السابق.</string>
 
-    <string name="main_button_add_one">تسجيل مشروب واحد</string>
-    <string name="main_button_undo_last">التراجع عن آخر مشروب</string>
+    <string name="main_currency_hint">إذا لم يتم عرض رمز العملة بشكل صحيح، يرجى تجربة تغيير إعدادات اللغة من ⚙إعدادات.</string>
 
-    <!-- Decimal input area -->
+    <string name="main_button_add_one">إضافة زجاجة واحدة</string>
+    <string name="main_button_undo_last">إلغاء آخر إدخال</string>
+
+    <!-- 小数入力エリア -->
     <string name="main_amount_prefix">حوالي</string>
-    <string name="main_amount_suffix">مشروبات</string>
+    <string name="main_amount_suffix">زجاجة</string>
     <string name="main_button_add">إضافة</string>
 
     <!-- Toast / messages -->
-    <string name="msg_beer_logged">تم تسجيل المشروب</string>
-    <string name="msg_undo_success">تمت إزالة آخر مشروب</string>
-    <string name="msg_no_record_to_undo">لا يوجد سجل للتراجع عنه</string>
-    <string name="msg_all_records_deleted">تم حذف جميع السجلات</string>
+    <string name="msg_beer_logged">تمت الإضافة</string>
+    <string name="msg_undo_success">تم حذف آخر سجل</string>
+    <string name="msg_no_record_to_undo">لا توجد سجلات يمكن التراجع عنها</string>
+    <string name="msg_all_records_deleted">تم حذف جميع البيانات</string>
 
     <!-- =========================================================
          Settings
@@ -60,11 +62,11 @@
     <string name="settings_language_title">اللغة</string>
     <string name="settings_language_description">تغيير لغة عرض التطبيق.</string>
 
-    <string name="settings_price_title">سعر المشروب</string>
-    <string name="settings_price_description">تحديد سعر المشروب الواحد.</string>
+    <string name="settings_price_title">سعر الزجاجة</string>
+    <string name="settings_price_description">تعيين السعر لكل زجاجة.</string>
 
     <string name="settings_delete_title">حذف جميع البيانات</string>
-    <string name="settings_delete_description">حذف جميع سجلات الشرب.</string>
+    <string name="settings_delete_description">حذف جميع سجلات الشرب المسجلة.</string>
 
     <!-- Accessibility (Settings) -->
     <string name="settings_cd_dialog">مربع حوار الإعدادات</string>
@@ -73,19 +75,19 @@
     <string name="settings_cd_delete_all">حذف جميع البيانات</string>
 
     <!-- Delete all confirm dialog -->
-    <string name="delete_all_title">حذف جميع السجلات</string>
-    <string name="delete_all_message">هل أنت متأكد من حذف جميع سجلات الشرب؟ لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="delete_all_title">حذف جميع البيانات</string>
+    <string name="delete_all_message">هل تريد حذف جميع سجلات الشرب؟ لا يمكن التراجع عن هذا الإجراء.</string>
     <string name="delete_all_confirm">حذف</string>
     <string name="delete_all_cancel">إلغاء</string>
 
     <!-- Price dialog -->
-    <string name="price_dialog_title">تحديد سعر المشروب</string>
-    <string name="price_dialog_message">أدخل سعر المشروب الواحد:</string>
+    <string name="price_dialog_title">تعيين سعر الزجاجة</string>
+    <string name="price_dialog_message">يرجى إدخال السعر لكل زجاجة:</string>
 
     <!-- Language dialog -->
     <string name="dialog_language_title">اللغة</string>
-    <string name="dialog_language_message">سيتم تغيير لغة التطبيق عند فتحه مرة أخرى.</string>
-    <string name="dialog_language_ok">حسنًا</string>
+    <string name="dialog_language_message">سيتم تغيير لغة التطبيق عند تشغيله في المرة القادمة.</string>
+    <string name="dialog_language_ok">موافق</string>
 
     <!-- Language selection -->
     <string name="language_system_default">لغة النظام</string>
@@ -102,9 +104,9 @@
 
     <string name="history_cd_previous_week">الأسبوع السابق</string>
     <string name="history_cd_next_week">الأسبوع التالي</string>
-    <string name="history_week_summary_title">ملخص هذا الأسبوع</string>
-    <string name="history_week_total">الإجمالي: حوالي %1$.1f مشروبات</string>
-    <string name="history_week_avg">المتوسط: %1$.1f مشروبات/يوم</string>
+    <string name="history_week_summary_title">سجل هذا الأسبوع</string>
+    <string name="history_week_total">الإجمالي: حوالي %1$.1f زجاجة</string>
+    <string name="history_week_avg">المتوسط: %1$.1f زجاجة/يوم</string>
 
     <string name="history_delete_title">حذف هذا السجل</string>
     <string name="history_delete_message">هل تريد حذف هذا السجل؟</string>
@@ -120,7 +122,7 @@
     <string name="calendar_cd_previous_month">الشهر السابق</string>
     <string name="calendar_cd_next_month">الشهر التالي</string>
 
-    <!-- Weekday labels -->
+    <!-- Weekday labels (Mon-first) -->
     <string name="weekday_mon">الاثنين</string>
     <string name="weekday_tue">الثلاثاء</string>
     <string name="weekday_wed">الأربعاء</string>
@@ -130,27 +132,27 @@
     <string name="weekday_sun">الأحد</string>
 
     <!-- Monthly summary labels -->
-    <string name="calendar_total_beers_label">إجمالي المشروبات</string>
+    <string name="calendar_total_beers_label">إجمالي الزجاجات</string>
     <string name="calendar_daily_average_label">المتوسط اليومي</string>
-    <string name="calendar_total_cost_label">إجمالي التكلفة</string>
-    <string name="calendar_average_cost_label">متوسط التكلفة</string>
+    <string name="calendar_total_cost_label">إجمالي المصروف</string>
+    <string name="calendar_average_cost_label">متوسط المصروف</string>
 
     <!-- Formats -->
-    <string name="per_day_suffix">/ يوم</string>
-    <string name="format_daily_average_beers">%1$.1f / يوم</string>
+    <string name="per_day_suffix">/يوم</string>
+    <string name="format_daily_average_beers">%1$.1f /يوم</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f / يوم</string>
+    <string name="format_currency_per_day">%1$s%2$.2f /يوم</string>
 
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
     <string name="graph_now_button">الأحدث</string>
-    <string name="graph_weekly_no_data">لا توجد بيانات كافية بعد.\nتُعرض الأسابيع التي تحتوي على أقل من مشروبين كـ 24 ساعة.</string>
+    <string name="graph_weekly_no_data">لا توجد بيانات كافية.\nسيتم عرض الأسابيع التي تحتوي على أقل من زجاجتين على أنها 24 ساعة.</string>
 
-    <string name="graph_monthly_title">إجمالي المشروبات الشهري</string>
-    <string name="graph_weekly_title">متوسط المشروبات اليومي أسبوعيًا</string>
+    <string name="graph_monthly_title">إجمالي الزجاجات حسب الشهر</string>
+    <string name="graph_weekly_title">متوسط الزجاجات اليومي حسب الأسبوع</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">السنة السابقة</string>
@@ -164,10 +166,9 @@
     <!-- Format (do not translate) -->
     <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
 
-    <string name="edit_day_dialog_title">تعديل الكمية</string>
-    <string name="delete_day_dialog_title">حذف هذا اليوم؟</string>
-    <string name="delete_day_dialog_message">سيتم حذف جميع أنواع البيرة المسجلة لهذا اليوم.</string>
+    <string name="edit_day_dialog_title">تعديل عدد الزجاجات</string>
+    <string name="delete_day_dialog_title">هل تريد حذف هذا اليوم؟</string>
+    <string name="delete_day_dialog_message">سيتم حذف جميع سجلات البيرة لهذا اليوم.</string>
     <string name="history_cd_edit">تعديل</string>
-
 
 </resources>

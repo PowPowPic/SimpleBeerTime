@@ -26,33 +26,33 @@
     <!-- =========================================================
          MainScreen
          ========================================================= -->
-    <string name="label_week_cost">Biaya minggu ini</string>
+    <string name="label_week_cost">Pengeluaran Minggu Ini</string>
 
-    <string name="main_today_count">Hari ini: %1$.1f bir</string>
-    <string name="main_week_count">Minggu ini: %1$.1f bir</string>
-    <string name="main_week_avg">Rata-rata/hari: %1$.1f bir</string>
+    <string name="main_today_count">Hari ini: %1$.1f botol</string>
+    <string name="main_week_count">Minggu ini: %1$.1f botol</string>
+    <string name="main_week_avg">Rata-rata/hari: %1$.1f botol</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">Biaya hari ini: %1$s%2$.2f</string>
+    <string name="main_today_cost">Pengeluaran hari ini: %1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
-    <string name="main_midnight_rule_note">
-        Catatan antara 0:00–3:00 dihitung sebagai hari sebelumnya.
-    </string>
+    <string name="main_midnight_rule_note">Catatan antara 0:00–3:00 dihitung sebagai hari sebelumnya.</string>
 
-    <string name="main_button_add_one">Catat 1 bir</string>
-    <string name="main_button_undo_last">Batalkan bir terakhir</string>
+    <string name="main_currency_hint">Jika simbol mata uang tidak ditampilkan dengan benar, silakan coba ubah bahasa di ⚙Setelan.</string>
+
+    <string name="main_button_add_one">Tambahkan 1 botol</string>
+    <string name="main_button_undo_last">Batalkan yang terakhir</string>
 
     <!-- Decimal input area -->
     <string name="main_amount_prefix">Sekitar</string>
-    <string name="main_amount_suffix">bir</string>
+    <string name="main_amount_suffix">botol</string>
     <string name="main_button_add">Tambah</string>
 
     <!-- Toast / messages -->
-    <string name="msg_beer_logged">Bir dicatat</string>
-    <string name="msg_undo_success">Bir terakhir dihapus</string>
+    <string name="msg_beer_logged">Ditambahkan</string>
+    <string name="msg_undo_success">Catatan terakhir telah dihapus</string>
     <string name="msg_no_record_to_undo">Tidak ada catatan untuk dibatalkan</string>
-    <string name="msg_all_records_deleted">Semua catatan telah dihapus</string>
+    <string name="msg_all_records_deleted">Semua data telah dihapus</string>
 
     <!-- =========================================================
          Settings
@@ -60,19 +60,13 @@
     <string name="settings_title">Setelan</string>
 
     <string name="settings_language_title">Bahasa</string>
-    <string name="settings_language_description">
-        Ubah bahasa tampilan aplikasi.
-    </string>
+    <string name="settings_language_description">Ubah bahasa tampilan aplikasi.</string>
 
-    <string name="settings_price_title">Harga per bir</string>
-    <string name="settings_price_description">
-        Atur harga per bir.
-    </string>
+    <string name="settings_price_title">Harga per botol</string>
+    <string name="settings_price_description">Atur harga untuk setiap botol.</string>
 
-    <string name="settings_delete_title">Hapus semua data</string>
-    <string name="settings_delete_description">
-        Hapus seluruh riwayat minum.
-    </string>
+    <string name="settings_delete_title">Hapus Semua Data</string>
+    <string name="settings_delete_description">Hapus semua riwayat minum yang tercatat.</string>
 
     <!-- Accessibility (Settings) -->
     <string name="settings_cd_dialog">Dialog setelan</string>
@@ -81,32 +75,25 @@
     <string name="settings_cd_delete_all">Hapus semua data</string>
 
     <!-- Delete all confirm dialog -->
-    <string name="delete_all_title">Hapus semua catatan</string>
-    <string name="delete_all_message">
-        Yakin ingin menghapus semua catatan minum?
-        Tindakan ini tidak dapat dibatalkan.
-    </string>
+    <string name="delete_all_title">Hapus Semua Data</string>
+    <string name="delete_all_message">Apakah Anda ingin menghapus semua catatan minum? Tindakan ini tidak dapat dibatalkan.</string>
     <string name="delete_all_confirm">Hapus</string>
     <string name="delete_all_cancel">Batal</string>
 
     <!-- Price dialog -->
-    <string name="price_dialog_title">Atur harga per bir</string>
-    <string name="price_dialog_message">Masukkan harga per bir:</string>
+    <string name="price_dialog_title">Atur Harga per Botol</string>
+    <string name="price_dialog_message">Masukkan harga untuk setiap botol:</string>
 
     <!-- Language dialog -->
     <string name="dialog_language_title">Bahasa</string>
-    <string name="dialog_language_message">
-        Bahasa aplikasi akan diterapkan saat aplikasi dibuka kembali.
-    </string>
+    <string name="dialog_language_message">Bahasa aplikasi akan berubah saat aplikasi dibuka kembali.</string>
     <string name="dialog_language_ok">OK</string>
 
     <!-- Language selection -->
     <string name="language_system_default">Bahasa sistem</string>
     <string name="language_apply_restart">Terapkan</string>
-    <string name="language_confirm_title">Terapkan bahasa</string>
-    <string name="language_confirm_message">
-        Terapkan bahasa yang dipilih?
-    </string>
+    <string name="language_confirm_title">Terapkan Bahasa</string>
+    <string name="language_confirm_message">Terapkan bahasa yang dipilih?</string>
     <string name="language_confirm_ok">Terapkan</string>
     <string name="language_confirm_cancel">Batal</string>
 
@@ -117,14 +104,12 @@
 
     <string name="history_cd_previous_week">Minggu sebelumnya</string>
     <string name="history_cd_next_week">Minggu berikutnya</string>
-    <string name="history_week_summary_title">Ringkasan minggu ini</string>
-    <string name="history_week_total">Total: sekitar %1$.1f bir</string>
-    <string name="history_week_avg">Rata-rata: %1$.1f bir/hari</string>
+    <string name="history_week_summary_title">Riwayat Minggu Ini</string>
+    <string name="history_week_total">Total: sekitar %1$.1f botol</string>
+    <string name="history_week_avg">Rata-rata: %1$.1f botol/hari</string>
 
-    <string name="history_delete_title">Hapus catatan ini</string>
-    <string name="history_delete_message">
-        Yakin ingin menghapus catatan ini?
-    </string>
+    <string name="history_delete_title">Hapus Catatan Ini</string>
+    <string name="history_delete_message">Hapus catatan ini?</string>
     <string name="history_delete_yes">Ya</string>
     <string name="history_delete_no">Tidak</string>
 
@@ -137,7 +122,7 @@
     <string name="calendar_cd_previous_month">Bulan sebelumnya</string>
     <string name="calendar_cd_next_month">Bulan berikutnya</string>
 
-    <!-- Weekday labels (short) -->
+    <!-- Weekday labels (Mon-first) -->
     <string name="weekday_mon">Sen</string>
     <string name="weekday_tue">Sel</string>
     <string name="weekday_wed">Rab</string>
@@ -147,30 +132,27 @@
     <string name="weekday_sun">Min</string>
 
     <!-- Monthly summary labels -->
-    <string name="calendar_total_beers_label">Total bir</string>
-    <string name="calendar_daily_average_label">Rata-rata harian</string>
-    <string name="calendar_total_cost_label">Total biaya</string>
-    <string name="calendar_average_cost_label">Biaya rata-rata</string>
+    <string name="calendar_total_beers_label">Total botol</string>
+    <string name="calendar_daily_average_label">Rata-rata/hari</string>
+    <string name="calendar_total_cost_label">Total pengeluaran</string>
+    <string name="calendar_average_cost_label">Rata-rata pengeluaran</string>
 
     <!-- Formats -->
-    <string name="per_day_suffix">/ hari</string>
-    <string name="format_daily_average_beers">%1$.1f / hari</string>
+    <string name="per_day_suffix">/hari</string>
+    <string name="format_daily_average_beers">%1$.1f /hari</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f / hari</string>
+    <string name="format_currency_per_day">%1$s%2$.2f /hari</string>
 
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Baru</string>
-    <string name="graph_weekly_no_data">
-        Data belum cukup.
-        Minggu dengan kurang dari 2 bir ditampilkan sebagai 24 jam.
-    </string>
+    <string name="graph_now_button">Terbaru</string>
+    <string name="graph_weekly_no_data">Data tidak cukup.\nMinggu dengan kurang dari 2 botol akan ditampilkan sebagai 24 jam.</string>
 
-    <string name="graph_monthly_title">Total bir bulanan</string>
-    <string name="graph_weekly_title">Rata-rata mingguan (bir/hari)</string>
+    <string name="graph_monthly_title">Total Botol Bulanan</string>
+    <string name="graph_weekly_title">Rata-rata Botol Harian Mingguan</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">Tahun sebelumnya</string>
@@ -186,8 +168,7 @@
 
     <string name="edit_day_dialog_title">Edit jumlah</string>
     <string name="delete_day_dialog_title">Hapus hari ini?</string>
-    <string name="delete_day_dialog_message">Semua bir yang dicatat pada hari ini akan dihapus.</string>
+    <string name="delete_day_dialog_message">Hapus semua catatan bir untuk hari ini.</string>
     <string name="history_cd_edit">Edit</string>
-
 
 </resources>

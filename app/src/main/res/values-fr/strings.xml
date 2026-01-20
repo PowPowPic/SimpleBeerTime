@@ -10,10 +10,10 @@
          Navigation
          ========================================================= -->
     <string name="nav_home">Accueil</string>
-    <string name="nav_history">Histor.</string>
+    <string name="nav_history">Journal</string>
     <string name="nav_calendar">Calend.</string>
-    <string name="nav_graph">Graph.</string>
-    <string name="nav_settings">Param.</string>
+    <string name="nav_graph">Stats</string>
+    <string name="nav_settings">Réglages</string>
 
     <!-- =========================================================
          Common
@@ -36,10 +36,16 @@
     <string name="main_today_cost">Coût aujourd’hui : %1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
-    <string name="main_midnight_rule_note">Les enregistrements entre 0:00 et 3:00 comptent pour la veille.</string>
+    <string name="main_midnight_rule_note">
+        Les enregistrements entre 0:00 et 3:00 comptent pour la veille.
+    </string>
+
+    <string name="main_currency_hint">
+        Si le symbole de la devise ne s’affiche pas correctement, veuillez essayer de changer la langue dans ⚙Réglages.
+    </string>
 
     <string name="main_button_add_one">Enregistrer 1 bière</string>
-    <string name="main_button_undo_last">Annuler la dernière bière</string>
+    <string name="main_button_undo_last">Annuler</string>
 
     <!-- Decimal input area -->
     <string name="main_amount_prefix">Environ</string>
@@ -47,15 +53,15 @@
     <string name="main_button_add">Ajouter</string>
 
     <!-- Toast / messages -->
-    <string name="msg_beer_logged">Bière enregistrée</string>
-    <string name="msg_undo_success">La dernière bière a été supprimée</string>
+    <string name="msg_beer_logged">Ajouté</string>
+    <string name="msg_undo_success">Le dernier enregistrement a été supprimé</string>
     <string name="msg_no_record_to_undo">Aucun enregistrement à annuler</string>
-    <string name="msg_all_records_deleted">Tous les enregistrements ont été supprimés</string>
+    <string name="msg_all_records_deleted">Toutes les données ont été supprimées</string>
 
     <!-- =========================================================
          Settings
          ========================================================= -->
-    <string name="settings_title">Paramètres</string>
+    <string name="settings_title">Réglages</string>
 
     <string name="settings_language_title">Langue</string>
     <string name="settings_language_description">Changer la langue d’affichage de l’application.</string>
@@ -64,46 +70,54 @@
     <string name="settings_price_description">Définir le prix par bière.</string>
 
     <string name="settings_delete_title">Supprimer toutes les données</string>
-    <string name="settings_delete_description">Supprimer tout l’historique de consommation.</string>
+    <string name="settings_delete_description">Supprimer tout l’historique de consommation enregistré.</string>
 
     <!-- Accessibility (Settings) -->
-    <string name="settings_cd_dialog">Boîte de dialogue des paramètres</string>
-    <string name="settings_cd_language">Paramètres de langue</string>
-    <string name="settings_cd_price">Paramètres de prix</string>
+    <string name="settings_cd_dialog">Boîte de dialogue des réglages</string>
+    <string name="settings_cd_language">Réglages de la langue</string>
+    <string name="settings_cd_price">Réglages du prix</string>
     <string name="settings_cd_delete_all">Supprimer toutes les données</string>
 
     <!-- Delete all confirm dialog -->
-    <string name="delete_all_title">Supprimer tous les enregistrements</string>
-    <string name="delete_all_message">Voulez-vous vraiment supprimer tous les enregistrements ? Cette action est irréversible.</string>
+    <string name="delete_all_title">Supprimer toutes les données</string>
+    <string name="delete_all_message">
+        Voulez-vous supprimer tous les enregistrements de consommation ? Cette action est irréversible.
+    </string>
     <string name="delete_all_confirm">Supprimer</string>
     <string name="delete_all_cancel">Annuler</string>
 
     <!-- Price dialog -->
     <string name="price_dialog_title">Définir le prix par bière</string>
-    <string name="price_dialog_message">Saisissez le prix par bière :</string>
+    <string name="price_dialog_message">
+        Veuillez saisir le prix par bière :
+    </string>
 
     <!-- Language dialog -->
     <string name="dialog_language_title">Langue</string>
-    <string name="dialog_language_message">La langue de l’application sera modifiée au prochain lancement.</string>
+    <string name="dialog_language_message">
+        La langue de l’application sera modifiée au prochain démarrage.
+    </string>
     <string name="dialog_language_ok">OK</string>
 
     <!-- Language selection -->
     <string name="language_system_default">Langue du système</string>
     <string name="language_apply_restart">Appliquer</string>
     <string name="language_confirm_title">Appliquer la langue</string>
-    <string name="language_confirm_message">Appliquer la langue sélectionnée ?</string>
+    <string name="language_confirm_message">
+        Voulez-vous appliquer la langue sélectionnée ?
+    </string>
     <string name="language_confirm_ok">Appliquer</string>
     <string name="language_confirm_cancel">Annuler</string>
 
     <!-- =========================================================
          HistoryScreen
          ========================================================= -->
-    <string name="title_history">Historique</string>
+    <string name="title_history">Journal</string>
 
     <string name="history_cd_previous_week">Semaine précédente</string>
     <string name="history_cd_next_week">Semaine suivante</string>
-    <string name="history_week_summary_title">Résumé de cette semaine</string>
-    <string name="history_week_total">Total : env. %1$.1f bières</string>
+    <string name="history_week_summary_title">Journal de la semaine</string>
+    <string name="history_week_total">Total : environ %1$.1f bières</string>
     <string name="history_week_avg">Moyenne : %1$.1f bières/jour</string>
 
     <string name="history_delete_title">Supprimer cet enregistrement</string>
@@ -120,7 +134,7 @@
     <string name="calendar_cd_previous_month">Mois précédent</string>
     <string name="calendar_cd_next_month">Mois suivant</string>
 
-    <!-- Weekday labels (short) -->
+    <!-- Weekday labels (Mon-first) -->
     <string name="weekday_mon">Lun</string>
     <string name="weekday_tue">Mar</string>
     <string name="weekday_wed">Mer</string>
@@ -130,27 +144,29 @@
     <string name="weekday_sun">Dim</string>
 
     <!-- Monthly summary labels -->
-    <string name="calendar_total_beers_label">Total bières</string>
-    <string name="calendar_daily_average_label">Moy./jour</string>
+    <string name="calendar_total_beers_label">Total</string>
+    <string name="calendar_daily_average_label">Moyenne / jour</string>
     <string name="calendar_total_cost_label">Coût total</string>
     <string name="calendar_average_cost_label">Coût moyen</string>
 
     <!-- Formats -->
-    <string name="per_day_suffix">/ jour</string>
-    <string name="format_daily_average_beers">%1$.1f / jour</string>
+    <string name="per_day_suffix">/jour</string>
+    <string name="format_daily_average_beers">%1$.1f /jour</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f / jour</string>
+    <string name="format_currency_per_day">%1$s%2$.2f /jour</string>
 
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Dernier</string>
-    <string name="graph_weekly_no_data">Pas assez de données.\nLes semaines avec moins de 2 bières sont affichées comme 24 h.</string>
+    <string name="graph_now_button">Récent</string>
+    <string name="graph_weekly_no_data">
+        Données insuffisantes.\nLes semaines avec moins de 2 bières sont affichées comme 24 h.
+    </string>
 
-    <string name="graph_monthly_title">Total mensuel de bières</string>
-    <string name="graph_weekly_title">Moyenne hebdo (bières/jour)</string>
+    <string name="graph_monthly_title">Total mensuel</string>
+    <string name="graph_weekly_title">Moyenne quotidienne par semaine</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">Année précédente</string>
@@ -164,10 +180,11 @@
     <!-- Format (do not translate) -->
     <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
 
-    <string name="edit_day_dialog_title">Modifier la quantité</string>
+    <string name="edit_day_dialog_title">Modifier le nombre</string>
     <string name="delete_day_dialog_title">Supprimer ce jour ?</string>
-    <string name="delete_day_dialog_message">Toutes les bières enregistrées pour ce jour seront supprimées.</string>
+    <string name="delete_day_dialog_message">
+        Supprimer tous les enregistrements de bière pour ce jour.
+    </string>
     <string name="history_cd_edit">Modifier</string>
-
 
 </resources>

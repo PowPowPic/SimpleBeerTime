@@ -11,8 +11,8 @@
          ========================================================= -->
     <string name="nav_home">Inicio</string>
     <string name="nav_history">Historial</string>
-    <string name="nav_calendar">Calend.</string>
-    <string name="nav_graph">Gráfico</string>
+    <string name="nav_calendar">Calendario</string>
+    <string name="nav_graph">Stats</string>
     <string name="nav_settings">Ajustes</string>
 
     <!-- =========================================================
@@ -26,20 +26,26 @@
     <!-- =========================================================
          MainScreen
          ========================================================= -->
-    <string name="label_week_cost">Costo esta semana</string>
+    <string name="label_week_cost">Gasto de esta semana</string>
 
     <string name="main_today_count">Hoy: %1$.1f cervezas</string>
     <string name="main_week_count">Esta semana: %1$.1f cervezas</string>
-    <string name="main_week_avg">Prom./día: %1$.1f cervezas</string>
+    <string name="main_week_avg">Promedio diario: %1$.1f cervezas</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">Costo hoy: %1$s%2$.2f</string>
+    <string name="main_today_cost">Gasto de hoy: %1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
-    <string name="main_midnight_rule_note">Los registros entre 0:00 y 3:00 cuentan como el día anterior.</string>
+    <string name="main_midnight_rule_note">
+        Los registros entre las 0:00 y las 3:00 se cuentan como del día anterior.
+    </string>
 
-    <string name="main_button_add_one">Registrar 1 cerveza</string>
-    <string name="main_button_undo_last">Deshacer última cerveza</string>
+    <string name="main_currency_hint">
+        Si el símbolo de la moneda no se muestra correctamente, prueba a cambiar el idioma desde ⚙Ajustes.
+    </string>
+
+    <string name="main_button_add_one">Añadir 1 cerveza</string>
+    <string name="main_button_undo_last">Deshacer último</string>
 
     <!-- Decimal input area -->
     <string name="main_amount_prefix">Aprox.</string>
@@ -47,10 +53,10 @@
     <string name="main_button_add">Añadir</string>
 
     <!-- Toast / messages -->
-    <string name="msg_beer_logged">Cerveza registrada</string>
-    <string name="msg_undo_success">La última cerveza fue eliminada</string>
+    <string name="msg_beer_logged">Añadido</string>
+    <string name="msg_undo_success">Se eliminó el último registro</string>
     <string name="msg_no_record_to_undo">No hay registros para deshacer</string>
-    <string name="msg_all_records_deleted">Todos los registros fueron eliminados</string>
+    <string name="msg_all_records_deleted">Se eliminaron todos los datos</string>
 
     <!-- =========================================================
          Settings
@@ -58,13 +64,13 @@
     <string name="settings_title">Ajustes</string>
 
     <string name="settings_language_title">Idioma</string>
-    <string name="settings_language_description">Cambiar el idioma de la app.</string>
+    <string name="settings_language_description">Cambiar el idioma de la aplicación.</string>
 
     <string name="settings_price_title">Precio por cerveza</string>
-    <string name="settings_price_description">Configurar el precio por cerveza.</string>
+    <string name="settings_price_description">Configura el precio por cada cerveza.</string>
 
     <string name="settings_delete_title">Eliminar todos los datos</string>
-    <string name="settings_delete_description">Eliminar todo el historial de consumo.</string>
+    <string name="settings_delete_description">Eliminar todo el historial de consumo registrado.</string>
 
     <!-- Accessibility (Settings) -->
     <string name="settings_cd_dialog">Diálogo de ajustes</string>
@@ -73,25 +79,33 @@
     <string name="settings_cd_delete_all">Eliminar todos los datos</string>
 
     <!-- Delete all confirm dialog -->
-    <string name="delete_all_title">Eliminar todos los registros</string>
-    <string name="delete_all_message">¿Seguro que deseas eliminar todos los registros? Esta acción no se puede deshacer.</string>
+    <string name="delete_all_title">Eliminar todos los datos</string>
+    <string name="delete_all_message">
+        ¿Deseas eliminar todos los registros de consumo? Esta acción no se puede deshacer.
+    </string>
     <string name="delete_all_confirm">Eliminar</string>
     <string name="delete_all_cancel">Cancelar</string>
 
     <!-- Price dialog -->
     <string name="price_dialog_title">Configurar precio por cerveza</string>
-    <string name="price_dialog_message">Introduce el precio por cerveza:</string>
+    <string name="price_dialog_message">
+        Introduce el precio por cerveza:
+    </string>
 
     <!-- Language dialog -->
     <string name="dialog_language_title">Idioma</string>
-    <string name="dialog_language_message">El idioma de la app se aplicará al volver a abrirla.</string>
+    <string name="dialog_language_message">
+        El idioma de la aplicación se cambiará la próxima vez que se inicie.
+    </string>
     <string name="dialog_language_ok">OK</string>
 
     <!-- Language selection -->
     <string name="language_system_default">Idioma del sistema</string>
     <string name="language_apply_restart">Aplicar</string>
     <string name="language_confirm_title">Aplicar idioma</string>
-    <string name="language_confirm_message">¿Aplicar el idioma seleccionado?</string>
+    <string name="language_confirm_message">
+        ¿Deseas aplicar el idioma seleccionado?
+    </string>
     <string name="language_confirm_ok">Aplicar</string>
     <string name="language_confirm_cancel">Cancelar</string>
 
@@ -102,7 +116,7 @@
 
     <string name="history_cd_previous_week">Semana anterior</string>
     <string name="history_cd_next_week">Semana siguiente</string>
-    <string name="history_week_summary_title">Resumen de esta semana</string>
+    <string name="history_week_summary_title">Historial de esta semana</string>
     <string name="history_week_total">Total: aprox. %1$.1f cervezas</string>
     <string name="history_week_avg">Promedio: %1$.1f cervezas/día</string>
 
@@ -120,7 +134,7 @@
     <string name="calendar_cd_previous_month">Mes anterior</string>
     <string name="calendar_cd_next_month">Mes siguiente</string>
 
-    <!-- Weekday labels (short) -->
+    <!-- Weekday labels (Mon-first) -->
     <string name="weekday_mon">Lun</string>
     <string name="weekday_tue">Mar</string>
     <string name="weekday_wed">Mié</string>
@@ -130,27 +144,29 @@
     <string name="weekday_sun">Dom</string>
 
     <!-- Monthly summary labels -->
-    <string name="calendar_total_beers_label">Total cervezas</string>
-    <string name="calendar_daily_average_label">Prom. diario</string>
-    <string name="calendar_total_cost_label">Costo total</string>
-    <string name="calendar_average_cost_label">Costo promedio</string>
+    <string name="calendar_total_beers_label">Total de cervezas</string>
+    <string name="calendar_daily_average_label">Promedio diario</string>
+    <string name="calendar_total_cost_label">Gasto total</string>
+    <string name="calendar_average_cost_label">Gasto promedio</string>
 
     <!-- Formats -->
-    <string name="per_day_suffix">/ día</string>
-    <string name="format_daily_average_beers">%1$.1f / día</string>
+    <string name="per_day_suffix">/día</string>
+    <string name="format_daily_average_beers">%1$.1f /día</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f / día</string>
+    <string name="format_currency_per_day">%1$s%2$.2f /día</string>
 
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
     <string name="graph_now_button">Último</string>
-    <string name="graph_weekly_no_data">Datos insuficientes.\nLas semanas con menos de 2 cervezas se muestran como 24 h.</string>
+    <string name="graph_weekly_no_data">
+        No hay suficientes datos.\nLas semanas con menos de 2 cervezas se muestran como 24 horas.
+    </string>
 
     <string name="graph_monthly_title">Total mensual de cervezas</string>
-    <string name="graph_weekly_title">Promedio semanal (cervezas/día)</string>
+    <string name="graph_weekly_title">Promedio diario semanal</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">Año anterior</string>
@@ -166,8 +182,9 @@
 
     <string name="edit_day_dialog_title">Editar cantidad</string>
     <string name="delete_day_dialog_title">¿Eliminar este día?</string>
-    <string name="delete_day_dialog_message">Se eliminarán todas las cervezas registradas de este día.</string>
+    <string name="delete_day_dialog_message">
+        Se eliminarán todos los registros de cerveza de este día.
+    </string>
     <string name="history_cd_edit">Editar</string>
-
 
 </resources>
