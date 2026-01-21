@@ -46,7 +46,7 @@
     <!-- 小数入力エリア -->
     <string name="main_amount_prefix">حوالي</string>
     <string name="main_amount_suffix">زجاجة</string>
-    <string name="main_button_add">إضافة</string>
+    <string name="main_button_add">+</string>
 
     <!-- Toast / messages -->
     <string name="msg_beer_logged">تمت الإضافة</string>

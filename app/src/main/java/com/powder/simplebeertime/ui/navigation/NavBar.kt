@@ -8,8 +8,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.powder.simplebeertime.ui.theme.SimpleColors
@@ -27,6 +30,10 @@ fun NavBar(
         Screen.Graph,
         Screen.Settings
     )
+
+    // ★ ルール④：ナビバーは見た目固定12f（fontScaleの影響を受けない）
+    val config = LocalConfiguration.current
+    val fixedLabelSize = (12f / config.fontScale).sp
 
     NavigationBar(
         containerColor = Color.Transparent,
@@ -63,7 +70,13 @@ fun NavBar(
                     )
                 },
                 label = {
-                    Text(text = stringResource(screen.labelResId))
+                    Text(
+                        text = stringResource(screen.labelResId),
+                        fontSize = fixedLabelSize,
+                        maxLines = 1,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = SimpleColors.ButtonPrimary,

@@ -50,7 +50,7 @@
     <!-- Decimal input area -->
     <string name="main_amount_prefix">About</string>
     <string name="main_amount_suffix">beers</string>
-    <string name="main_button_add">Add</string>
+    <string name="main_button_add">+</string>
 
     <!-- Toast / messages -->
     <string name="msg_beer_logged">Added</string>

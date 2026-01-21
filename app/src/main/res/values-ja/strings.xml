@@ -46,7 +46,7 @@
     <!-- 小数入力エリア -->
     <string name="main_amount_prefix">約</string>
     <string name="main_amount_suffix">本</string>
-    <string name="main_button_add">追加</string>
+    <string name="main_button_add">+</string>
 
     <!-- Toast / messages -->
     <string name="msg_beer_logged">追加しました</string>

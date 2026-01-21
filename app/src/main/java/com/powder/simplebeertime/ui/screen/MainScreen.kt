@@ -3,9 +3,11 @@ package com.powder.simplebeertime.ui.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -20,6 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -73,17 +77,14 @@ fun MainScreen(
     }
 
     // 小数入力用の状態
-    // ✅ placeholder ではなく「実値」として初期値を入れる（そのままAdd/Doneで反映される）
     var amountText by rememberSaveable { mutableStateOf("1.4") }
 
     // 小数入力を処理する関数
     fun addCustomAmount() {
-        // ✅ 空欄のままOK/Doneを押した場合も「1.4」として扱いたい
         val rawText = amountText.trim().ifEmpty { "1.4" }
 
         val raw = rawText.toDoubleOrNull() ?: return
         if (raw <= 0) {
-            // 0以下は何もしないが、入力欄はデフォルトに戻す
             amountText = "1.4"
             return
         }
@@ -92,7 +93,6 @@ fun MainScreen(
         val v = (raw * 10).roundToInt() / 10.0
         viewModel.insertBeer(amount = v)
 
-        // ✅ 追加後は毎回 1.4 に戻す（ユーザーが毎回打ち直さなくてよい）
         amountText = "1.4"
     }
 
@@ -109,15 +109,15 @@ fun MainScreen(
         )
     )
 
+    // ★ ルール①：スクロール可能にする
     Column(
         modifier = modifier
             .fillMaxSize()
-            // ✅ 履歴画面と同じ横paddingに揃える（位置が揃った感が出る）
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        // ✅ 履歴画面と同じ「広告スペース（詰める）」に合わせる
         Spacer(modifier = Modifier.height(12.dp))
 
         // 今日の日付（ロケール対応）
@@ -130,6 +130,7 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
+        // ★ ルール③：カードは可変（heightIn使用、height()は使わない）
         // 🪪 カード1：今週の本数＆平均
         Box(
             modifier = Modifier
@@ -209,6 +210,7 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        // ★ ルール②：ボタンは可変＋最低タップサイズ保証
         // 🍺 ボタン: Log 1 beer（グラデーション）
         GradientButton(
             text = stringResource(R.string.main_button_add_one),
@@ -269,8 +271,8 @@ fun MainScreen(
             GradientButton(
                 text = stringResource(R.string.main_button_add),
                 onClick = { addCustomAmount() },
-                width = 70.dp,
-                height = 40.dp
+                minWidth = 70.dp,
+                minHeight = 48.dp
             )
         }
 
@@ -314,15 +316,13 @@ fun MainScreen(
             )
         }
 
-        // ✅ 残りスペースを押し下げて、青文字リンクを「ナビバー直上」へ
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(16.dp))
 
-        // ② 青文字リンク（ベタ書き英語はシリーズ共通仕様）
+        // ③ 青文字リンク（ベタ書き英語はシリーズ共通仕様）
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                // ✅ 直上に寄せたいので bottom padding は最小（Scaffold側の bottom padding を信頼）
-                .padding(bottom = 4.dp)
+                .padding(bottom = 16.dp)
                 .clickable { onSettingsClick() },
             contentAlignment = Alignment.Center
         ) {
@@ -336,12 +336,15 @@ fun MainScreen(
     }
 }
 
+/**
+ * ★ ルール②：ボタンサイズは可変（最低タップサイズ48dp保証）
+ */
 @Composable
 private fun GradientButton(
     text: String,
     onClick: () -> Unit,
-    width: androidx.compose.ui.unit.Dp = 180.dp,
-    height: androidx.compose.ui.unit.Dp = 44.dp
+    minWidth: Dp = 180.dp,
+    minHeight: Dp = 48.dp
 ) {
     val buttonGradient = Brush.horizontalGradient(
         colors = listOf(
@@ -353,17 +356,20 @@ private fun GradientButton(
 
     Box(
         modifier = Modifier
-            .width(width)
-            .height(height)
+            .widthIn(min = minWidth)
+            .heightIn(min = minHeight)
             .clip(RoundedCornerShape(22.dp))
             .background(buttonGradient)
-            .clickable { onClick() },
+            .clickable { onClick() }
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
             fontWeight = FontWeight.Bold,
-            color = Color.White
+            color = Color.White,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

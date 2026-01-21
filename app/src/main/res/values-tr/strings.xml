@@ -50,7 +50,7 @@
     <!-- Decimal input area -->
     <string name="main_amount_prefix">Yakl.</string>
     <string name="main_amount_suffix">şişe</string>
-    <string name="main_button_add">Ekle</string>
+    <string name="main_button_add">+</string>
 
     <!-- Toast / messages -->
     <string name="msg_beer_logged">Eklendi</string>

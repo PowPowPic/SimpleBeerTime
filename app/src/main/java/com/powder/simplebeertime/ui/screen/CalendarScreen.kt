@@ -2,6 +2,8 @@ package com.powder.simplebeertime.ui.screen
 
 import android.text.format.DateFormat
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -102,9 +104,11 @@ fun CalendarScreen(
         monthDate.format(monthFormatter)
     }
 
+    // ★ ルール①：スクロール可能にする
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp, vertical = 16.dp)
     ) {
 
@@ -117,6 +121,7 @@ fun CalendarScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
+            // ★ ルール②：IconButtonは最低48dp保証（デフォルトで48dp）
             IconButton(onClick = { monthDate = monthDate.minusMonths(1) }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,

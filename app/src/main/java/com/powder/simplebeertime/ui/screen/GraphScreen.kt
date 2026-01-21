@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.powder.simplebeertime.R
@@ -159,7 +160,7 @@ fun GraphScreen(
         }
     }
 
-    // 小さい画面用の保険スクロール
+    // ★ ルール①：スクロール可能（既に対応済み）
     val verticalScrollState = rememberScrollState()
 
     Column(
@@ -173,16 +174,18 @@ fun GraphScreen(
         Spacer(modifier = Modifier.height(35.dp))
 
         // ── 上段：月別棒グラフ ──
+        // ★ ルール③：カードも可変（heightInを使用）
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp),
+                .heightIn(min = 250.dp),
             elevation = CardDefaults.cardElevation(4.dp),
             colors = CardDefaults.cardColors(containerColor = SimpleColors.GraphBackground)
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .height(250.dp)
                     .padding(12.dp)
             ) {
                 Text(
@@ -215,13 +218,14 @@ fun GraphScreen(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp),
+                .heightIn(min = 250.dp),
             elevation = CardDefaults.cardElevation(4.dp),
             colors = CardDefaults.cardColors(containerColor = SimpleColors.GraphBackground)
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .height(250.dp)
                     .padding(12.dp)
             ) {
                 Row(
@@ -234,21 +238,23 @@ fun GraphScreen(
                         color = SimpleColors.TextPrimary
                     )
 
-                    // Nowボタン（右端へ戻る）
+                    // ★ ルール②：Nowボタン（最低タップサイズ48dp保証）
                     Button(
                         onClick = {
                             coroutineScope.launch {
                                 horizontalScrollState.animateScrollTo(horizontalScrollState.maxValue)
                             }
                         },
-                        modifier = Modifier.height(28.dp),
-                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                        modifier = Modifier.heightIn(min = 48.dp),
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = SimpleColors.ButtonPrimary)
                     ) {
                         Text(
                             text = stringResource(R.string.graph_now_button),
                             fontSize = 12.sp,
-                            color = SimpleColors.TextPrimary
+                            color = SimpleColors.TextPrimary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
@@ -302,7 +308,7 @@ private fun computeMonthlyTotals(
 }
 
 // ========================================
-// UI コンポーネント
+// UI部品
 // ========================================
 
 @Composable
@@ -317,6 +323,7 @@ private fun YearNavigationHeader(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // ★ ルール②：IconButtonは最低48dp保証（デフォルトで48dp）
         IconButton(onClick = onPreviousYear) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -325,13 +332,16 @@ private fun YearNavigationHeader(
             )
         }
 
+        Spacer(modifier = Modifier.width(16.dp))
+
         Text(
             text = year.toString(),
-            fontSize = 18.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(horizontal = 16.dp),
             color = SimpleColors.TextPrimary
         )
+
+        Spacer(modifier = Modifier.width(16.dp))
 
         IconButton(
             onClick = onNextYear,
@@ -351,41 +361,34 @@ private fun MonthlyBarChart(
     values: List<Double>,
     modifier: Modifier = Modifier
 ) {
-    val safe = if (values.size >= 12) values.take(12) else values + List(12 - values.size) { 0.0 }
-    val rawMax = safe.maxOrNull() ?: 0.0
-
+    val safe = if (values.size == 12) values else List(12) { 0.0 }
+    val maxValue = safe.maxOrNull() ?: 0.0
     val yMax = when {
-        rawMax <= 30 -> 30.0
-        rawMax <= 50 -> 50.0
-        rawMax <= 100 -> 100.0
-        rawMax <= 150 -> 150.0
-        rawMax <= 200 -> 200.0
-        else -> ((rawMax + 49) / 50).toInt() * 50.0
-    }.coerceAtLeast(1.0)
+        maxValue <= 30.0 -> 30.0
+        maxValue <= 50.0 -> 50.0
+        maxValue <= 100.0 -> 100.0
+        else -> ((maxValue + 9) / 10).toInt() * 10.0
+    }
 
     Canvas(modifier = modifier) {
         val paddingLeft = 44f
-        val paddingBottom = 34f
-        val paddingTop = 32f
-        val paddingRight = 10f
+        val paddingBottom = 44f
+        val paddingTop = 28f
+        val paddingRight = 12f
 
         val w = size.width
         val h = size.height
         val chartW = (w - paddingLeft - paddingRight).coerceAtLeast(1f)
         val chartH = (h - paddingTop - paddingBottom).coerceAtLeast(1f)
 
-        fun yFor(value: Double): Float {
-            val ratio = (value.coerceIn(0.0, yMax) / yMax).toFloat()
-            return paddingTop + (chartH - chartH * ratio)
-        }
-
-        // 軸線
+        // Y軸（縦線）
         drawLine(
             color = Color.Black.copy(alpha = 0.35f),
             start = Offset(paddingLeft, paddingTop),
             end = Offset(paddingLeft, paddingTop + chartH),
             strokeWidth = 2f
         )
+        // X軸（横線）
         drawLine(
             color = Color.Black.copy(alpha = 0.35f),
             start = Offset(paddingLeft, paddingTop + chartH),
@@ -393,10 +396,10 @@ private fun MonthlyBarChart(
             strokeWidth = 2f
         )
 
-        // 目盛り線
-        val y0 = yFor(0.0)
-        val yMid = yFor(yMax / 2)
-        val yTop = yFor(yMax)
+        // 目盛り線（0, yMax/2, yMax）
+        val y0 = paddingTop + chartH
+        val yMid = paddingTop + chartH / 2
+        val yTop = paddingTop
 
         listOf(y0, yMid, yTop).forEach { yy ->
             drawLine(
@@ -409,7 +412,7 @@ private fun MonthlyBarChart(
 
         // Y軸ラベル
         val yPaint = android.graphics.Paint().apply {
-            textSize = 28f
+            textSize = 26f
             color = android.graphics.Color.BLACK
             textAlign = android.graphics.Paint.Align.RIGHT
             alpha = 160

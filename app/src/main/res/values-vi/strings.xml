@@ -50,7 +50,7 @@
     <!-- Decimal input area -->
     <string name="main_amount_prefix">Khoảng</string>
     <string name="main_amount_suffix">chai</string>
-    <string name="main_button_add">Thêm</string>
+    <string name="main_button_add">+</string>
 
     <!-- Toast / messages -->
     <string name="msg_beer_logged">Đã thêm</string>

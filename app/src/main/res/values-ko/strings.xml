@@ -50,7 +50,7 @@
     <!-- Decimal input area -->
     <string name="main_amount_prefix">약</string>
     <string name="main_amount_suffix">병</string>
-    <string name="main_button_add">추가</string>
+    <string name="main_button_add">+</string>
 
     <!-- Toast / messages -->
     <string name="msg_beer_logged">추가되었습니다</string>

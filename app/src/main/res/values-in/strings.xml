@@ -46,7 +46,7 @@
     <!-- Decimal input area -->
     <string name="main_amount_prefix">Sekitar</string>
     <string name="main_amount_suffix">botol</string>
-    <string name="main_button_add">Tambah</string>
+    <string name="main_button_add">+</string>
 
     <!-- Toast / messages -->
     <string name="msg_beer_logged">Ditambahkan</string>

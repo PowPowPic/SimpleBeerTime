@@ -135,6 +135,7 @@ fun HistoryScreen(
         "${weekMonday.format(dateFormatter)} - ${weekSunday.format(dateFormatter)}"
     }
 
+    // ★ ルール①：スクロール可能（既に対応済み）
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -152,6 +153,7 @@ fun HistoryScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
+            // ★ ルール②：IconButtonは最低48dp保証（デフォルトで48dp）
             IconButton(onClick = { weekMonday = weekMonday.minusWeeks(1) }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -218,7 +220,7 @@ fun HistoryScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // 曜日カード（Mon〜Sun）
+        // ★ ルール③：曜日カード（可変高さ）
         dayLabels.forEachIndexed { index, label ->
             val value = weekValues[index]
             val date = weekMonday.plusDays(index.toLong())
@@ -268,6 +270,9 @@ fun HistoryScreen(
     }
 }
 
+/**
+ * ★ ルール③：カードサイズも可変（heightIn使用、height()は使わない）
+ */
 @Composable
 private fun DayCard(
     dayLabel: String,
@@ -289,6 +294,7 @@ private fun DayCard(
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .heightIn(min = 48.dp)  // ★ 最低タップサイズ保証
             .clip(RoundedCornerShape(12.dp))
             .background(cardGradient)
             .clickable(onClick = onCardClick)
@@ -315,6 +321,7 @@ private fun DayCard(
                 color = valueColor
             )
 
+            // ★ ルール②：IconButtonは最低48dp保証（デフォルトで48dp）
             // 編集アイコン（青）
             IconButton(onClick = onEditClick) {
                 Icon(

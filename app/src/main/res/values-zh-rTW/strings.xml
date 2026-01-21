@@ -50,7 +50,7 @@
     <!-- Decimal input area -->
     <string name="main_amount_prefix">約</string>
     <string name="main_amount_suffix">瓶</string>
-    <string name="main_button_add">新增</string>
+    <string name="main_button_add">+</string>
 
     <!-- Toast / messages -->
     <string name="msg_beer_logged">已新增</string>
