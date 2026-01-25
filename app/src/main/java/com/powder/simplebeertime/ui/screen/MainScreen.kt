@@ -208,7 +208,7 @@ fun MainScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(15.dp))
 
         // ★ ルール②：ボタンは可変＋最低タップサイズ保証
         // 🍺 ボタン: Log 1 beer（グラデーション）
