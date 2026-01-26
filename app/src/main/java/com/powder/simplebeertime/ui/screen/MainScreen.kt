@@ -138,7 +138,7 @@ fun MainScreen(
                 .padding(bottom = 12.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(cardGradient)
-                .padding(vertical = 12.dp)
+                .padding(vertical = 10.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -163,7 +163,7 @@ fun MainScreen(
                 .padding(bottom = 12.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(cardGradient)
-                .padding(vertical = 12.dp)
+                .padding(vertical = 10.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -190,7 +190,7 @@ fun MainScreen(
                 .padding(bottom = 16.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(cardGradient)
-                .padding(vertical = 12.dp)
+                .padding(vertical = 10.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
