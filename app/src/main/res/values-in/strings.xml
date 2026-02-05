@@ -149,7 +149,9 @@
          GraphScreen
          ========================================================= -->
     <string name="graph_now_button">Terbaru</string>
-    <string name="graph_weekly_no_data">Data tidak cukup.\nMinggu dengan kurang dari 2 botol akan ditampilkan sebagai 24 jam.</string>
+    <string name="graph_weekly_no_data">
+        Data tidak cukup.\nMinggu dengan kurang dari 2 botol akan ditampilkan sebagai satu hari penuh.
+    </string>
 
     <string name="graph_monthly_title">Total Botol Bulanan</string>
     <string name="graph_weekly_title">Rata-rata Botol Harian Mingguan</string>

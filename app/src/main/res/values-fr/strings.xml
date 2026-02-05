@@ -12,8 +12,8 @@
     <string name="nav_home">Accueil</string>
     <string name="nav_history">Journal</string>
     <string name="nav_calendar">Calend.</string>
-    <string name="nav_graph">Stats</string>
-    <string name="nav_settings">Réglages</string>
+    <string name="nav_graph">Graphique</string>
+    <string name="nav_settings">Param.</string>
 
     <!-- =========================================================
          Common
@@ -41,7 +41,7 @@
     </string>
 
     <string name="main_currency_hint">
-        Si le symbole de la devise ne s’affiche pas correctement, veuillez essayer de changer la langue dans ⚙Réglages.
+        Si le symbole de la devise ne s’affiche pas correctement, veuillez essayer de changer la langue dans ⚙Param.
     </string>
 
     <string name="main_button_add_one">Enregistrer 1 bière</string>
@@ -61,7 +61,7 @@
     <!-- =========================================================
          Settings
          ========================================================= -->
-    <string name="settings_title">Réglages</string>
+    <string name="settings_title">Paramètres</string>
 
     <string name="settings_language_title">Langue</string>
     <string name="settings_language_description">Changer la langue d’affichage de l’application.</string>
@@ -73,9 +73,9 @@
     <string name="settings_delete_description">Supprimer tout l’historique de consommation enregistré.</string>
 
     <!-- Accessibility (Settings) -->
-    <string name="settings_cd_dialog">Boîte de dialogue des réglages</string>
-    <string name="settings_cd_language">Réglages de la langue</string>
-    <string name="settings_cd_price">Réglages du prix</string>
+    <string name="settings_cd_dialog">Boîte de dialogue des paramètres</string>
+    <string name="settings_cd_language">Paramètres de langue</string>
+    <string name="settings_cd_price">Paramètres de prix</string>
     <string name="settings_cd_delete_all">Supprimer toutes les données</string>
 
     <!-- Delete all confirm dialog -->
@@ -162,7 +162,7 @@
          ========================================================= -->
     <string name="graph_now_button">Récent</string>
     <string name="graph_weekly_no_data">
-        Données insuffisantes.\nLes semaines avec moins de 2 bières sont affichées comme 24 h.
+        Données insuffisantes.\nLes semaines avec moins de 2 bières sont affichées comme une journée complète.
     </string>
 
     <string name="graph_monthly_title">Total mensuel</string>

@@ -170,7 +170,7 @@
          ========================================================= -->
     <string name="graph_now_button">Latest</string>
     <string name="graph_weekly_no_data">
-        Not enough data.\nWeeks with fewer than 2 beers are displayed as 24 hours.
+        Not enough data.\nWeeks with fewer than 2 beers are displayed as a full day.
     </string>
 
     <string name="graph_monthly_title">Monthly Total Beers</string>

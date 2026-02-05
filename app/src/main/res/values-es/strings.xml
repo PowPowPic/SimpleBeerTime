@@ -12,7 +12,7 @@
     <string name="nav_home">Inicio</string>
     <string name="nav_history">Historial</string>
     <string name="nav_calendar">Calendario</string>
-    <string name="nav_graph">Stats</string>
+    <string name="nav_graph">Gráfico</string>
     <string name="nav_settings">Ajustes</string>
 
     <!-- =========================================================
@@ -162,7 +162,7 @@
          ========================================================= -->
     <string name="graph_now_button">Último</string>
     <string name="graph_weekly_no_data">
-        No hay suficientes datos.\nLas semanas con menos de 2 cervezas se muestran como 24 horas.
+        No hay suficientes datos.\nLas semanas con menos de 2 cervezas se muestran como un día completo.
     </string>
 
     <string name="graph_monthly_title">Total mensual de cervezas</string>

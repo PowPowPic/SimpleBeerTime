@@ -52,7 +52,6 @@
     <string name="main_amount_suffix">garrafas</string>
     <string name="main_button_add">+</string>
 
-
     <!-- Toast / messages -->
     <string name="msg_beer_logged">Adicionado</string>
     <string name="msg_undo_success">O último registro foi removido</string>
@@ -169,7 +168,7 @@
          ========================================================= -->
     <string name="graph_now_button">Mais recente</string>
     <string name="graph_weekly_no_data">
-        Dados insuficientes.\nSemanas com menos de 2 garrafas são exibidas como 24 h.
+        Dados insuficientes.\nSemanas com menos de 2 garrafas são exibidas como um dia completo.
     </string>
 
     <string name="graph_monthly_title">Total mensal</string>

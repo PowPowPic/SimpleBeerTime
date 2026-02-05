@@ -12,8 +12,8 @@
     <string name="nav_home">Start</string>
     <string name="nav_history">Verlauf</string>
     <string name="nav_calendar">Kalender</string>
-    <string name="nav_graph">Stats</string>
-    <string name="nav_settings">Optionen</string>
+    <string name="nav_graph">Diagramm</string>
+    <string name="nav_settings">Einst.</string>
 
     <!-- =========================================================
          Common
@@ -38,7 +38,7 @@
 
     <string name="main_midnight_rule_note">Einträge zwischen 0:00 und 3:00 Uhr werden dem Vortag zugeordnet.</string>
 
-    <string name="main_currency_hint">Wenn das Währungssymbol nicht korrekt angezeigt wird, versuchen Sie bitte, die Sprache unter ⚙Optionen zu ändern.</string>
+    <string name="main_currency_hint">Wenn das Währungssymbol nicht korrekt angezeigt wird, versuchen Sie bitte, die Sprache unter ⚙Einst. zu ändern.</string>
 
     <string name="main_button_add_one">1 Bier hinzufügen</string>
     <string name="main_button_undo_last">Rückgängig</string>
@@ -57,7 +57,7 @@
     <!-- =========================================================
          Settings
          ========================================================= -->
-    <string name="settings_title">Optionen</string>
+    <string name="settings_title">Einstellungen</string>
 
     <string name="settings_language_title">Sprache</string>
     <string name="settings_language_description">Ändern Sie die Anzeigesprache der App.</string>
@@ -149,7 +149,7 @@
          GraphScreen
          ========================================================= -->
     <string name="graph_now_button">Neueste</string>
-    <string name="graph_weekly_no_data">Nicht genügend Daten.\nWochen mit weniger als 2 Bieren werden als 24 Stunden angezeigt.</string>
+    <string name="graph_weekly_no_data">Nicht genügend Daten.\nWochen mit weniger als 2 Bieren werden als ein ganzer Tag dargestellt.</string>
 
     <string name="graph_monthly_title">Monatlich: Gesamtbiere</string>
     <string name="graph_weekly_title">Wöchentlich: Ø Biere/Tag</string>
@@ -168,7 +168,7 @@
 
     <string name="edit_day_dialog_title">Biere bearbeiten</string>
     <string name="delete_day_dialog_title">Diesen Tag löschen?</string>
-    <string name="delete_day_dialog_message">Alle Biera ufzeichnungen für diesen Tag werden gelöscht.</string>
+    <string name="delete_day_dialog_message">Alle Bieraufzeichnungen für diesen Tag werden gelöscht.</string>
     <string name="history_cd_edit">Bearbeiten</string>
 
 </resources>

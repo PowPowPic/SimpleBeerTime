@@ -10,10 +10,10 @@
          Navigation
          ========================================================= -->
     <string name="nav_home">Home</string>
-    <string name="nav_history">Storico</string>
-    <string name="nav_calendar">Calend.</string>
-    <string name="nav_graph">Stats</string>
-    <string name="nav_settings">Opzioni</string>
+    <string name="nav_history">Cronologia</string>
+    <string name="nav_calendar">Calendario</string>
+    <string name="nav_graph">Grafico</string>
+    <string name="nav_settings">Impost.</string>
 
     <!-- =========================================================
          Common
@@ -41,7 +41,7 @@
     </string>
 
     <string name="main_currency_hint">
-        Se il simbolo della valuta non viene visualizzato correttamente, prova a cambiare la lingua in ⚙Opzioni.
+        Se il simbolo della valuta non viene visualizzato correttamente, prova a cambiare la lingua in ⚙Impost.
     </string>
 
     <string name="main_button_add_one">Aggiungi 1 birra</string>
@@ -61,7 +61,7 @@
     <!-- =========================================================
          Settings
          ========================================================= -->
-    <string name="settings_title">Opzioni</string>
+    <string name="settings_title">Impostazioni</string>
 
     <string name="settings_language_title">Lingua</string>
     <string name="settings_language_description">
@@ -79,9 +79,9 @@
     </string>
 
     <!-- Accessibility (Settings) -->
-    <string name="settings_cd_dialog">Finestra opzioni</string>
-    <string name="settings_cd_language">Opzioni lingua</string>
-    <string name="settings_cd_price">Opzioni prezzo</string>
+    <string name="settings_cd_dialog">Finestra impostazioni</string>
+    <string name="settings_cd_language">Impostazioni lingua</string>
+    <string name="settings_cd_price">Impostazioni prezzo</string>
     <string name="settings_cd_delete_all">Elimina tutti i dati</string>
 
     <!-- Delete all confirm dialog -->
@@ -118,7 +118,7 @@
     <!-- =========================================================
          HistoryScreen
          ========================================================= -->
-    <string name="title_history">Storico</string>
+    <string name="title_history">Cronologia</string>
 
     <string name="history_cd_previous_week">Settimana precedente</string>
     <string name="history_cd_next_week">Settimana successiva</string>
@@ -168,7 +168,7 @@
          ========================================================= -->
     <string name="graph_now_button">Recenti</string>
     <string name="graph_weekly_no_data">
-        Dati insufficienti.\nLe settimane con meno di 2 birre vengono mostrate come 24 h.
+        Dati insufficienti.\nLe settimane con meno di 2 birre vengono mostrate come una giornata completa.
     </string>
 
     <string name="graph_monthly_title">Totale mensile</string>

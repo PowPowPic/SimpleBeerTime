@@ -168,7 +168,7 @@
          ========================================================= -->
     <string name="graph_now_button">최신</string>
     <string name="graph_weekly_no_data">
-        데이터가 부족합니다.\n2병 미만인 주는 24시간으로 표시됩니다.
+        데이터가 부족합니다.\n2병 미만인 주는 하루로 표시됩니다.
     </string>
 
     <string name="graph_monthly_title">월별 총 병 수</string>
