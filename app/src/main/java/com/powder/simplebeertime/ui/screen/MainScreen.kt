@@ -32,7 +32,6 @@ import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.currencySymbolFor
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
-import com.powder.simplebeertime.util.currentLogicalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
@@ -56,12 +55,12 @@ fun MainScreen(
     val currencySymbol = currencySymbolFor(currentLang)
 
     // 日付をライフサイクルに連動して更新
-    var logicalDate by remember { mutableStateOf(currentLogicalDate()) }
+    var displayDate by remember { mutableStateOf(java.time.LocalDate.now()) }
 
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                logicalDate = currentLogicalDate()
+                displayDate = java.time.LocalDate.now()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -122,7 +121,7 @@ fun MainScreen(
 
         // 今日の日付（ロケール対応）
         Text(
-            text = logicalDate.format(dateFormatter),
+            text = displayDate.format(dateFormatter),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             color = SimpleColors.TextPrimary
