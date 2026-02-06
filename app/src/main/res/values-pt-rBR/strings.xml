@@ -168,7 +168,7 @@
          ========================================================= -->
     <string name="graph_now_button">Mais recente</string>
     <string name="graph_weekly_no_data">
-        Dados insuficientes.\nSemanas com menos de 2 garrafas são exibidas como um dia completo.
+        Dados insuficientes.\nSemanas com menos de 2 garrafas são exibidas como 24h.
     </string>
 
     <string name="graph_monthly_title">Total mensal</string>
@@ -189,7 +189,7 @@
     <string name="edit_day_dialog_title">Editar quantidade</string>
     <string name="delete_day_dialog_title">Apagar este dia?</string>
     <string name="delete_day_dialog_message">
-        Apagar todos os registros de cerveja deste dia.
+        Apagar todos os registros de garrafas deste dia.
     </string>
     <string name="history_cd_edit">Editar</string>
 

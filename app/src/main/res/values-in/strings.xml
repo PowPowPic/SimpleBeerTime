@@ -150,7 +150,7 @@
          ========================================================= -->
     <string name="graph_now_button">Terbaru</string>
     <string name="graph_weekly_no_data">
-        Data tidak cukup.\nMinggu dengan kurang dari 2 botol akan ditampilkan sebagai satu hari penuh.
+        Data tidak cukup.\nMinggu dengan kurang dari 2 botol akan ditampilkan sebagai 24h.
     </string>
 
     <string name="graph_monthly_title">Total Botol Bulanan</string>
@@ -170,7 +170,7 @@
 
     <string name="edit_day_dialog_title">Edit jumlah</string>
     <string name="delete_day_dialog_title">Hapus hari ini?</string>
-    <string name="delete_day_dialog_message">Hapus semua catatan bir untuk hari ini.</string>
+    <string name="delete_day_dialog_message">Hapus semua catatan botol untuk hari ini.</string>
     <string name="history_cd_edit">Edit</string>
 
 </resources>

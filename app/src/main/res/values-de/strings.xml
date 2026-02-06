@@ -43,7 +43,7 @@
     <string name="main_button_add_one">1 Bier hinzufügen</string>
     <string name="main_button_undo_last">Rückgängig</string>
 
-    <!-- 小数入力エリア -->
+    <!-- Decimal input area -->
     <string name="main_amount_prefix">Ca.</string>
     <string name="main_amount_suffix">Biere</string>
     <string name="main_button_add">+</string>
@@ -149,7 +149,7 @@
          GraphScreen
          ========================================================= -->
     <string name="graph_now_button">Neueste</string>
-    <string name="graph_weekly_no_data">Nicht genügend Daten.\nWochen mit weniger als 2 Bieren werden als ein ganzer Tag dargestellt.</string>
+    <string name="graph_weekly_no_data">Nicht genügend Daten.\nWochen mit weniger als 2 Bieren werden als 24h dargestellt.</string>
 
     <string name="graph_monthly_title">Monatlich: Gesamtbiere</string>
     <string name="graph_weekly_title">Wöchentlich: Ø Biere/Tag</string>

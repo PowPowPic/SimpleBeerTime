@@ -36,13 +36,9 @@
     <string name="main_today_cost">Today’s Spending: %1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
-    <string name="main_midnight_rule_note">
-        Records made between 12:00 AM and 3:00 AM are counted as the previous day.
-    </string>
+    <string name="main_midnight_rule_note">Records made between 12:00 AM and 3:00 AM are counted as the previous day.</string>
 
-    <string name="main_currency_hint">
-        If the currency symbol is not displayed correctly, please try changing the language in ⚙Settings.
-    </string>
+    <string name="main_currency_hint">If the currency symbol is not displayed correctly, please try changing the language in ⚙Settings.</string>
 
     <string name="main_button_add_one">Add 1 Beer</string>
     <string name="main_button_undo_last">Undo Last</string>
@@ -54,7 +50,7 @@
 
     <!-- Toast / messages -->
     <string name="msg_beer_logged">Added</string>
-    <string name="msg_undo_success">The last entry has been removed</string>
+    <string name="msg_undo_success">The last record has been deleted</string>
     <string name="msg_no_record_to_undo">No record to undo</string>
     <string name="msg_all_records_deleted">All data has been deleted</string>
 
@@ -64,19 +60,13 @@
     <string name="settings_title">Settings</string>
 
     <string name="settings_language_title">Language</string>
-    <string name="settings_language_description">
-        Change the display language of the app.
-    </string>
+    <string name="settings_language_description">Change the display language of the app.</string>
 
     <string name="settings_price_title">Price per Beer</string>
-    <string name="settings_price_description">
-        Set the price per beer.
-    </string>
+    <string name="settings_price_description">Set the price per beer.</string>
 
     <string name="settings_delete_title">Delete All Data</string>
-    <string name="settings_delete_description">
-        Delete all recorded drinking history.
-    </string>
+    <string name="settings_delete_description">Delete all recorded drinking history.</string>
 
     <!-- Accessibility (Settings) -->
     <string name="settings_cd_dialog">Settings dialog</string>
@@ -86,32 +76,24 @@
 
     <!-- Delete all confirm dialog -->
     <string name="delete_all_title">Delete All Data</string>
-    <string name="delete_all_message">
-        Do you want to delete all drinking records? This action cannot be undone.
-    </string>
+    <string name="delete_all_message">Do you want to delete all drinking records? This action cannot be undone.</string>
     <string name="delete_all_confirm">Delete</string>
     <string name="delete_all_cancel">Cancel</string>
 
     <!-- Price dialog -->
     <string name="price_dialog_title">Set Price per Beer</string>
-    <string name="price_dialog_message">
-        Please enter the price per beer:
-    </string>
+    <string name="price_dialog_message">Please enter the price per beer:</string>
 
     <!-- Language dialog -->
     <string name="dialog_language_title">Language</string>
-    <string name="dialog_language_message">
-        The app language will be changed the next time the app is launched.
-    </string>
+    <string name="dialog_language_message">The app language will be changed the next time the app is launched.</string>
     <string name="dialog_language_ok">OK</string>
 
     <!-- Language selection -->
     <string name="language_system_default">System Language</string>
     <string name="language_apply_restart">Apply</string>
     <string name="language_confirm_title">Apply Language</string>
-    <string name="language_confirm_message">
-        Do you want to apply the selected language?
-    </string>
+    <string name="language_confirm_message">Do you want to apply the selected language?</string>
     <string name="language_confirm_ok">Apply</string>
     <string name="language_confirm_cancel">Cancel</string>
 
@@ -127,9 +109,7 @@
     <string name="history_week_avg">Average: %1$.1f beers/day</string>
 
     <string name="history_delete_title">Delete This Record</string>
-    <string name="history_delete_message">
-        Do you want to delete this record?
-    </string>
+    <string name="history_delete_message">Do you want to delete this record?</string>
     <string name="history_delete_yes">Yes</string>
     <string name="history_delete_no">No</string>
 
@@ -169,12 +149,10 @@
          GraphScreen
          ========================================================= -->
     <string name="graph_now_button">Latest</string>
-    <string name="graph_weekly_no_data">
-        Not enough data.\nWeeks with fewer than 2 beers are displayed as a full day.
-    </string>
+    <string name="graph_weekly_no_data">Not enough data.\nWeeks with fewer than 2 beers are displayed as 24h.</string>
 
     <string name="graph_monthly_title">Monthly Total Beers</string>
-    <string name="graph_weekly_title">Weekly Daily Average Beers</string>
+    <string name="graph_weekly_title">Weekly Daily Avg Beers</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">Previous Year</string>
@@ -188,11 +166,9 @@
     <!-- Format (do not translate) -->
     <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
 
-    <string name="edit_day_dialog_title">Edit Beers</string>
+    <string name="edit_day_dialog_title">Edit Beer Count</string>
     <string name="delete_day_dialog_title">Delete This Day?</string>
-    <string name="delete_day_dialog_message">
-        Delete all beer records for this day.
-    </string>
+    <string name="delete_day_dialog_message">Delete all beer records for this day.</string>
     <string name="history_cd_edit">Edit</string>
 
 </resources>

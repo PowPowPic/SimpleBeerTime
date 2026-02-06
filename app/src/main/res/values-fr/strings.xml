@@ -10,8 +10,8 @@
          Navigation
          ========================================================= -->
     <string name="nav_home">Accueil</string>
-    <string name="nav_history">Journal</string>
-    <string name="nav_calendar">Calend.</string>
+    <string name="nav_history">Historique</string>
+    <string name="nav_calendar">Calendrier</string>
     <string name="nav_graph">Graphique</string>
     <string name="nav_settings">Param.</string>
 
@@ -112,11 +112,11 @@
     <!-- =========================================================
          HistoryScreen
          ========================================================= -->
-    <string name="title_history">Journal</string>
+    <string name="title_history">Historique</string>
 
     <string name="history_cd_previous_week">Semaine précédente</string>
     <string name="history_cd_next_week">Semaine suivante</string>
-    <string name="history_week_summary_title">Journal de la semaine</string>
+    <string name="history_week_summary_title">Historique de la semaine</string>
     <string name="history_week_total">Total : environ %1$.1f bières</string>
     <string name="history_week_avg">Moyenne : %1$.1f bières/jour</string>
 

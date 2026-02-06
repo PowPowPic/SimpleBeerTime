@@ -43,7 +43,7 @@
     <string name="main_button_add_one">إضافة زجاجة واحدة</string>
     <string name="main_button_undo_last">إلغاء آخر إدخال</string>
 
-    <!-- 小数入力エリア -->
+    <!-- Decimal input area -->
     <string name="main_amount_prefix">حوالي</string>
     <string name="main_amount_suffix">زجاجة</string>
     <string name="main_button_add">+</string>
@@ -123,13 +123,13 @@
     <string name="calendar_cd_next_month">الشهر التالي</string>
 
     <!-- Weekday labels (Mon-first) -->
-    <string name="weekday_mon">اثن</string>
-    <string name="weekday_tue">ثلا</string>
-    <string name="weekday_wed">أرب</string>
-    <string name="weekday_thu">خمي</string>
-    <string name="weekday_fri">جمع</string>
-    <string name="weekday_sat">سبت</string>
-    <string name="weekday_sun">أحد</string>
+    <string name="weekday_mon">اث</string>
+    <string name="weekday_tue">ثل</string>
+    <string name="weekday_wed">أر</string>
+    <string name="weekday_thu">خم</string>
+    <string name="weekday_fri">جم</string>
+    <string name="weekday_sat">سب</string>
+    <string name="weekday_sun">أح</string>
 
     <!-- Monthly summary labels -->
     <string name="calendar_total_beers_label">إجمالي الزجاجات</string>
@@ -149,7 +149,7 @@
          GraphScreen
          ========================================================= -->
     <string name="graph_now_button">الأحدث</string>
-    <string name="graph_weekly_no_data">لا توجد بيانات كافية.\nستُعرض الأسابيع التي تحتوي على أقل من زجاجتين على أنها يوم كامل.</string>
+    <string name="graph_weekly_no_data">لا توجد بيانات كافية.\nستُعرض الأسابيع التي تحتوي على أقل من زجاجتين على أنها 24h.</string>
 
     <string name="graph_monthly_title">إجمالي الزجاجات حسب الشهر</string>
     <string name="graph_weekly_title">متوسط الزجاجات اليومي حسب الأسبوع</string>

@@ -64,19 +64,13 @@
     <string name="settings_title">Impostazioni</string>
 
     <string name="settings_language_title">Lingua</string>
-    <string name="settings_language_description">
-        Cambia la lingua di visualizzazione dell’app.
-    </string>
+    <string name="settings_language_description">Cambia la lingua di visualizzazione dell’app.</string>
 
     <string name="settings_price_title">Prezzo per birra</string>
-    <string name="settings_price_description">
-        Imposta il prezzo per ogni birra.
-    </string>
+    <string name="settings_price_description">Imposta il prezzo per ogni birra.</string>
 
     <string name="settings_delete_title">Elimina tutti i dati</string>
-    <string name="settings_delete_description">
-        Elimina tutta la cronologia di consumo registrata.
-    </string>
+    <string name="settings_delete_description">Elimina tutta la cronologia di consumo registrata.</string>
 
     <!-- Accessibility (Settings) -->
     <string name="settings_cd_dialog">Finestra impostazioni</string>
@@ -122,7 +116,7 @@
 
     <string name="history_cd_previous_week">Settimana precedente</string>
     <string name="history_cd_next_week">Settimana successiva</string>
-    <string name="history_week_summary_title">Storico settimanale</string>
+    <string name="history_week_summary_title">Cronologia della settimana</string>
     <string name="history_week_total">Totale: circa %1$.1f birre</string>
     <string name="history_week_avg">Media: %1$.1f birre/giorno</string>
 
@@ -168,7 +162,7 @@
          ========================================================= -->
     <string name="graph_now_button">Recenti</string>
     <string name="graph_weekly_no_data">
-        Dati insufficienti.\nLe settimane con meno di 2 birre vengono mostrate come una giornata completa.
+        Dati insufficienti.\nLe settimane con meno di 2 birre vengono mostrate come 24h.
     </string>
 
     <string name="graph_monthly_title">Totale mensile</string>

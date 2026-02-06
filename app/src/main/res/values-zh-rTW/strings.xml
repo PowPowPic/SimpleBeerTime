@@ -33,7 +33,7 @@
     <string name="main_week_avg">每日平均：%1$.1f 瓶</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">今日支出：%1$s%2$.2f</string>
+    <string name="main_today_cost">今天支出：%1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
     <string name="main_midnight_rule_note">

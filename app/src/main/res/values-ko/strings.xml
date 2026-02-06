@@ -12,7 +12,7 @@
     <string name="nav_home">홈</string>
     <string name="nav_history">기록</string>
     <string name="nav_calendar">캘린더</string>
-    <string name="nav_graph">통계</string>
+    <string name="nav_graph">그래프</string>
     <string name="nav_settings">설정</string>
 
     <!-- =========================================================
@@ -168,7 +168,7 @@
          ========================================================= -->
     <string name="graph_now_button">최신</string>
     <string name="graph_weekly_no_data">
-        데이터가 부족합니다.\n2병 미만인 주는 하루로 표시됩니다.
+        데이터가 부족합니다.\n2병 미만인 주는 24h로 표시됩니다.
     </string>
 
     <string name="graph_monthly_title">월별 총 병 수</string>
@@ -189,7 +189,7 @@
     <string name="edit_day_dialog_title">수량 수정</string>
     <string name="delete_day_dialog_title">이 날을 삭제하시겠습니까?</string>
     <string name="delete_day_dialog_message">
-        이 날의 모든 맥주 기록을 삭제합니다.
+        이 날의 모든 병 기록을 삭제합니다.
     </string>
     <string name="history_cd_edit">수정</string>
 
