@@ -88,8 +88,18 @@ fun GraphScreen(
 
     var pageCount by remember { mutableIntStateOf(1) }
 
+    // ロケール対応の日付フォーマッター
+    val currentLocale = Locale.getDefault()
+    val dateFormatter = remember(currentLocale) {
+        val pattern = android.text.format.DateFormat.getBestDateTimePattern(
+            currentLocale,
+            "Md"
+        )
+        DateTimeFormatter.ofPattern(pattern, currentLocale)
+    }
+
     // ページデータ生成
-    val allPages: List<WeekPageData> = remember(pageCount, currentMonday, recordsByWeek, weekFields, logicalToday) {
+    val allPages: List<WeekPageData> = remember(pageCount, currentMonday, recordsByWeek, weekFields, logicalToday, dateFormatter) {
         (0 until pageCount).map { pageIndex: Int ->
             val weeksBack = pageIndex * WEEKS_PER_PAGE
             val endMonday = currentMonday.minusWeeks(weeksBack.toLong())
@@ -128,10 +138,9 @@ fun GraphScreen(
                 weekTotal / daysToAverage.toDouble()
             }
 
-            // ラベル（M/d形式）
-            val fmt = DateTimeFormatter.ofPattern("M/d", Locale.getDefault())
+            // ラベル（ロケール対応）
             val labels: List<String> = mondays.map { monday: LocalDate ->
-                monday.format(fmt)
+                monday.format(dateFormatter)
             }
 
             WeekPageData(
@@ -238,79 +247,52 @@ fun GraphScreen(
                         color = SimpleColors.TextPrimary
                     )
 
-                    // ★ ルール②：Nowボタン（最低タップサイズ48dp保証）
+                    // ★ ルール②：ボタンは最低48dp保証
                     Button(
                         onClick = {
                             coroutineScope.launch {
-                                horizontalScrollState.animateScrollTo(horizontalScrollState.maxValue)
+                                horizontalScrollState.scrollTo(horizontalScrollState.maxValue)
                             }
                         },
                         modifier = Modifier.heightIn(min = 48.dp),
-                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = SimpleColors.ButtonPrimary)
                     ) {
                         Text(
                             text = stringResource(R.string.graph_now_button),
-                            fontSize = 12.sp,
-                            color = SimpleColors.TextPrimary,
+                            fontWeight = FontWeight.Bold,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(6.dp))
 
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
+                        .fillMaxSize()
                         .horizontalScroll(horizontalScrollState)
                 ) {
-                    val chartWidthPerWeek = 50.dp
-                    val totalWidth = chartWidthPerWeek * allValues.size
-
                     WeeklyLineChart(
                         values = allValues,
                         labels = allLabels,
                         modifier = Modifier
-                            .width(totalWidth.coerceAtLeast(300.dp))
-                            .fillMaxHeight()
+                            .height(170.dp)
+                            .width((allValues.size.coerceAtLeast(1) * 86).dp)
                     )
                 }
             }
         }
 
-        // bottom側の余白
+        // 画面下部の余白（12dp程度で余白を詰める）
         Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
-// ========================================
-// ロジック関数
-// ========================================
-
-/** 月別合計を計算（1〜12月） */
-private fun computeMonthlyTotals(
-    year: Int,
-    records: List<com.powder.simplebeertime.data.entity.BeerRecord>,
-    logicalToday: LocalDate
-): List<Double> {
-    val result = MutableList(12) { 0.0 }
-    records.forEach { record ->
-        val date = record.timestamp.toLogicalDate(cutoffHour = 3)
-        if (date.year == year) {
-            val month = date.monthValue
-            result[month - 1] = result[month - 1] + record.amount
-        }
-    }
-    return result
-}
-
-// ========================================
-// UI部品
-// ========================================
-
+/**
+ * 年ナビゲーション
+ * ★ ルール②：IconButtonは最低48dp保証（デフォルトで48dp）
+ */
 @Composable
 private fun YearNavigationHeader(
     year: Int,
@@ -320,10 +302,9 @@ private fun YearNavigationHeader(
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
-        // ★ ルール②：IconButtonは最低48dp保証（デフォルトで48dp）
         IconButton(onClick = onPreviousYear) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -332,16 +313,16 @@ private fun YearNavigationHeader(
             )
         }
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(12.dp))
 
         Text(
             text = year.toString(),
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = SimpleColors.TextPrimary
         )
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(12.dp))
 
         IconButton(
             onClick = onNextYear,
@@ -356,39 +337,78 @@ private fun YearNavigationHeader(
     }
 }
 
+/**
+ * 選択年の月別合計（1〜12月）を計算
+ */
+private fun computeMonthlyTotals(
+    year: Int,
+    allRecords: List<com.powder.simplebeertime.data.entity.BeerRecord>,
+    logicalToday: LocalDate
+): List<Double> {
+    // 1月〜12月の初期値（0.0）
+    val totals = MutableList(12) { 0.0 }
+
+    // 来年以降の年は無視（全部 0.0 のまま）
+    if (year > logicalToday.year) {
+        return totals
+    }
+
+    // ★ 今年の場合は「今月まで」に制限
+    val maxMonth = if (year == logicalToday.year) logicalToday.monthValue else 12
+
+    allRecords
+        .asSequence()
+        .map { record ->
+            val date = record.timestamp.toLogicalDate(cutoffHour = 3)
+            date to record
+        }
+        .filter { (date, _) -> date.year == year && date.monthValue <= maxMonth }
+        .forEach { (date, record) ->
+            val idx = date.monthValue - 1
+            totals[idx] += record.amount
+        }
+
+    return totals
+}
+
 @Composable
 private fun MonthlyBarChart(
     values: List<Double>,
     modifier: Modifier = Modifier
 ) {
-    val safe = if (values.size == 12) values else List(12) { 0.0 }
-    val maxValue = safe.maxOrNull() ?: 0.0
+    val safe = if (values.size == 12) values else List(12) { values.getOrElse(it) { 0.0 } }
+    val maxY = (safe.maxOrNull() ?: 0.0).coerceAtLeast(4.0)
     val yMax = when {
-        maxValue <= 30.0 -> 30.0
-        maxValue <= 50.0 -> 50.0
-        maxValue <= 100.0 -> 100.0
-        else -> ((maxValue + 9) / 10).toInt() * 10.0
+        maxY <= 4.0 -> 4.0
+        maxY <= 6.0 -> 6.0
+        maxY <= 10.0 -> 10.0
+        maxY <= 20.0 -> 20.0
+        else -> ((maxY + 4.0) / 5.0).toInt() * 5.0
     }
 
     Canvas(modifier = modifier) {
-        val paddingLeft = 44f
-        val paddingBottom = 44f
-        val paddingTop = 28f
-        val paddingRight = 12f
+        val paddingLeft = 52f
+        val paddingBottom = 45f
+        val paddingTop = 35f
+        val paddingRight = 20f
 
         val w = size.width
         val h = size.height
         val chartW = (w - paddingLeft - paddingRight).coerceAtLeast(1f)
         val chartH = (h - paddingTop - paddingBottom).coerceAtLeast(1f)
 
-        // Y軸（縦線）
+        fun yFor(value: Double): Float {
+            val ratio = (value.coerceIn(0.0, yMax) / yMax).toFloat()
+            return paddingTop + (chartH - chartH * ratio)
+        }
+
+        // 軸
         drawLine(
             color = Color.Black.copy(alpha = 0.35f),
             start = Offset(paddingLeft, paddingTop),
             end = Offset(paddingLeft, paddingTop + chartH),
             strokeWidth = 2f
         )
-        // X軸（横線）
         drawLine(
             color = Color.Black.copy(alpha = 0.35f),
             start = Offset(paddingLeft, paddingTop + chartH),
@@ -397,9 +417,9 @@ private fun MonthlyBarChart(
         )
 
         // 目盛り線（0, yMax/2, yMax）
-        val y0 = paddingTop + chartH
-        val yMid = paddingTop + chartH / 2
-        val yTop = paddingTop
+        val y0 = yFor(0.0)
+        val yMid = yFor(yMax / 2)
+        val yTop = yFor(yMax)
 
         listOf(y0, yMid, yTop).forEach { yy ->
             drawLine(
@@ -425,7 +445,7 @@ private fun MonthlyBarChart(
             yMax to yTop
         ).forEach { (v, yy) ->
             drawContext.canvas.nativeCanvas.drawText(
-                String.format(Locale.getDefault(), "%.0f", v),
+                String.format(Locale.getDefault(), "%.1f", v),
                 paddingLeft - 8f,
                 yy + 8f,
                 yPaint
