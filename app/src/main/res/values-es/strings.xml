@@ -37,8 +37,10 @@
     <string name="main_week_cost">%1$s%2$.2f</string>
 
     <string name="main_midnight_rule_note">
-        Los registros entre las 0:00 y las 3:00 se cuentan como del día anterior.
-    </string>
+    Los registros añadidos entre las 0:00 y las 3:00
+    se cuentan como del día anterior.
+</string>
+
 
     <string name="main_currency_hint">
         Si el símbolo de la moneda no se muestra correctamente, prueba a cambiar el idioma desde ⚙Ajustes.

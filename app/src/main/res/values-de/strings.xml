@@ -36,7 +36,10 @@
     <string name="main_today_cost">Ausgaben heute: %1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
-    <string name="main_midnight_rule_note">Einträge zwischen 0:00 und 3:00 Uhr werden dem Vortag zugeordnet.</string>
+    <string name="main_midnight_rule_note">
+    Einträge, die zwischen 0:00 und 3:00 Uhr hinzugefügt wurden,
+    werden dem Vortag zugeordnet.
+</string>
 
     <string name="main_currency_hint">Wenn das Währungssymbol nicht korrekt angezeigt wird, versuchen Sie bitte, die Sprache unter ⚙Einst. zu ändern.</string>
 

@@ -26,9 +26,11 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.powder.simplebeertime.R
@@ -89,14 +91,9 @@ fun GraphScreen(
     var pageCount by remember { mutableIntStateOf(1) }
 
     // ロケール対応の日付フォーマッター
-    val currentLocale = Locale.getDefault()
-    val dateFormatter = remember(currentLocale) {
-        val pattern = android.text.format.DateFormat.getBestDateTimePattern(
-            currentLocale,
-            "Md"
-        )
-        DateTimeFormatter.ofPattern(pattern, currentLocale)
-    }
+    // ★ getBestDateTimePattern("Md") ではLTR強制環境でアラビア語の
+    //    日/月順序が正しく表示されないため、明示的なパターンを使用
+    val dateFormatter = remember { createLocaleDateFormat() }
 
     // ページデータ生成
     val allPages: List<WeekPageData> = remember(pageCount, currentMonday, recordsByWeek, weekFields, logicalToday, dateFormatter) {
@@ -268,18 +265,24 @@ fun GraphScreen(
 
                 Spacer(modifier = Modifier.height(6.dp))
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .horizontalScroll(horizontalScrollState)
-                ) {
-                    WeeklyLineChart(
-                        values = allValues,
-                        labels = allLabels,
+                // ★ RTL対応: 下段グラフのみLTRを強制
+                // RTL環境（アラビア語等）ではhorizontalScrollの方向が反転し、
+                // scrollTo(maxValue)が最新週に到達しなくなるため、
+                // グラフ描画領域だけLTRに固定する
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                    Box(
                         modifier = Modifier
-                            .height(170.dp)
-                            .width((allValues.size.coerceAtLeast(1) * 86).dp)
-                    )
+                            .fillMaxSize()
+                            .horizontalScroll(horizontalScrollState)
+                    ) {
+                        WeeklyLineChart(
+                            values = allValues,
+                            labels = allLabels,
+                            modifier = Modifier
+                                .height(170.dp)
+                                .width((allValues.size.coerceAtLeast(1) * 86).dp)
+                        )
+                    }
                 }
             }
         }
@@ -685,4 +688,46 @@ private fun WeeklyLineChart(
             drawContext.canvas.nativeCanvas.drawText(label, x, yy, xPaint)
         }
     }
+}
+
+// ========== ロケール対応日付フォーマット ==========
+
+/**
+ * ロケールに応じた日付フォーマットを作成（グラフX軸用）
+ * 日本・英語圏: M/d（例: 1/26）
+ * 韓国: M.d（例: 1.26）
+ * ヨーロッパ圏・アラビア語・東南アジア: d/M（例: 26/1）
+ * 中国語（繁体字）: M/d（例: 1/26）
+ */
+private fun createLocaleDateFormat(): DateTimeFormatter {
+    val locale = Locale.getDefault()
+
+    val pattern = when (locale.language) {
+        // ヨーロッパ圏: 日/月 (DD/MM)
+        "de",  // ドイツ語
+        "fr",  // フランス語
+        "es",  // スペイン語
+        "it",  // イタリア語
+        "pt",  // ポルトガル語
+        "tr",  // トルコ語
+        "ar"   // アラビア語
+            -> "d/M"
+
+        // アジア圏（タイ、ベトナム、インドネシア）: 日/月
+        "th",  // タイ語
+        "vi",  // ベトナム語
+        "id", "in"  // インドネシア語
+            -> "d/M"
+
+        // 韓国語: 月.日
+        "ko" -> "M.d"
+
+        // 中国語（繁体字）: 月/日
+        "zh" -> "M/d"
+
+        // 日本語、英語、その他: 月/日 (MM/DD)
+        else -> "M/d"
+    }
+
+    return DateTimeFormatter.ofPattern(pattern, locale)
 }

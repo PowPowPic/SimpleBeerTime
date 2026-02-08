@@ -37,8 +37,9 @@
     <string name="main_week_cost">%1$s%2$.2f</string>
 
     <string name="main_midnight_rule_note">
-        Le registrazioni tra le 0:00 e le 3:00 vengono conteggiate come del giorno precedente.
-    </string>
+    Le registrazioni aggiunte tra le 0:00 e le 3:00
+    vengono conteggiate come del giorno precedente.
+</string>
 
     <string name="main_currency_hint">
         Se il simbolo della valuta non viene visualizzato correttamente, prova a cambiare la lingua in ⚙Impost.

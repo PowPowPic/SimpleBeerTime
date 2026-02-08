@@ -37,8 +37,10 @@
     <string name="main_week_cost">%1$s%2$.2f</string>
 
     <string name="main_midnight_rule_note">
-        0:00–3:00 arasındaki kayıtlar bir önceki güne sayılır.
-    </string>
+    0:00–3:00 arasında eklenen kayıtlar
+    bir önceki güne sayılır.
+</string>
+
 
     <string name="main_currency_hint">
         Para birimi simgesi doğru görüntülenmiyorsa, lütfen ⚙Ayarlar’dan dili değiştirmeyi deneyin.

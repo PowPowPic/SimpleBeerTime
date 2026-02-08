@@ -37,8 +37,10 @@
     <string name="main_week_cost">%1$s%2$.2f</string>
 
     <string name="main_midnight_rule_note">
-        0:00~3:00 사이의 기록은 전날 기록으로 처리됩니다.
-    </string>
+    0:00~3:00 사이에 추가된 기록은
+    전날 기록으로 처리됩니다.
+</string>
+
 
     <string name="main_currency_hint">
         통화 기호가 올바르게 표시되지 않는 경우 ⚙설정에서 언어를 변경해 보세요.

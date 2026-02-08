@@ -36,7 +36,7 @@
     <string name="main_today_cost">今日の支出：%1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
-    <string name="main_midnight_rule_note">0:00〜3:00の記録は前日分として扱います。</string>
+    <string name="main_midnight_rule_note">0:00〜3:00の記録は前日分として保存されます。</string>
 
     <string name="main_currency_hint">通貨記号が正しく表示されない場合は⚙設定から言語設定をお試しください。</string>
 

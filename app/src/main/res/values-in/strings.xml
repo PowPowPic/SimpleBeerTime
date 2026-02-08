@@ -36,7 +36,10 @@
     <string name="main_today_cost">Pengeluaran hari ini: %1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
-    <string name="main_midnight_rule_note">Catatan antara 0:00–3:00 dihitung sebagai hari sebelumnya.</string>
+    <string name="main_midnight_rule_note">
+    Catatan yang ditambahkan antara 0:00 hingga 3:00
+    dihitung sebagai hari sebelumnya.
+</string>
 
     <string name="main_currency_hint">Jika simbol mata uang tidak ditampilkan dengan benar, silakan coba ubah bahasa di ⚙Setelan.</string>
 

@@ -37,8 +37,10 @@
     <string name="main_week_cost">%1$s%2$.2f</string>
 
     <string name="main_midnight_rule_note">
-        Các bản ghi từ 0:00 đến 3:00 sẽ được tính cho ngày hôm trước.
-    </string>
+    Các bản ghi được thêm từ 0:00 đến 3:00
+    được tính cho ngày hôm trước.
+</string>
+
 
     <string name="main_currency_hint">
         Nếu ký hiệu tiền tệ không hiển thị đúng, vui lòng thử đổi ngôn ngữ trong ⚙Cài đặt.

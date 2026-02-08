@@ -36,7 +36,9 @@
     <string name="main_today_cost">مصروف اليوم: %1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
-    <string name="main_midnight_rule_note">يتم احتساب السجلات بين 00:00 و03:00 على أنها لليوم السابق.</string>
+    <string name="main_midnight_rule_note">
+    يتم احتساب السجلات التي أُضيفت بين 00:00 و03:00 على أنها لليوم السابق.
+</string>
 
     <string name="main_currency_hint">إذا لم يتم عرض رمز العملة بشكل صحيح، يرجى تجربة تغيير إعدادات اللغة من ⚙الإعدادات.</string>
 

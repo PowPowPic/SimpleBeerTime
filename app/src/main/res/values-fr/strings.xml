@@ -37,8 +37,10 @@
     <string name="main_week_cost">%1$s%2$.2f</string>
 
     <string name="main_midnight_rule_note">
-        Les enregistrements entre 0:00 et 3:00 comptent pour la veille.
-    </string>
+    Les enregistrements ajoutés entre 0:00 et 3:00
+    comptent pour la veille.
+</string>
+
 
     <string name="main_currency_hint">
         Si le symbole de la devise ne s’affiche pas correctement, veuillez essayer de changer la langue dans ⚙Param.

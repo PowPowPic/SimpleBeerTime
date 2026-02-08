@@ -37,12 +37,14 @@
     <string name="main_week_cost">%1$s%2$.2f</string>
 
     <string name="main_midnight_rule_note">
-        0:00–3:00 的紀錄將視為前一天。
-    </string>
+    0:00–3:00 新增的紀錄將計入前一天。
+</string>
+
 
     <string name="main_currency_hint">
-        若貨幣符號顯示不正確，請嘗試在 ⚙設定 中更改語言。
-    </string>
+    若貨幣符號顯示不正確，請嘗試在 ⚙設定 中變更語言。
+</string>
+
 
     <string name="main_button_add_one">新增 1 瓶</string>
     <string name="main_button_undo_last">復原</string>

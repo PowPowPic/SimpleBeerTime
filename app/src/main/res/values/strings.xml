@@ -36,7 +36,9 @@
     <string name="main_today_cost">Today’s Spending: %1$s%2$.2f</string>
     <string name="main_week_cost">%1$s%2$.2f</string>
 
-    <string name="main_midnight_rule_note">Records made between 12:00 AM and 3:00 AM are counted as the previous day.</string>
+    <string name="main_midnight_rule_note">
+    Records added between 12:00 AM and 3:00 AM are counted as the previous day.
+</string>
 
     <string name="main_currency_hint">If the currency symbol is not displayed correctly, please try changing the language in ⚙Settings.</string>
 
