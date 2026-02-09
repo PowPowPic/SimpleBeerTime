@@ -35,6 +35,26 @@ class BeerViewModel(private val repository: BeerRepository) : ViewModel() {
     private val _weekStats = MutableStateFlow(WeekStats())
     val weekStats: StateFlow<WeekStats> = _weekStats.asStateFlow()
 
+    // ★ グラフ→カレンダー遷移用：タップされた年月（nullなら遷移なし）
+    private val _navigateToCalendarMonth = MutableStateFlow<LocalDate?>(null)
+    val navigateToCalendarMonth: StateFlow<LocalDate?> = _navigateToCalendarMonth.asStateFlow()
+
+    /**
+     * グラフの棒グラフがタップされた時に呼ばれる
+     * @param year 年
+     * @param month 月（1〜12）
+     */
+    fun requestCalendarNavigation(year: Int, month: Int) {
+        _navigateToCalendarMonth.value = LocalDate.of(year, month, 1)
+    }
+
+    /**
+     * カレンダー画面への遷移が完了したら呼ぶ（状態リセット）
+     */
+    fun onCalendarNavigationHandled() {
+        _navigateToCalendarMonth.value = null
+    }
+
     init {
         viewModelScope.launch {
             allRecords.collect { records ->

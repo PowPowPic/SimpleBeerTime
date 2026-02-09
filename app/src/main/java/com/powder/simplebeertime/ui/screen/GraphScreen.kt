@@ -1,6 +1,7 @@
 package com.powder.simplebeertime.ui.screen
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -26,6 +27,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -91,8 +95,6 @@ fun GraphScreen(
     var pageCount by remember { mutableIntStateOf(1) }
 
     // ロケール対応の日付フォーマッター
-    // ★ getBestDateTimePattern("Md") ではLTR強制環境でアラビア語の
-    //    日/月順序が正しく表示されないため、明示的なパターンを使用
     val dateFormatter = remember { createLocaleDateFormat() }
 
     // ページデータ生成
@@ -105,7 +107,6 @@ fun GraphScreen(
                 endMonday.minusWeeks(back.toLong())
             }
 
-            // 週ごとの平均（今週は「レコードがある日まで」で割る）
             val values: List<Double> = mondays.map { monday: LocalDate ->
                 val key = WeekKey(
                     weekBasedYear = monday.get(weekFields.weekBasedYear()),
@@ -114,28 +115,22 @@ fun GraphScreen(
                 val weekRecords = recordsByWeek[key].orEmpty()
                 val weekTotal = weekRecords.sumOf { it.amount }
 
-                // ✅ 今週かどうか、今日にレコードがあるかどうかで割る日数を決定
                 val daysToAverage = if (monday == currentMonday) {
-                    // 今週の場合：今日にレコードがあるかチェック
                     val hasTodayRecord = weekRecords.any { record ->
                         record.timestamp.toLogicalDate(cutoffHour = 3) == logicalToday
                     }
                     if (hasTodayRecord) {
-                        // 今日にレコードがある → 月曜から今日までの日数（1〜7）
                         (logicalToday.toEpochDay() - monday.toEpochDay() + 1).toInt().coerceIn(1, 7)
                     } else {
-                        // 今日にレコードがない → 月曜から昨日までの日数（0〜6、最低1）
                         (logicalToday.toEpochDay() - monday.toEpochDay()).toInt().coerceIn(1, 7)
                     }
                 } else {
-                    // 過去の週：常に7日で割る（未入力日は0本扱い）
                     7
                 }
 
                 weekTotal / daysToAverage.toDouble()
             }
 
-            // ラベル（ロケール対応）
             val labels: List<String> = mondays.map { monday: LocalDate ->
                 monday.format(dateFormatter)
             }
@@ -150,9 +145,27 @@ fun GraphScreen(
     val allValues = remember(allPages) { allPages.flatMap { it.values } }
     val allLabels = remember(allPages) { allPages.flatMap { it.labels } }
 
-    // 横スクロール（週グラフ用）
+    // ★ 横スクロール（10週分の間隔を維持しつつ連続スクロール）
     val horizontalScrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
+
+    // ★ 画面幅から10週分に相当する1ポイントあたりのdp幅を計算
+    // 画面幅（パディング除く）を10等分した幅をポイント間隔とする
+    val screenWidthDp = LocalConfiguration.current.screenWidthDp.dp
+    // カード内パディング(12dp*2) + 画面パディング(16dp*2) + Canvas内パディング分を考慮
+    val availableWidthDp = screenWidthDp - 56.dp  // 大まかに利用可能幅
+    val pointIntervalDp = (availableWidthDp / 9)  // 10ポイント→9区間
+        .coerceAtLeast(28.dp)  // 最小間隔を保証
+
+    // Canvas全体の幅（ポイント数に応じた幅）
+    // paddingLeft(44f) + paddingRight(36f) をdp換算で加算
+    val density = LocalDensity.current
+    val canvasPaddingDp = with(density) { (44f + 36f).toDp() }
+    val canvasWidthDp = if (allValues.size <= 1) {
+        availableWidthDp
+    } else {
+        pointIntervalDp * (allValues.size - 1) + canvasPaddingDp
+    }
 
     // 初期表示時に右端（最新週）へスクロール
     LaunchedEffect(allValues.size) {
@@ -166,7 +179,7 @@ fun GraphScreen(
         }
     }
 
-    // ★ ルール①：スクロール可能（既に対応済み）
+    // ★ ルール①：スクロール可能
     val verticalScrollState = rememberScrollState()
 
     Column(
@@ -180,7 +193,6 @@ fun GraphScreen(
         Spacer(modifier = Modifier.height(35.dp))
 
         // ── 上段：月別棒グラフ ──
-        // ★ ルール③：カードも可変（heightInを使用）
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -210,8 +222,12 @@ fun GraphScreen(
 
                 Spacer(modifier = Modifier.height(6.dp))
 
+                // ★ 棒グラフタップでカレンダーへ遷移
                 MonthlyBarChart(
                     values = monthlyTotals,
+                    onMonthClick = { monthIndex ->
+                        viewModel.requestCalendarNavigation(selectedYear, monthIndex + 1)
+                    },
                     modifier = Modifier.fillMaxSize()
                 )
             }
@@ -220,7 +236,7 @@ fun GraphScreen(
         // 2つのカード間の余白
         Spacer(modifier = Modifier.height(12.dp))
 
-        // ── 下段：週別折れ線グラフ ──
+        // ── 下段：週別折れ線グラフ（横スクロール＋10週間隔）──
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -244,7 +260,7 @@ fun GraphScreen(
                         color = SimpleColors.TextPrimary
                     )
 
-                    // ★ ルール②：ボタンは最低48dp保証
+                    // ★ 「最新」ボタン → 右端へスクロール
                     Button(
                         onClick = {
                             coroutineScope.launch {
@@ -266,9 +282,6 @@ fun GraphScreen(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 // ★ RTL対応: 下段グラフのみLTRを強制
-                // RTL環境（アラビア語等）ではhorizontalScrollの方向が反転し、
-                // scrollTo(maxValue)が最新週に到達しなくなるため、
-                // グラフ描画領域だけLTRに固定する
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                     Box(
                         modifier = Modifier
@@ -280,21 +293,20 @@ fun GraphScreen(
                             labels = allLabels,
                             modifier = Modifier
                                 .height(170.dp)
-                                .width((allValues.size.coerceAtLeast(1) * 86).dp)
+                                .width(canvasWidthDp)
                         )
                     }
                 }
             }
         }
 
-        // 画面下部の余白（12dp程度で余白を詰める）
+        // 画面下部の余白
         Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
 /**
  * 年ナビゲーション
- * ★ ルール②：IconButtonは最低48dp保証（デフォルトで48dp）
  */
 @Composable
 private fun YearNavigationHeader(
@@ -348,15 +360,12 @@ private fun computeMonthlyTotals(
     allRecords: List<com.powder.simplebeertime.data.entity.BeerRecord>,
     logicalToday: LocalDate
 ): List<Double> {
-    // 1月〜12月の初期値（0.0）
     val totals = MutableList(12) { 0.0 }
 
-    // 来年以降の年は無視（全部 0.0 のまま）
     if (year > logicalToday.year) {
         return totals
     }
 
-    // ★ 今年の場合は「今月まで」に制限
     val maxMonth = if (year == logicalToday.year) logicalToday.monthValue else 12
 
     allRecords
@@ -374,9 +383,14 @@ private fun computeMonthlyTotals(
     return totals
 }
 
+/**
+ * ★ 棒グラフの数値を白文字（黒縁取り付き）に変更
+ * ★ 各月の棒グラフをタップでカレンダーに遷移
+ */
 @Composable
 private fun MonthlyBarChart(
     values: List<Double>,
+    onMonthClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val safe = if (values.size == 12) values else List(12) { values.getOrElse(it) { 0.0 } }
@@ -389,7 +403,24 @@ private fun MonthlyBarChart(
         else -> ((maxY + 4.0) / 5.0).toInt() * 5.0
     }
 
-    Canvas(modifier = modifier) {
+    // 棒の領域を保持してタップ判定に使用
+    val barRects = remember { mutableListOf<BarRect>() }
+
+    Canvas(
+        modifier = modifier
+            .pointerInput(safe) {
+                detectTapGestures { offset ->
+                    barRects.forEachIndexed { index, rect ->
+                        if (offset.x >= rect.left && offset.x <= rect.right &&
+                            offset.y >= 0f && offset.y <= size.height
+                        ) {
+                            onMonthClick(index)
+                            return@detectTapGestures
+                        }
+                    }
+                }
+            }
+    ) {
         val paddingLeft = 52f
         val paddingBottom = 45f
         val paddingTop = 35f
@@ -460,14 +491,28 @@ private fun MonthlyBarChart(
         val gap = 6f
         val barW = ((chartW - gap * (barCount - 1)) / barCount).coerceAtLeast(2f)
 
-        val valuePaint = android.graphics.Paint().apply {
+        // ★ 数値ラベルを白文字に変更（黒縁取り付きで視認性確保）
+        val valueOutlinePaint = android.graphics.Paint().apply {
             textSize = 26f
             color = android.graphics.Color.BLACK
+            textAlign = android.graphics.Paint.Align.CENTER
+            isAntiAlias = true
+            isFakeBoldText = true
+            style = android.graphics.Paint.Style.STROKE
+            strokeWidth = 4f
+        }
+
+        val valuePaint = android.graphics.Paint().apply {
+            textSize = 26f
+            color = android.graphics.Color.WHITE  // ★ 白文字
             textAlign = android.graphics.Paint.Align.CENTER
             alpha = 255
             isAntiAlias = true
             isFakeBoldText = true
         }
+
+        // 棒の領域を記録
+        barRects.clear()
 
         safe.forEachIndexed { i, v ->
             val ratio = (v.coerceAtLeast(0.0) / yMax).toFloat()
@@ -475,18 +520,28 @@ private fun MonthlyBarChart(
             val left = paddingLeft + i * (barW + gap)
             val top = paddingTop + (chartH - barH)
 
+            barRects.add(BarRect(left, top, left + barW, paddingTop + chartH))
+
             drawRect(
                 color = SimpleColors.PureBlue,
                 topLeft = Offset(left, top),
                 size = Size(barW, barH)
             )
 
-            // 数値ラベル（%.1f）
+            // ★ 数値ラベル（白文字＋黒縁取り）
             if (v > 0) {
                 val labelX = left + barW / 2f
                 var labelY = top - 8f
                 if (labelY < paddingTop + 20f) labelY = top + 28f
 
+                // 黒縁取り
+                drawContext.canvas.nativeCanvas.drawText(
+                    String.format(Locale.getDefault(), "%.1f", v),
+                    labelX,
+                    labelY,
+                    valueOutlinePaint
+                )
+                // 白文字
                 drawContext.canvas.nativeCanvas.drawText(
                     String.format(Locale.getDefault(), "%.1f", v),
                     labelX,
@@ -512,6 +567,14 @@ private fun MonthlyBarChart(
         }
     }
 }
+
+/** 棒の領域を保持するデータクラス */
+private data class BarRect(
+    val left: Float,
+    val top: Float,
+    val right: Float,
+    val bottom: Float
+)
 
 /** 週平均の「数値ラベル」だけ色分けするルール */
 private fun weeklyAvgLabelColor(value: Double): Int {
@@ -623,14 +686,14 @@ private fun WeeklyLineChart(
 
         // ポイント＆数値ラベル
         val pointLabelPaint = android.graphics.Paint().apply {
-            textSize = 26f
+            textSize = 22f
             textAlign = android.graphics.Paint.Align.CENTER
             isAntiAlias = true
             isFakeBoldText = true
         }
 
         val pointLabelOutlinePaint = android.graphics.Paint().apply {
-            textSize = 26f
+            textSize = 22f
             color = android.graphics.Color.WHITE
             textAlign = android.graphics.Paint.Align.CENTER
             isAntiAlias = true
@@ -673,9 +736,9 @@ private fun WeeklyLineChart(
             )
         }
 
-        // X軸ラベル（常に全て表示）
+        // X軸ラベル（斜め表示で重なり防止）
         val xPaint = android.graphics.Paint().apply {
-            textSize = 20f
+            textSize = 18f
             color = android.graphics.Color.BLACK
             textAlign = android.graphics.Paint.Align.CENTER
             alpha = 180
@@ -685,7 +748,11 @@ private fun WeeklyLineChart(
         labels.forEachIndexed { i, label ->
             val x = paddingLeft + stepX * i
             val yy = paddingTop + chartH + 30f
+
+            drawContext.canvas.nativeCanvas.save()
+            drawContext.canvas.nativeCanvas.rotate(-35f, x, yy)
             drawContext.canvas.nativeCanvas.drawText(label, x, yy, xPaint)
+            drawContext.canvas.nativeCanvas.restore()
         }
     }
 }

@@ -117,7 +117,7 @@ fun MainScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // 今日の日付（ロケール対応）
         Text(
@@ -207,7 +207,7 @@ fun MainScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // ★ ルール②：ボタンは可変＋最低タップサイズ保証
         // 🍺 ボタン: Log 1 beer（グラデーション）
@@ -216,7 +216,7 @@ fun MainScreen(
             onClick = { viewModel.insertBeer() }
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // 🍺 小数入力エリア: About [ 1.4 ] beers [Add]
         Row(
@@ -275,7 +275,7 @@ fun MainScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // 🍺 ボタン: Undo last beer（グラデーション）
         GradientButton(
@@ -283,7 +283,7 @@ fun MainScreen(
             onClick = { viewModel.deleteLatestBeer() }
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // ① 3時ルール
         Box(
@@ -299,7 +299,7 @@ fun MainScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         // ② 通貨記号の案内文（赤字）
         Box(
@@ -315,7 +315,7 @@ fun MainScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // ③ 青文字リンク（ベタ書き英語はシリーズ共通仕様）
         Box(

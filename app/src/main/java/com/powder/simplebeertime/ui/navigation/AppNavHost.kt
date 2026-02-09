@@ -131,6 +131,18 @@ fun AppNavHost(
         }
     }
 
+    // ★ 修正②：グラフ→カレンダー遷移の監視
+    val calendarNavRequest = beerViewModel.navigateToCalendarMonth.collectAsState()
+    LaunchedEffect(calendarNavRequest.value) {
+        calendarNavRequest.value?.let {
+            // カレンダーページへ遷移（CalendarScreen内でmonthDateが更新される）
+            val calendarPageIndex = screens.indexOf(Screen.Calendar)
+            if (calendarPageIndex >= 0) {
+                pagerState.animateScrollToPage(calendarPageIndex)
+            }
+        }
+    }
+
     Scaffold(
         containerColor = Color.Transparent,
 

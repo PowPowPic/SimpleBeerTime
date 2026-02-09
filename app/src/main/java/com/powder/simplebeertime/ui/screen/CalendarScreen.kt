@@ -1,6 +1,7 @@
 package com.powder.simplebeertime.ui.screen
 
 import android.text.format.DateFormat
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.powder.simplebeertime.R
@@ -41,10 +43,23 @@ fun CalendarScreen(
     val currencySymbol = currencySymbolFor(currentLang)
 
     val logicalToday = remember { currentLogicalDate(cutoffHour = 3) }
+    val currentMonthFirst = remember { logicalToday.withDayOfMonth(1) }
 
     var monthDate by rememberSaveable {
         mutableStateOf(logicalToday.withDayOfMonth(1))
     }
+
+    // ★ グラフからのナビゲーション要求を監視
+    val navigateRequest by viewModel.navigateToCalendarMonth.collectAsState()
+    LaunchedEffect(navigateRequest) {
+        navigateRequest?.let { targetMonth ->
+            monthDate = targetMonth
+            viewModel.onCalendarNavigationHandled()
+        }
+    }
+
+    // ★ 今月を表示中かどうか（タップで戻る機能の表示判定用）
+    val isCurrentMonth = monthDate == currentMonthFirst
 
     val recordsForMonth = remember(allRecords, monthDate) {
         val month = monthDate.month
@@ -132,10 +147,20 @@ fun CalendarScreen(
 
             Spacer(modifier = Modifier.width(16.dp))
 
+            // ★ 修正①：月タイトルタップで今月に戻る
+            // 過去月を閲覧中の場合のみタップ可能（下線表示で視覚的にヒント）
             Text(
                 text = monthTitle,
                 fontSize = 20.sp,
-                color = SimpleColors.TextPrimary
+                color = if (isCurrentMonth) SimpleColors.TextPrimary else SimpleColors.PureBlue,
+                textDecoration = if (isCurrentMonth) TextDecoration.None else TextDecoration.Underline,
+                modifier = if (isCurrentMonth) {
+                    Modifier
+                } else {
+                    Modifier.clickable {
+                        monthDate = currentMonthFirst
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.width(16.dp))
