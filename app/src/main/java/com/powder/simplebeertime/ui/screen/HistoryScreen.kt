@@ -48,7 +48,9 @@ fun HistoryScreen(
     modifier: Modifier = Modifier
 ) {
     val allRecords by viewModel.allRecords.collectAsState(initial = emptyList())
-    val logicalToday = remember { currentLogicalDate(cutoffHour = 3) }
+
+    // ★ 3時ルールによる論理日付（rememberなしで毎回最新を取得）
+    val logicalToday = currentLogicalDate(cutoffHour = 3)
 
     // 現在表示している週の月曜日
     var weekMonday by rememberSaveable {
@@ -77,32 +79,40 @@ fun HistoryScreen(
         }
     }
 
-    // 週合計
-    val weekTotal = weekValues.sum()
+    // ★ 週合計（logicalToday以前の日のみ合算）
+    val weekTotal = weekValues.mapIndexed { index, value ->
+        val date = weekMonday.plusDays(index.toLong())
+        if (!date.isAfter(logicalToday)) value else 0.0
+    }.sum()
 
-    // ★ 修正：当週なら今日までの日数、過去の週なら7日で割る
+    // ★ 週平均の計算
     val isCurrentWeek = weekMonday == currentWeekMonday
-    val daysToUse = if (isCurrentWeek) {
-        // 今週なら月曜から今日までの日数
-        (logicalToday.toEpochDay() - weekMonday.toEpochDay() + 1).toInt()
+    val daysToUse: Int = if (isCurrentWeek) {
+        // 今週：月曜日から論理上の今日までの日数（1〜7）
+        val days = (logicalToday.toEpochDay() - weekMonday.toEpochDay() + 1).toInt()
+        days.coerceIn(1, 7)
     } else {
-        // 過去の週なら7日
+        // 過去の週：常に7日
         7
     }
 
-    // 週平均
-    val weekAverage = if (daysToUse > 0) weekTotal / daysToUse else 0.0
+    // ★ 週平均
+    val weekAverage: Double = if (daysToUse > 0) weekTotal / daysToUse.toDouble() else 0.0
+
     val weekAverageColor: Color = when {
-        weekTotal == 0.0 -> SimpleColors.PureBlue      // 全部0の週
-        weekAverage >= 3.1 -> SimpleColors.PureRed     // 3.1以上は赤
-        weekAverage <= 1.4 -> SimpleColors.PureBlue    // 1.4以下は青
-        else -> SimpleColors.TextPrimary               // それ以外は黒
+        weekTotal == 0.0 -> SimpleColors.PureBlue
+        weekAverage >= 3.1 -> SimpleColors.PureRed
+        weekAverage <= 1.4 -> SimpleColors.PureBlue
+        else -> SimpleColors.TextPrimary
     }
 
-    // 色分け用の判定（固定閾値）
-    val allZero = weekValues.all { it == 0.0 }
+    // ★ 色分け用：logicalToday以前の日のみで判定
+    val activeDayValues = weekValues.mapIndexed { index, value ->
+        val date = weekMonday.plusDays(index.toLong())
+        if (!date.isAfter(logicalToday)) value else null
+    }.filterNotNull()
+    val allZero = activeDayValues.isEmpty() || activeDayValues.all { it == 0.0 }
 
-    // 0.0〜1.4：青 / 1.5〜3.0：黒 / 3.1以上：赤
     fun valueColor(value: Double): Color = when {
         allZero -> SimpleColors.PureBlue
         value >= 3.1 -> SimpleColors.PureRed
@@ -135,17 +145,17 @@ fun HistoryScreen(
         "${weekMonday.format(dateFormatter)} - ${weekSunday.format(dateFormatter)}"
     }
 
-    // ★ ルール①：スクロール可能（既に対応済み）
+    // ★ ルール①：スクロール可能
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        // 広告スペース（詰める）
+        // 広告スペース
         Spacer(modifier = Modifier.height(2.dp))
 
-        // 週ナビゲーション（詰める）
+        // 週ナビゲーション
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -153,7 +163,6 @@ fun HistoryScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            // ★ ルール②：IconButtonは最低48dp保証（デフォルトで48dp）
             IconButton(onClick = { weekMonday = weekMonday.minusWeeks(1) }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -173,7 +182,6 @@ fun HistoryScreen(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            // 未来の週には進めない
             val canGoNext = weekMonday.isBefore(currentWeekMonday)
             IconButton(
                 onClick = { if (canGoNext) weekMonday = weekMonday.plusWeeks(1) },
@@ -189,7 +197,7 @@ fun HistoryScreen(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        // サマリーセクション（詰める）
+        // サマリーセクション
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -220,18 +228,22 @@ fun HistoryScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // ★ ルール③：曜日カード（可変高さ）
+        // ★ 曜日カード（3時ルールで未来日はグレーアウト）
         dayLabels.forEachIndexed { index, label ->
             val value = weekValues[index]
             val date = weekMonday.plusDays(index.toLong())
             val dateText = date.format(dateFormatter)
 
+            // ★ 3時ルール：logicalTodayより後の日は未来扱い → 編集不可
+            val isFutureDay = date.isAfter(logicalToday)
+
             DayCard(
                 dayLabel = label,
                 dateText = dateText,
                 value = value,
-                valueColor = valueColor(value),
-                onCardClick = { editingDate = date },   // カードタップ＝編集
+                valueColor = if (isFutureDay) SimpleColors.TextSecondary else valueColor(value),
+                isFutureDay = isFutureDay,
+                onCardClick = { if (!isFutureDay) editingDate = date },
                 onEditClick = { editingDate = date },
                 onDeleteClick = { deletingDate = date }
             )
@@ -271,7 +283,8 @@ fun HistoryScreen(
 }
 
 /**
- * ★ ルール③：カードサイズも可変（heightIn使用、height()は使わない）
+ * ★ 曜日カード
+ * isFutureDay = true の場合：グレーアウト表示、編集・削除アイコン非表示、タップ無効
  */
 @Composable
 private fun DayCard(
@@ -279,65 +292,87 @@ private fun DayCard(
     dateText: String,
     value: Double,
     valueColor: Color,
+    isFutureDay: Boolean,
     onCardClick: () -> Unit,
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
-    val cardGradient = Brush.horizontalGradient(
-        colors = listOf(
-            SimpleColors.CardStart,
-            SimpleColors.CardEnd,
-            SimpleColors.CardStart
+    // ★ 未来日はグレーアウトしたグラデーション
+    val cardGradient = if (isFutureDay) {
+        Brush.horizontalGradient(
+            colors = listOf(
+                Color(0xFFE0E0E0),
+                Color(0xFFD0D0D0),
+                Color(0xFFE0E0E0)
+            )
         )
-    )
+    } else {
+        Brush.horizontalGradient(
+            colors = listOf(
+                SimpleColors.CardStart,
+                SimpleColors.CardEnd,
+                SimpleColors.CardStart
+            )
+        )
+    }
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 48.dp)  // ★ 最低タップサイズ保証
+            .heightIn(min = 48.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(cardGradient)
-            .clickable(onClick = onCardClick)
-            .padding(start = 16.dp, end = 4.dp, top = 6.dp, bottom = 6.dp)
+            .then(
+                // ★ 未来日はタップ無効
+                if (isFutureDay) Modifier else Modifier.clickable(onClick = onCardClick)
+            )
+            .padding(
+                start = 16.dp,
+                end = if (isFutureDay) 16.dp else 4.dp,
+                top = 6.dp,
+                bottom = 6.dp
+            )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // 曜日 + 日付（1行）
+            // 曜日 + 日付
             Text(
                 text = "$dayLabel ($dateText)",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = SimpleColors.TextPrimary,
+                color = if (isFutureDay) SimpleColors.TextSecondary else SimpleColors.TextPrimary,
                 modifier = Modifier.weight(1f)
             )
 
-            // 数値（色分け）
+            // ★ 未来日は「-」表示、過去・今日は数値表示
             Text(
-                text = String.format(Locale.getDefault(), "%.1f", value),
+                text = if (isFutureDay) "-" else String.format(Locale.getDefault(), "%.1f", value),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = valueColor
             )
 
-            // ★ ルール②：IconButtonは最低48dp保証（デフォルトで48dp）
-            // 編集アイコン（青）
-            IconButton(onClick = onEditClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Edit,
-                    contentDescription = stringResource(R.string.history_cd_edit),
-                    tint = SimpleColors.PureBlue
-                )
-            }
+            // ★ 未来日は編集・削除アイコンを非表示
+            if (!isFutureDay) {
+                // 編集アイコン（青）
+                IconButton(onClick = onEditClick) {
+                    Icon(
+                        imageVector = Icons.Outlined.Edit,
+                        contentDescription = stringResource(R.string.history_cd_edit),
+                        tint = SimpleColors.PureBlue
+                    )
+                }
 
-            // 削除アイコン（赤）
-            IconButton(onClick = onDeleteClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Delete,
-                    contentDescription = stringResource(R.string.history_cd_delete),
-                    tint = SimpleColors.PureRed
-                )
+                // 削除アイコン（赤）
+                IconButton(onClick = onDeleteClick) {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = stringResource(R.string.history_cd_delete),
+                        tint = SimpleColors.PureRed
+                    )
+                }
             }
         }
     }
