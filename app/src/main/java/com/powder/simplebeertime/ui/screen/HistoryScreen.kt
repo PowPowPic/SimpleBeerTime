@@ -143,13 +143,13 @@ fun HistoryScreen(
             .verticalScroll(rememberScrollState())
     ) {
         // 広告スペース（詰める）
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(2.dp))
 
         // 週ナビゲーション（詰める）
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .padding(vertical = 2.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
@@ -187,7 +187,7 @@ fun HistoryScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         // サマリーセクション（詰める）
         Column(
@@ -196,7 +196,7 @@ fun HistoryScreen(
         ) {
             Text(
                 text = stringResource(R.string.history_week_summary_title),
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = SimpleColors.TextSecondary
             )
@@ -205,7 +205,7 @@ fun HistoryScreen(
 
             Text(
                 text = stringResource(R.string.history_week_total, weekTotal),
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 color = SimpleColors.TextPrimary
             )
 
@@ -213,7 +213,7 @@ fun HistoryScreen(
 
             Text(
                 text = stringResource(R.string.history_week_avg, weekAverage),
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 color = weekAverageColor
             )
         }
