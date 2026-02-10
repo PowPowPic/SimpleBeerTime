@@ -30,6 +30,8 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.powder.simplebeertime.R
 import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.currencySymbolFor
+import com.powder.simplebeertime.ui.settings.formatBeerCount
+import com.powder.simplebeertime.ui.settings.formatCurrencyAmount
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import java.time.format.DateTimeFormatter
@@ -99,6 +101,15 @@ fun MainScreen(
     val weekCostTotal = weekStats.count * pricePerBeer
     val todayCost = todayStats.count * pricePerBeer
 
+    // ★ スマート通貨フォーマット（CurrencyUtil使用）
+    val weekCostText = formatCurrencyAmount(currentLang, currencySymbol, weekCostTotal.toDouble())
+    val todayCostText = formatCurrencyAmount(currentLang, currencySymbol, todayCost.toDouble())
+
+    // ★ スマート本数フォーマット（整数なら小数点なし）
+    val weekCountText = formatBeerCount(weekStats.count)
+    val weekAvgText = formatBeerCount(weekStats.avgPerDay)
+    val todayCountText = formatBeerCount(todayStats.count)
+
     // カードグラデーション
     val cardGradient = Brush.horizontalGradient(
         colors = listOf(
@@ -129,7 +140,6 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // ★ ルール③：カードは可変（heightIn使用、height()は使わない）
         // 🪪 カード1：今週の本数＆平均
         Box(
             modifier = Modifier
@@ -143,13 +153,14 @@ fun MainScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // ★ スマートフォーマット適用
                 Text(
-                    text = stringResource(R.string.main_week_count, weekStats.count),
+                    text = stringResource(R.string.main_week_count, weekCountText),
                     color = SimpleColors.TextPrimary
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = stringResource(R.string.main_week_avg, weekStats.avgPerDay),
+                    text = stringResource(R.string.main_week_avg, weekAvgText),
                     color = SimpleColors.TextPrimary
                 )
             }
@@ -174,8 +185,9 @@ fun MainScreen(
                     color = SimpleColors.TextSecondary
                 )
                 Spacer(modifier = Modifier.height(2.dp))
+                // ★ スマート通貨フォーマット適用
                 Text(
-                    text = stringResource(R.string.main_week_cost, currencySymbol, weekCostTotal),
+                    text = weekCostText,
                     style = MaterialTheme.typography.titleMedium,
                     color = SimpleColors.TextPrimary
                 )
@@ -195,13 +207,15 @@ fun MainScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // ★ スマートフォーマット適用
                 Text(
-                    text = stringResource(R.string.main_today_count, todayStats.count),
+                    text = stringResource(R.string.main_today_count, todayCountText),
                     color = SimpleColors.TextPrimary
                 )
                 Spacer(modifier = Modifier.height(2.dp))
+                // ★ スマート通貨フォーマット適用
                 Text(
-                    text = stringResource(R.string.main_today_cost, currencySymbol, todayCost),
+                    text = stringResource(R.string.main_today_cost, todayCostText),
                     color = SimpleColors.TextPrimary
                 )
             }
@@ -209,7 +223,6 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        // ★ ルール②：ボタンは可変＋最低タップサイズ保証
         // 🍺 ボタン: Log 1 beer（グラデーション）
         GradientButton(
             text = stringResource(R.string.main_button_add_one),
@@ -317,7 +330,7 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // ③ 青文字リンク（ベタ書き英語はシリーズ共通仕様）
+        // ③ 青文字リンク
         Box(
             modifier = Modifier
                 .fillMaxWidth()

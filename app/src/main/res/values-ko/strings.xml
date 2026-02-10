@@ -28,13 +28,13 @@
          ========================================================= -->
     <string name="label_week_cost">이번 주 지출</string>
 
-    <string name="main_today_count">오늘: %1$.1f병</string>
-    <string name="main_week_count">이번 주: %1$.1f병</string>
-    <string name="main_week_avg">일일 평균: %1$.1f병</string>
+    <string name="main_today_count">오늘: %1$s병</string>
+    <string name="main_week_count">이번 주: %1$s병</string>
+    <string name="main_week_avg">일일 평균: %1$s병</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">오늘 지출: %1$s%2$.2f</string>
-    <string name="main_week_cost">%1$s%2$.2f</string>
+    <string name="main_today_cost">오늘 지출: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
 
     <string name="main_midnight_rule_note">
     0:00~3:00 사이에 추가된 기록은
@@ -125,8 +125,8 @@
     <string name="history_cd_previous_week">이전 주</string>
     <string name="history_cd_next_week">다음 주</string>
     <string name="history_week_summary_title">이번 주 기록</string>
-    <string name="history_week_total">합계: 약 %1$.1f병</string>
-    <string name="history_week_avg">평균: %1$.1f병/일</string>
+    <string name="history_week_total">합계: 약 %1$s병</string>
+    <string name="history_week_avg">평균: %1$s병/일</string>
 
     <string name="history_delete_title">이 기록 삭제</string>
     <string name="history_delete_message">이 기록을 삭제하시겠습니까?</string>
@@ -159,11 +159,11 @@
 
     <!-- Formats -->
     <string name="per_day_suffix">/일</string>
-    <string name="format_daily_average_beers">%1$.1f /일</string>
+    <string name="format_daily_average_beers">%1$s /일</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f /일</string>
+    <string name="format_currency_per_day">%1$s /일</string>
 
     <!-- =========================================================
          GraphScreen
@@ -195,4 +195,5 @@
     </string>
     <string name="history_cd_edit">수정</string>
 
+    <string name="calendar_per_day_suffix">/일</string>
 </resources>

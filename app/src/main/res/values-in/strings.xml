@@ -28,13 +28,13 @@
          ========================================================= -->
     <string name="label_week_cost">Pengeluaran Minggu Ini</string>
 
-    <string name="main_today_count">Hari ini: %1$.1f botol</string>
-    <string name="main_week_count">Minggu ini: %1$.1f botol</string>
-    <string name="main_week_avg">Rata-rata/hari: %1$.1f botol</string>
+    <string name="main_today_count">Hari ini: %1$s botol</string>
+    <string name="main_week_count">Minggu ini: %1$s botol</string>
+    <string name="main_week_avg">Rata-rata/hari: %1$s botol</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">Pengeluaran hari ini: %1$s%2$.2f</string>
-    <string name="main_week_cost">%1$s%2$.2f</string>
+    <string name="main_today_cost">Pengeluaran hari ini: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
 
     <string name="main_midnight_rule_note">
     Catatan yang ditambahkan antara 0:00 hingga 3:00
@@ -108,8 +108,8 @@
     <string name="history_cd_previous_week">Minggu sebelumnya</string>
     <string name="history_cd_next_week">Minggu berikutnya</string>
     <string name="history_week_summary_title">Riwayat Minggu Ini</string>
-    <string name="history_week_total">Total: sekitar %1$.1f botol</string>
-    <string name="history_week_avg">Rata-rata: %1$.1f botol/hari</string>
+    <string name="history_week_total">Total: sekitar %1$s botol</string>
+    <string name="history_week_avg">Rata-rata: %1$s botol/hari</string>
 
     <string name="history_delete_title">Hapus Catatan Ini</string>
     <string name="history_delete_message">Hapus catatan ini?</string>
@@ -142,11 +142,11 @@
 
     <!-- Formats -->
     <string name="per_day_suffix">/hari</string>
-    <string name="format_daily_average_beers">%1$.1f /hari</string>
+    <string name="format_daily_average_beers">%1$s /hari</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f /hari</string>
+    <string name="format_currency_per_day">%1$s /hari</string>
 
     <!-- =========================================================
          GraphScreen
@@ -176,4 +176,5 @@
     <string name="delete_day_dialog_message">Hapus semua catatan botol untuk hari ini.</string>
     <string name="history_cd_edit">Edit</string>
 
+    <string name="calendar_per_day_suffix">/hari</string>
 </resources>

@@ -21,7 +21,9 @@ import androidx.compose.ui.unit.sp
 import com.powder.simplebeertime.R
 import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.currencySymbolFor
+import com.powder.simplebeertime.ui.settings.formatBeerCount
 import com.powder.simplebeertime.ui.settings.formatCurrencyAmount
+import com.powder.simplebeertime.ui.settings.formatCurrencyPerDay
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.util.currentLogicalDate
@@ -74,7 +76,6 @@ fun CalendarScreen(
             }
     }
 
-    // ✅ LocalDate -> Double（日別合計）
     val dailyCounts = remember(recordsForMonth) {
         val map = mutableMapOf<LocalDate, Double>()
         recordsForMonth.forEach { (date, record) ->
@@ -83,30 +84,30 @@ fun CalendarScreen(
         map
     }
 
-    // ✅ 量は全部 Double で統一
     val totalBeers: Double = dailyCounts.values.sum()
 
-    // ★ 修正：当月なら今日までの日数、過去の月ならその月の日数で割る
     val daysToUse: Int = if (monthDate.year == logicalToday.year && monthDate.month == logicalToday.month) {
-        logicalToday.dayOfMonth  // 今月なら今日まで
+        logicalToday.dayOfMonth
     } else {
-        monthDate.lengthOfMonth()  // 過去の月ならその月の日数
+        monthDate.lengthOfMonth()
     }
 
     val avgBeersPerDay: Double = if (daysToUse > 0) totalBeers / daysToUse.toDouble() else 0.0
 
-    // ✅ 金額も Double で統一
     val price: Double = pricePerBeer.toDouble()
     val totalCost: Double = totalBeers * price
     val avgCostPerDay: Double = if (daysToUse > 0) totalCost / daysToUse.toDouble() else 0.0
 
+    // ★ スマート通貨フォーマット
     val totalCostText = formatCurrencyAmount(currentLang, currencySymbol, totalCost)
 
-    val avgCostPerDayText = stringResource(
-        R.string.format_currency_per_day,
-        currencySymbol,
-        avgCostPerDay
-    )
+    // ★ "/day" サフィックスをstringResourceから取得
+    val perDaySuffix = stringResource(R.string.calendar_per_day_suffix)
+    val avgCostPerDayText = formatCurrencyPerDay(currentLang, currencySymbol, avgCostPerDay, perDaySuffix)
+
+    // ★ スマート本数フォーマット
+    val totalBeersText = formatBeerCount(totalBeers)
+    val avgBeersText = formatBeerCount(avgBeersPerDay)
 
     val currentLocale = Locale.getDefault()
     val monthFormatter = remember(currentLocale) {
@@ -187,9 +188,11 @@ fun CalendarScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // ★ スマートフォーマット適用
         MonthlySummarySection(
-            totalBeers = totalBeers,
-            avgBeersPerDay = avgBeersPerDay,
+            totalBeersText = totalBeersText,
+            avgBeersText = avgBeersText,
+            perDaySuffix = perDaySuffix,
             totalCostText = totalCostText,
             avgCostPerDayText = avgCostPerDayText
         )
@@ -264,7 +267,6 @@ private fun MonthGrid(
                     ) {
                         if (day != null) {
                             val date = monthDate.withDayOfMonth(day)
-                            // ★ logicalToday以前の日のみ数値表示（未来日は空白）
                             val isFutureDay = date.isAfter(logicalToday)
                             DayCell(
                                 day = day,
@@ -282,8 +284,9 @@ private fun MonthGrid(
 }
 
 /**
- * ★ 修正①：飲酒なしの日は青文字で「0」を表示
- *    未来日は数値なし（スペースのみ）
+ * ★ 飲酒なしの日は青文字で「0」を表示
+ *    未来日は数値なし
+ *    本数もスマートフォーマット（整数なら小数点なし）
  */
 @Composable
 private fun DayCell(
@@ -299,18 +302,16 @@ private fun DayCell(
         )
 
         if (isFutureDay) {
-            // 未来日：数値なし（スペースのみ）
             Spacer(modifier = Modifier.height(14.dp))
         } else if (count > 0.0) {
-            // 飲酒あり：赤文字で数値表示
             Spacer(modifier = Modifier.height(2.dp))
+            // ★ スマートフォーマット（整数なら小数点なし）
             Text(
-                text = String.format(Locale.getDefault(), "%.1f", count),
+                text = formatBeerCount(count),
                 fontSize = 12.sp,
                 color = SimpleColors.PureRed
             )
         } else {
-            // ★ 飲酒なし：青文字(#0000FF)で「0」を表示
             Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = "0",
@@ -329,10 +330,14 @@ private fun DayCellEmpty() {
     }
 }
 
+/**
+ * ★ サマリーセクション（スマートフォーマット版）
+ */
 @Composable
 fun MonthlySummarySection(
-    totalBeers: Double,
-    avgBeersPerDay: Double,
+    totalBeersText: String,
+    avgBeersText: String,
+    perDaySuffix: String,
     totalCostText: String,
     avgCostPerDayText: String,
     modifier: Modifier = Modifier
@@ -351,17 +356,13 @@ fun MonthlySummarySection(
         ) {
             LabelValueBlock(
                 label = stringResource(R.string.calendar_total_beers_label),
-                value = String.format(Locale.getDefault(), "%.1f", totalBeers),
+                value = totalBeersText,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(16.dp))
             LabelValueBlock(
                 label = stringResource(R.string.calendar_daily_average_label),
-                value = String.format(
-                    Locale.getDefault(),
-                    stringResource(R.string.format_daily_average_beers),
-                    avgBeersPerDay
-                ),
+                value = "$avgBeersText $perDaySuffix",
                 modifier = Modifier.weight(1f)
             )
         }

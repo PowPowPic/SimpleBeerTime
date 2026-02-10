@@ -35,6 +35,7 @@ import com.powder.simplebeertime.R
 import com.powder.simplebeertime.ui.dialog.DeleteDayConfirmDialog
 import com.powder.simplebeertime.ui.dialog.EditDayAmountDialog
 import com.powder.simplebeertime.ui.theme.SimpleColors
+import com.powder.simplebeertime.ui.settings.formatBeerCount
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.util.currentLogicalDate
 import com.powder.simplebeertime.util.toLogicalDate
@@ -222,7 +223,7 @@ fun HistoryScreen(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = stringResource(R.string.history_week_total, weekTotal),
+                text = stringResource(R.string.history_week_total, formatBeerCount(weekTotal)),
                 fontSize = 14.sp,
                 color = SimpleColors.TextPrimary
             )
@@ -230,7 +231,7 @@ fun HistoryScreen(
             Spacer(modifier = Modifier.height(2.dp))
 
             Text(
-                text = stringResource(R.string.history_week_avg, weekAverage),
+                text = stringResource(R.string.history_week_avg, formatBeerCount(weekAverage)),
                 fontSize = 14.sp,
                 color = weekAverageColor
             )

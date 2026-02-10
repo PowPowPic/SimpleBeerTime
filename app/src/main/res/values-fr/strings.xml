@@ -28,13 +28,13 @@
          ========================================================= -->
     <string name="label_week_cost">Coût cette semaine</string>
 
-    <string name="main_today_count">Aujourd’hui : %1$.1f bières</string>
-    <string name="main_week_count">Cette semaine : %1$.1f bières</string>
-    <string name="main_week_avg">Moy./jour : %1$.1f bières</string>
+    <string name="main_today_count">Aujourd’hui : %1$s bières</string>
+    <string name="main_week_count">Cette semaine : %1$s bières</string>
+    <string name="main_week_avg">Moy./jour : %1$s bières</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">Coût aujourd’hui : %1$s%2$.2f</string>
-    <string name="main_week_cost">%1$s%2$.2f</string>
+    <string name="main_today_cost">Coût aujourd’hui : %1$s</string>
+    <string name="main_week_cost">%1$s</string>
 
     <string name="main_midnight_rule_note">
     Les enregistrements ajoutés entre 0:00 et 3:00
@@ -119,8 +119,8 @@
     <string name="history_cd_previous_week">Semaine précédente</string>
     <string name="history_cd_next_week">Semaine suivante</string>
     <string name="history_week_summary_title">Historique de la semaine</string>
-    <string name="history_week_total">Total : environ %1$.1f bières</string>
-    <string name="history_week_avg">Moyenne : %1$.1f bières/jour</string>
+    <string name="history_week_total">Total : environ %1$s bières</string>
+    <string name="history_week_avg">Moyenne : %1$s bières/jour</string>
 
     <string name="history_delete_title">Supprimer cet enregistrement</string>
     <string name="history_delete_message">Voulez-vous supprimer cet enregistrement ?</string>
@@ -153,11 +153,11 @@
 
     <!-- Formats -->
     <string name="per_day_suffix">/jour</string>
-    <string name="format_daily_average_beers">%1$.1f /jour</string>
+    <string name="format_daily_average_beers">%1$s /jour</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f /jour</string>
+    <string name="format_currency_per_day">%1$s /jour</string>
 
     <!-- =========================================================
          GraphScreen
@@ -189,4 +189,5 @@
     </string>
     <string name="history_cd_edit">Modifier</string>
 
+    <string name="calendar_per_day_suffix">/jour</string>
 </resources>

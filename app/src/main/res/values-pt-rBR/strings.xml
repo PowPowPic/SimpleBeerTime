@@ -28,13 +28,13 @@
          ========================================================= -->
     <string name="label_week_cost">Gasto desta semana</string>
 
-    <string name="main_today_count">Hoje: %1$.1f garrafas</string>
-    <string name="main_week_count">Esta semana: %1$.1f garrafas</string>
-    <string name="main_week_avg">Média/dia: %1$.1f garrafas</string>
+    <string name="main_today_count">Hoje: %1$s garrafas</string>
+    <string name="main_week_count">Esta semana: %1$s garrafas</string>
+    <string name="main_week_avg">Média/dia: %1$s garrafas</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">Gasto de hoje: %1$s%2$.2f</string>
-    <string name="main_week_cost">%1$s%2$.2f</string>
+    <string name="main_today_cost">Gasto de hoje: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
 
     <string name="main_midnight_rule_note">
     Registros adicionados entre 0:00 e 3:00
@@ -125,8 +125,8 @@
     <string name="history_cd_previous_week">Semana anterior</string>
     <string name="history_cd_next_week">Próxima semana</string>
     <string name="history_week_summary_title">Histórico da semana</string>
-    <string name="history_week_total">Total: aprox. %1$.1f garrafas</string>
-    <string name="history_week_avg">Média: %1$.1f garrafas/dia</string>
+    <string name="history_week_total">Total: aprox. %1$s garrafas</string>
+    <string name="history_week_avg">Média: %1$s garrafas/dia</string>
 
     <string name="history_delete_title">Apagar este registro</string>
     <string name="history_delete_message">Deseja apagar este registro?</string>
@@ -159,11 +159,11 @@
 
     <!-- Formats -->
     <string name="per_day_suffix">/dia</string>
-    <string name="format_daily_average_beers">%1$.1f /dia</string>
+    <string name="format_daily_average_beers">%1$s /dia</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f /dia</string>
+    <string name="format_currency_per_day">%1$s /dia</string>
 
     <!-- =========================================================
          GraphScreen
@@ -195,4 +195,5 @@
     </string>
     <string name="history_cd_edit">Editar</string>
 
+    <string name="calendar_per_day_suffix">/dia</string>
 </resources>

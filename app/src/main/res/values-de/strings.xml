@@ -28,13 +28,13 @@
          ========================================================= -->
     <string name="label_week_cost">Ausgaben diese Woche</string>
 
-    <string name="main_today_count">Heute: %1$.1f Biere</string>
-    <string name="main_week_count">Diese Woche: %1$.1f Biere</string>
-    <string name="main_week_avg">Ø pro Tag: %1$.1f Biere</string>
+    <string name="main_today_count">Heute: %1$s Biere</string>
+    <string name="main_week_count">Diese Woche: %1$s Biere</string>
+    <string name="main_week_avg">Ø pro Tag: %1$s Biere</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">Ausgaben heute: %1$s%2$.2f</string>
-    <string name="main_week_cost">%1$s%2$.2f</string>
+    <string name="main_today_cost">Ausgaben heute: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
 
     <string name="main_midnight_rule_note">
     Einträge, die zwischen 0:00 und 3:00 Uhr hinzugefügt wurden,
@@ -108,8 +108,8 @@
     <string name="history_cd_previous_week">Vorherige Woche</string>
     <string name="history_cd_next_week">Nächste Woche</string>
     <string name="history_week_summary_title">Verlauf dieser Woche</string>
-    <string name="history_week_total">Gesamt: ca. %1$.1f Biere</string>
-    <string name="history_week_avg">Durchschnitt: %1$.1f Biere/Tag</string>
+    <string name="history_week_total">Gesamt: ca. %1$s Biere</string>
+    <string name="history_week_avg">Durchschnitt: %1$s Biere/Tag</string>
 
     <string name="history_delete_title">Diesen Eintrag löschen</string>
     <string name="history_delete_message">Möchten Sie diesen Eintrag löschen?</string>
@@ -142,11 +142,11 @@
 
     <!-- Formats -->
     <string name="per_day_suffix">/Tag</string>
-    <string name="format_daily_average_beers">%1$.1f /Tag</string>
+    <string name="format_daily_average_beers">%1$s /Tag</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f /Tag</string>
+    <string name="format_currency_per_day">%1$s /Tag</string>
 
     <!-- =========================================================
          GraphScreen
@@ -174,4 +174,5 @@
     <string name="delete_day_dialog_message">Alle Bieraufzeichnungen für diesen Tag werden gelöscht.</string>
     <string name="history_cd_edit">Bearbeiten</string>
 
+    <string name="calendar_per_day_suffix">/Tag</string>
 </resources>

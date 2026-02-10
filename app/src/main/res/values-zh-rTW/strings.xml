@@ -28,13 +28,13 @@
          ========================================================= -->
     <string name="label_week_cost">本週支出</string>
 
-    <string name="main_today_count">今天：%1$.1f 瓶</string>
-    <string name="main_week_count">本週：%1$.1f 瓶</string>
-    <string name="main_week_avg">每日平均：%1$.1f 瓶</string>
+    <string name="main_today_count">今天：%1$s 瓶</string>
+    <string name="main_week_count">本週：%1$s 瓶</string>
+    <string name="main_week_avg">每日平均：%1$s 瓶</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">今天支出：%1$s%2$.2f</string>
-    <string name="main_week_cost">%1$s%2$.2f</string>
+    <string name="main_today_cost">今天支出：%1$s</string>
+    <string name="main_week_cost">%1$s</string>
 
     <string name="main_midnight_rule_note">
     0:00–3:00 新增的紀錄將計入前一天。
@@ -125,8 +125,8 @@
     <string name="history_cd_previous_week">前一週</string>
     <string name="history_cd_next_week">下一週</string>
     <string name="history_week_summary_title">本週紀錄</string>
-    <string name="history_week_total">合計：約 %1$.1f 瓶</string>
-    <string name="history_week_avg">平均：%1$.1f 瓶/日</string>
+    <string name="history_week_total">合計：約 %1$s 瓶</string>
+    <string name="history_week_avg">平均：%1$s 瓶/日</string>
 
     <string name="history_delete_title">刪除此紀錄</string>
     <string name="history_delete_message">確定要刪除此紀錄嗎？</string>
@@ -159,11 +159,11 @@
 
     <!-- Formats -->
     <string name="per_day_suffix">/日</string>
-    <string name="format_daily_average_beers">%1$.1f /日</string>
+    <string name="format_daily_average_beers">%1$s /日</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f /日</string>
+    <string name="format_currency_per_day">%1$s /日</string>
 
     <!-- =========================================================
          GraphScreen
@@ -195,4 +195,5 @@
     </string>
     <string name="history_cd_edit">編輯</string>
 
+    <string name="calendar_per_day_suffix">/日</string>
 </resources>

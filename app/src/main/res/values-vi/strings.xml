@@ -28,13 +28,13 @@
          ========================================================= -->
     <string name="label_week_cost">Chi tiêu tuần này</string>
 
-    <string name="main_today_count">Hôm nay: %1$.1f chai</string>
-    <string name="main_week_count">Tuần này: %1$.1f chai</string>
-    <string name="main_week_avg">TB/ngày: %1$.1f chai</string>
+    <string name="main_today_count">Hôm nay: %1$s chai</string>
+    <string name="main_week_count">Tuần này: %1$s chai</string>
+    <string name="main_week_avg">TB/ngày: %1$s chai</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">Chi tiêu hôm nay: %1$s%2$.2f</string>
-    <string name="main_week_cost">%1$s%2$.2f</string>
+    <string name="main_today_cost">Chi tiêu hôm nay: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
 
     <string name="main_midnight_rule_note">
     Các bản ghi được thêm từ 0:00 đến 3:00
@@ -125,8 +125,8 @@
     <string name="history_cd_previous_week">Tuần trước</string>
     <string name="history_cd_next_week">Tuần sau</string>
     <string name="history_week_summary_title">Lịch sử tuần này</string>
-    <string name="history_week_total">Tổng: khoảng %1$.1f chai</string>
-    <string name="history_week_avg">Trung bình: %1$.1f chai/ngày</string>
+    <string name="history_week_total">Tổng: khoảng %1$s chai</string>
+    <string name="history_week_avg">Trung bình: %1$s chai/ngày</string>
 
     <string name="history_delete_title">Xóa bản ghi này</string>
     <string name="history_delete_message">Bạn có muốn xóa bản ghi này không?</string>
@@ -159,11 +159,11 @@
 
     <!-- Formats -->
     <string name="per_day_suffix">/ngày</string>
-    <string name="format_daily_average_beers">%1$.1f /ngày</string>
+    <string name="format_daily_average_beers">%1$s /ngày</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f /ngày</string>
+    <string name="format_currency_per_day">%1$s /ngày</string>
 
     <!-- =========================================================
          GraphScreen
@@ -195,4 +195,5 @@
     </string>
     <string name="history_cd_edit">Chỉnh sửa</string>
 
+    <string name="calendar_per_day_suffix">/ngày</string>
 </resources>

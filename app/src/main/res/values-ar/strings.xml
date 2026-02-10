@@ -28,13 +28,13 @@
          ========================================================= -->
     <string name="label_week_cost">مصروف هذا الأسبوع</string>
 
-    <string name="main_today_count">اليوم: %1$.1f زجاجة</string>
-    <string name="main_week_count">هذا الأسبوع: %1$.1f زجاجة</string>
-    <string name="main_week_avg">المتوسط اليومي: %1$.1f زجاجة</string>
+    <string name="main_today_count">اليوم: %1$s زجاجة</string>
+    <string name="main_week_count">هذا الأسبوع: %1$s زجاجة</string>
+    <string name="main_week_avg">المتوسط اليومي: %1$s زجاجة</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">مصروف اليوم: %1$s%2$.2f</string>
-    <string name="main_week_cost">%1$s%2$.2f</string>
+    <string name="main_today_cost">مصروف اليوم: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
 
     <string name="main_midnight_rule_note">
     يتم احتساب السجلات التي أُضيفت بين 00:00 و03:00 على أنها لليوم السابق.
@@ -107,8 +107,8 @@
     <string name="history_cd_previous_week">الأسبوع السابق</string>
     <string name="history_cd_next_week">الأسبوع التالي</string>
     <string name="history_week_summary_title">سجل هذا الأسبوع</string>
-    <string name="history_week_total">الإجمالي: حوالي %1$.1f زجاجة</string>
-    <string name="history_week_avg">المتوسط: %1$.1f زجاجة/يوم</string>
+    <string name="history_week_total">الإجمالي: حوالي %1$s زجاجة</string>
+    <string name="history_week_avg">المتوسط: %1$s زجاجة/يوم</string>
 
     <string name="history_delete_title">حذف هذا السجل</string>
     <string name="history_delete_message">هل تريد حذف هذا السجل؟</string>
@@ -141,11 +141,11 @@
 
     <!-- Formats -->
     <string name="per_day_suffix">/يوم</string>
-    <string name="format_daily_average_beers">%1$.1f /يوم</string>
+    <string name="format_daily_average_beers">%1$s /يوم</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f /يوم</string>
+    <string name="format_currency_per_day">%1$s /يوم</string>
 
     <!-- =========================================================
          GraphScreen
@@ -173,4 +173,5 @@
     <string name="delete_day_dialog_message">سيتم حذف جميع سجلات البيرة لهذا اليوم.</string>
     <string name="history_cd_edit">تعديل</string>
 
+    <string name="calendar_per_day_suffix">/يوم</string>
 </resources>

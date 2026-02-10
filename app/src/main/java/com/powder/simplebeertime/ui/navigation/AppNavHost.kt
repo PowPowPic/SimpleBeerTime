@@ -103,6 +103,18 @@ fun AppNavHost(
         }
     }
 
+    // --- ★ グラフ→カレンダー遷移の監視 ---
+    val calendarNavRequest = beerViewModel.navigateToCalendarMonth.collectAsState()
+    LaunchedEffect(calendarNavRequest.value) {
+        calendarNavRequest.value?.let {
+            val calendarPageIndex = screens.indexOf(Screen.Calendar)
+            if (calendarPageIndex >= 0) {
+                // ★ scrollToPage（即座に遷移）を使い、animateScrollToPageの途中停止を回避
+                pagerState.scrollToPage(calendarPageIndex)
+            }
+        }
+    }
+
     // --- 連動ロジックA（Pager→Nav） ---
     LaunchedEffect(pagerState.currentPage) {
         val targetScreen = screens[pagerState.currentPage]
@@ -125,20 +137,7 @@ fun AppNavHost(
             val route = entry.destination.route
             val pageIndex = screens.indexOfFirst { it.route == route }
             if (pageIndex >= 0 && pageIndex != pagerState.currentPage) {
-                // スワイプでも広告を出さない方針なので、ここでは広告処理なし
                 pagerState.animateScrollToPage(pageIndex)
-            }
-        }
-    }
-
-    // ★ 修正②：グラフ→カレンダー遷移の監視
-    val calendarNavRequest = beerViewModel.navigateToCalendarMonth.collectAsState()
-    LaunchedEffect(calendarNavRequest.value) {
-        calendarNavRequest.value?.let {
-            // カレンダーページへ遷移（CalendarScreen内でmonthDateが更新される）
-            val calendarPageIndex = screens.indexOf(Screen.Calendar)
-            if (calendarPageIndex >= 0) {
-                pagerState.animateScrollToPage(calendarPageIndex)
             }
         }
     }
@@ -151,7 +150,7 @@ fun AppNavHost(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .statusBarsPadding()   // ★これを追加
+                    .statusBarsPadding()
                     .wrapContentHeight()
             ) {
                 TopBannerAd(

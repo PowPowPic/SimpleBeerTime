@@ -28,13 +28,13 @@
          ========================================================= -->
     <string name="label_week_cost">Bu haftaki harcama</string>
 
-    <string name="main_today_count">Bugün: %1$.1f şişe</string>
-    <string name="main_week_count">Bu hafta: %1$.1f şişe</string>
-    <string name="main_week_avg">Günlük ort.: %1$.1f şişe</string>
+    <string name="main_today_count">Bugün: %1$s şişe</string>
+    <string name="main_week_count">Bu hafta: %1$s şişe</string>
+    <string name="main_week_avg">Günlük ort.: %1$s şişe</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">Bugünün harcaması: %1$s%2$.2f</string>
-    <string name="main_week_cost">%1$s%2$.2f</string>
+    <string name="main_today_cost">Bugünün harcaması: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
 
     <string name="main_midnight_rule_note">
     0:00–3:00 arasında eklenen kayıtlar
@@ -125,8 +125,8 @@
     <string name="history_cd_previous_week">Önceki hafta</string>
     <string name="history_cd_next_week">Sonraki hafta</string>
     <string name="history_week_summary_title">Bu haftanın geçmişi</string>
-    <string name="history_week_total">Toplam: yakl. %1$.1f şişe</string>
-    <string name="history_week_avg">Ortalama: %1$.1f şişe/gün</string>
+    <string name="history_week_total">Toplam: yakl. %1$s şişe</string>
+    <string name="history_week_avg">Ortalama: %1$s şişe/gün</string>
 
     <string name="history_delete_title">Bu kaydı sil</string>
     <string name="history_delete_message">Bu kaydı silmek istiyor musunuz?</string>
@@ -159,11 +159,11 @@
 
     <!-- Formats -->
     <string name="per_day_suffix">/gün</string>
-    <string name="format_daily_average_beers">%1$.1f /gün</string>
+    <string name="format_daily_average_beers">%1$s /gün</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f /gün</string>
+    <string name="format_currency_per_day">%1$s /gün</string>
 
     <!-- =========================================================
          GraphScreen
@@ -195,4 +195,5 @@
     </string>
     <string name="history_cd_edit">Düzenle</string>
 
+    <string name="calendar_per_day_suffix">/gün</string>
 </resources>

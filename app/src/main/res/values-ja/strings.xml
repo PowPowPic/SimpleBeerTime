@@ -28,13 +28,13 @@
          ========================================================= -->
     <string name="label_week_cost">今週の支出</string>
 
-    <string name="main_today_count">今日：%1$.1f本</string>
-    <string name="main_week_count">今週：%1$.1f本</string>
-    <string name="main_week_avg">1日平均：%1$.1f本</string>
+    <string name="main_today_count">今日：%1$s本</string>
+    <string name="main_week_count">今週：%1$s本</string>
+    <string name="main_week_avg">1日平均：%1$s本</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
-    <string name="main_today_cost">今日の支出：%1$s%2$.2f</string>
-    <string name="main_week_cost">%1$s%2$.2f</string>
+    <string name="main_today_cost">今日の支出：%1$s</string>
+    <string name="main_week_cost">%1$s</string>
 
     <string name="main_midnight_rule_note">0:00〜3:00の記録は前日分として保存されます。</string>
 
@@ -105,8 +105,8 @@
     <string name="history_cd_previous_week">前の週</string>
     <string name="history_cd_next_week">次の週</string>
     <string name="history_week_summary_title">この週の履歴</string>
-    <string name="history_week_total">合計：約%1$.1f本</string>
-    <string name="history_week_avg">平均：%1$.1f本/日</string>
+    <string name="history_week_total">合計：約%1$s本</string>
+    <string name="history_week_avg">平均：%1$s本/日</string>
 
     <string name="history_delete_title">この記録を削除</string>
     <string name="history_delete_message">この記録を削除しますか？</string>
@@ -139,11 +139,11 @@
 
     <!-- Formats -->
     <string name="per_day_suffix">/日</string>
-    <string name="format_daily_average_beers">%1$.1f /日</string>
+    <string name="format_daily_average_beers">%1$s /日</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="format_currency_amount">%1$s%2$.2f</string>
-    <string name="format_currency_per_day">%1$s%2$.2f /日</string>
+    <string name="format_currency_per_day">%1$s /日</string>
 
     <!-- =========================================================
          GraphScreen
@@ -172,4 +172,5 @@
     <string name="history_cd_edit">編集</string>
 
 
+    <string name="calendar_per_day_suffix">/日</string>
 </resources>
