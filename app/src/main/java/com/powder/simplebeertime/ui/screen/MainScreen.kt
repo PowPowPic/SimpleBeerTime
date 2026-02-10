@@ -54,7 +54,7 @@ fun MainScreen(
     val currentLang by languageViewModel.appLanguage.collectAsState()
     val currencySymbol = currencySymbolFor(currentLang)
 
-    // 日付をライフサイクルに連動して更新
+
     var displayDate by remember { mutableStateOf(java.time.LocalDate.now()) }
 
     DisposableEffect(lifecycleOwner) {
@@ -137,7 +137,7 @@ fun MainScreen(
                 .padding(bottom = 12.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(cardGradient)
-                .padding(vertical = 10.dp)
+                .padding(vertical = 7.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -147,7 +147,7 @@ fun MainScreen(
                     text = stringResource(R.string.main_week_count, weekStats.count),
                     color = SimpleColors.TextPrimary
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = stringResource(R.string.main_week_avg, weekStats.avgPerDay),
                     color = SimpleColors.TextPrimary
@@ -162,7 +162,7 @@ fun MainScreen(
                 .padding(bottom = 12.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(cardGradient)
-                .padding(vertical = 10.dp)
+                .padding(vertical = 7.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -173,7 +173,7 @@ fun MainScreen(
                     style = MaterialTheme.typography.bodyMedium,
                     color = SimpleColors.TextSecondary
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = stringResource(R.string.main_week_cost, currencySymbol, weekCostTotal),
                     style = MaterialTheme.typography.titleMedium,
@@ -189,7 +189,7 @@ fun MainScreen(
                 .padding(bottom = 16.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(cardGradient)
-                .padding(vertical = 10.dp)
+                .padding(vertical = 7.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -199,7 +199,7 @@ fun MainScreen(
                     text = stringResource(R.string.main_today_count, todayStats.count),
                     color = SimpleColors.TextPrimary
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = stringResource(R.string.main_today_cost, currencySymbol, todayCost),
                     color = SimpleColors.TextPrimary
@@ -207,7 +207,7 @@ fun MainScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         // ★ ルール②：ボタンは可変＋最低タップサイズ保証
         // 🍺 ボタン: Log 1 beer（グラデーション）

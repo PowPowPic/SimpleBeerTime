@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.powder.simplebeertime.R
@@ -63,6 +64,9 @@ fun HistoryScreen(
     // 今週の月曜日（未来の週には進めないように）
     val currentWeekMonday = logicalToday.with(DayOfWeek.MONDAY)
 
+    // ★ 今週を表示中かどうか（タップで戻る機能の表示判定用）
+    val isCurrentWeek = weekMonday == currentWeekMonday
+
     // ダイアログ用の状態
     var editingDate by remember { mutableStateOf<LocalDate?>(null) }
     var deletingDate by remember { mutableStateOf<LocalDate?>(null) }
@@ -86,17 +90,13 @@ fun HistoryScreen(
     }.sum()
 
     // ★ 週平均の計算
-    val isCurrentWeek = weekMonday == currentWeekMonday
     val daysToUse: Int = if (isCurrentWeek) {
-        // 今週：月曜日から論理上の今日までの日数（1〜7）
         val days = (logicalToday.toEpochDay() - weekMonday.toEpochDay() + 1).toInt()
         days.coerceIn(1, 7)
     } else {
-        // 過去の週：常に7日
         7
     }
 
-    // ★ 週平均
     val weekAverage: Double = if (daysToUse > 0) weekTotal / daysToUse.toDouble() else 0.0
 
     val weekAverageColor: Color = when {
@@ -173,11 +173,21 @@ fun HistoryScreen(
 
             Spacer(modifier = Modifier.width(12.dp))
 
+            // ★ 修正②：週範囲テキストタップで今週に戻る
+            // 過去の週を閲覧中の場合のみタップ可能（青文字＋下線で視覚的にヒント）
             Text(
                 text = weekRangeText,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = SimpleColors.TextPrimary
+                color = if (isCurrentWeek) SimpleColors.TextPrimary else SimpleColors.PureBlue,
+                textDecoration = if (isCurrentWeek) TextDecoration.None else TextDecoration.Underline,
+                modifier = if (isCurrentWeek) {
+                    Modifier
+                } else {
+                    Modifier.clickable {
+                        weekMonday = currentWeekMonday
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -301,9 +311,9 @@ private fun DayCard(
     val cardGradient = if (isFutureDay) {
         Brush.horizontalGradient(
             colors = listOf(
-                Color(0xFFE0E0E0),
-                Color(0xFFD0D0D0),
-                Color(0xFFE0E0E0)
+                Color(0xFFD2C28A),
+                Color(0xFFE6D8A8),
+                Color(0xFFD2C28A)
             )
         )
     } else {
@@ -323,7 +333,6 @@ private fun DayCard(
             .clip(RoundedCornerShape(12.dp))
             .background(cardGradient)
             .then(
-                // ★ 未来日はタップ無効
                 if (isFutureDay) Modifier else Modifier.clickable(onClick = onCardClick)
             )
             .padding(
@@ -356,7 +365,6 @@ private fun DayCard(
 
             // ★ 未来日は編集・削除アイコンを非表示
             if (!isFutureDay) {
-                // 編集アイコン（青）
                 IconButton(onClick = onEditClick) {
                     Icon(
                         imageVector = Icons.Outlined.Edit,
@@ -365,7 +373,6 @@ private fun DayCard(
                     )
                 }
 
-                // 削除アイコン（赤）
                 IconButton(onClick = onDeleteClick) {
                     Icon(
                         imageVector = Icons.Outlined.Delete,

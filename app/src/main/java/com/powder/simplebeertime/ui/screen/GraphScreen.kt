@@ -491,22 +491,11 @@ private fun MonthlyBarChart(
         val gap = 6f
         val barW = ((chartW - gap * (barCount - 1)) / barCount).coerceAtLeast(2f)
 
-        // ★ 数値ラベルを白文字に変更（黒縁取り付きで視認性確保）
-        val valueOutlinePaint = android.graphics.Paint().apply {
+        // ★ 数値ラベル（黒文字・縁取りなし）
+        val valuePaint = android.graphics.Paint().apply {
             textSize = 26f
             color = android.graphics.Color.BLACK
             textAlign = android.graphics.Paint.Align.CENTER
-            isAntiAlias = true
-            isFakeBoldText = true
-            style = android.graphics.Paint.Style.STROKE
-            strokeWidth = 4f
-        }
-
-        val valuePaint = android.graphics.Paint().apply {
-            textSize = 26f
-            color = android.graphics.Color.WHITE  // ★ 白文字
-            textAlign = android.graphics.Paint.Align.CENTER
-            alpha = 255
             isAntiAlias = true
             isFakeBoldText = true
         }
@@ -522,26 +511,19 @@ private fun MonthlyBarChart(
 
             barRects.add(BarRect(left, top, left + barW, paddingTop + chartH))
 
+            // ★ 棒グラフ（セージグリーン）
             drawRect(
-                color = SimpleColors.PureBlue,
+                color = Color(0xFF9DB8A0),
                 topLeft = Offset(left, top),
                 size = Size(barW, barH)
             )
 
-            // ★ 数値ラベル（白文字＋黒縁取り）
+            // ★ 数値ラベル（黒文字のみ・縁取りなし）
             if (v > 0) {
                 val labelX = left + barW / 2f
                 var labelY = top - 8f
                 if (labelY < paddingTop + 20f) labelY = top + 28f
 
-                // 黒縁取り
-                drawContext.canvas.nativeCanvas.drawText(
-                    String.format(Locale.getDefault(), "%.1f", v),
-                    labelX,
-                    labelY,
-                    valueOutlinePaint
-                )
-                // 白文字
                 drawContext.canvas.nativeCanvas.drawText(
                     String.format(Locale.getDefault(), "%.1f", v),
                     labelX,

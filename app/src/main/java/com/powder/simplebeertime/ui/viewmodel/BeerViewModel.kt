@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.powder.simplebeertime.data.entity.BeerRecord
 import com.powder.simplebeertime.data.repository.BeerRepository
+import com.powder.simplebeertime.util.currentLogicalDate
 import com.powder.simplebeertime.util.toLogicalDate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -64,10 +65,14 @@ class BeerViewModel(private val repository: BeerRepository) : ViewModel() {
         }
     }
 
+    /**
+     * ★ 修正：3時ルール適用の論理日付を使用
+     *   0時〜3時の間に記録しても前日のカウントとして正しく計上される
+     */
     private fun updateTodayStats(records: List<BeerRecord>) {
-        val today = LocalDate.now()
+        val logicalToday = currentLogicalDate(cutoffHour = 3)
         val todayRecords = records.filter { record ->
-            record.timestamp.toLogicalDate(cutoffHour = 3) == today
+            record.timestamp.toLogicalDate(cutoffHour = 3) == logicalToday
         }
         val totalAmount = todayRecords.sumOf { it.amount }
         val firstTime = todayRecords.minByOrNull { it.timestamp }?.timestamp
@@ -75,17 +80,21 @@ class BeerViewModel(private val repository: BeerRepository) : ViewModel() {
         _todayStats.value = TodayStats(count = totalAmount, firstTime = firstTime)
     }
 
+    /**
+     * ★ 修正：3時ルール適用の論理日付を使用
+     *   週の開始・終了も論理日付で判定
+     */
     private fun updateWeekStats(records: List<BeerRecord>) {
-        val today = LocalDate.now()
-        val startOfWeek = today.with(DayOfWeek.MONDAY)
+        val logicalToday = currentLogicalDate(cutoffHour = 3)
+        val startOfWeek = logicalToday.with(DayOfWeek.MONDAY)
 
         val weekRecords = records.filter { record ->
             val recordDate = record.timestamp.toLogicalDate(cutoffHour = 3)
-            !recordDate.isBefore(startOfWeek) && !recordDate.isAfter(today)
+            !recordDate.isBefore(startOfWeek) && !recordDate.isAfter(logicalToday)
         }
 
         val totalAmount = weekRecords.sumOf { it.amount }
-        val daysPassed = (today.toEpochDay() - startOfWeek.toEpochDay() + 1).toInt()
+        val daysPassed = (logicalToday.toEpochDay() - startOfWeek.toEpochDay() + 1).toInt()
         val avg = if (daysPassed > 0) totalAmount / daysPassed else 0.0
 
         _weekStats.value = WeekStats(count = totalAmount, avgPerDay = avg)

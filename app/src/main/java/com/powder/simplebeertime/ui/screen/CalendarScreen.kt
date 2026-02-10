@@ -58,7 +58,7 @@ fun CalendarScreen(
         }
     }
 
-    // ★ 今月を表示中かどうか（タップで戻る機能の表示判定用）
+    // ★ 今月を表示中かどうか
     val isCurrentMonth = monthDate == currentMonthFirst
 
     val recordsForMonth = remember(allRecords, monthDate) {
@@ -95,15 +95,13 @@ fun CalendarScreen(
 
     val avgBeersPerDay: Double = if (daysToUse > 0) totalBeers / daysToUse.toDouble() else 0.0
 
-    // ✅ 金額も Double で統一（pricePerBeer は Float なので Double化）
+    // ✅ 金額も Double で統一
     val price: Double = pricePerBeer.toDouble()
     val totalCost: Double = totalBeers * price
     val avgCostPerDay: Double = if (daysToUse > 0) totalCost / daysToUse.toDouble() else 0.0
 
-    // ✅ 合計支出は通貨に応じたフォーマット（JPY系は整数、USD系は小数2桁）
     val totalCostText = formatCurrencyAmount(currentLang, currencySymbol, totalCost)
-    
-    // ★ 平均支出は stringResource を使用し、常に小数点第2位まで表示
+
     val avgCostPerDayText = stringResource(
         R.string.format_currency_per_day,
         currencySymbol,
@@ -119,7 +117,6 @@ fun CalendarScreen(
         monthDate.format(monthFormatter)
     }
 
-    // ★ ルール①：スクロール可能にする
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -136,7 +133,6 @@ fun CalendarScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            // ★ ルール②：IconButtonは最低48dp保証（デフォルトで48dp）
             IconButton(onClick = { monthDate = monthDate.minusMonths(1) }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -147,8 +143,7 @@ fun CalendarScreen(
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            // ★ 修正①：月タイトルタップで今月に戻る
-            // 過去月を閲覧中の場合のみタップ可能（下線表示で視覚的にヒント）
+            // ★ 月タイトルタップで今月に戻る
             Text(
                 text = monthTitle,
                 fontSize = 20.sp,
@@ -186,7 +181,8 @@ fun CalendarScreen(
 
         MonthGrid(
             monthDate = monthDate,
-            dailyCounts = dailyCounts
+            dailyCounts = dailyCounts,
+            logicalToday = logicalToday
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -235,7 +231,8 @@ private fun WeekdayHeader() {
 @Composable
 private fun MonthGrid(
     monthDate: LocalDate,
-    dailyCounts: Map<LocalDate, Double>
+    dailyCounts: Map<LocalDate, Double>,
+    logicalToday: LocalDate
 ) {
     val firstDayOfMonth = monthDate
     val daysInMonth = firstDayOfMonth.lengthOfMonth()
@@ -267,9 +264,12 @@ private fun MonthGrid(
                     ) {
                         if (day != null) {
                             val date = monthDate.withDayOfMonth(day)
+                            // ★ logicalToday以前の日のみ数値表示（未来日は空白）
+                            val isFutureDay = date.isAfter(logicalToday)
                             DayCell(
                                 day = day,
-                                count = dailyCounts[date] ?: 0.0
+                                count = dailyCounts[date] ?: 0.0,
+                                isFutureDay = isFutureDay
                             )
                         } else {
                             DayCellEmpty()
@@ -281,10 +281,15 @@ private fun MonthGrid(
     }
 }
 
+/**
+ * ★ 修正①：飲酒なしの日は青文字で「0」を表示
+ *    未来日は数値なし（スペースのみ）
+ */
 @Composable
 private fun DayCell(
     day: Int,
-    count: Double
+    count: Double,
+    isFutureDay: Boolean
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
@@ -293,7 +298,11 @@ private fun DayCell(
             color = SimpleColors.TextPrimary
         )
 
-        if (count > 0.0) {
+        if (isFutureDay) {
+            // 未来日：数値なし（スペースのみ）
+            Spacer(modifier = Modifier.height(14.dp))
+        } else if (count > 0.0) {
+            // 飲酒あり：赤文字で数値表示
             Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = String.format(Locale.getDefault(), "%.1f", count),
@@ -301,7 +310,13 @@ private fun DayCell(
                 color = SimpleColors.PureRed
             )
         } else {
-            Spacer(modifier = Modifier.height(14.dp))
+            // ★ 飲酒なし：青文字(#0000FF)で「0」を表示
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = "0",
+                fontSize = 12.sp,
+                color = SimpleColors.PureBlue
+            )
         }
     }
 }
