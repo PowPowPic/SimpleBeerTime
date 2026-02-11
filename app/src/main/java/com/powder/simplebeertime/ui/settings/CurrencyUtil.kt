@@ -2,7 +2,6 @@ package com.powder.simplebeertime.ui.settings
 
 import java.util.Currency
 import java.util.Locale
-import kotlin.math.roundToLong
 
 /**
  * 言語設定から通貨記号を取得
@@ -59,10 +58,44 @@ fun currencyCodeFor(lang: AppLanguage): String {
 }
 
 /**
- * 通貨の小数桁数を取得（JPY=0, USD=2 など）
+ * 言語設定からLocaleを取得
+ * ★ ロケール依存フォーマット（桁区切り・小数点記号）に必要
+ */
+fun localeFor(lang: AppLanguage): Locale {
+    return when (lang) {
+        AppLanguage.SYSTEM -> Locale.getDefault()
+        AppLanguage.ENGLISH -> Locale.US
+        AppLanguage.JAPANESE -> Locale.JAPAN
+        AppLanguage.FRENCH -> Locale.FRANCE
+        AppLanguage.GERMAN -> Locale.GERMANY
+        AppLanguage.SPANISH -> Locale("es", "ES")
+        AppLanguage.ITALIAN -> Locale.ITALY
+        AppLanguage.PORTUGUESE_BR -> Locale("pt", "BR")
+        AppLanguage.INDONESIAN -> Locale("in", "ID")
+        AppLanguage.THAI -> Locale("th", "TH")
+        AppLanguage.TURKISH -> Locale("tr", "TR")
+        AppLanguage.VIETNAMESE -> Locale("vi", "VN")
+        AppLanguage.CHINESE_TRADITIONAL -> Locale("zh", "TW")
+        AppLanguage.KOREAN -> Locale.KOREA
+        AppLanguage.ARABIC -> Locale("ar", "EG")
+    }
+}
+
+/**
+ * ★ 通貨の実用小数桁数を取得
+ *
+ * 基本はCurrency.defaultFractionDigitsに従うが、
+ * 実生活で整数しか使わない通貨は手動で0にオーバーライドする。
+ *
+ * IDR: 税務上は小数2桁だが、実生活ではRp100が最小単位 → 整数扱い
  */
 fun getCurrencyFractionDigits(lang: AppLanguage): Int {
     val currencyCode = currencyCodeFor(lang)
+
+    // ★ 実生活で整数のみの通貨をオーバーライド
+    val integerOverrides = setOf("IDR")
+    if (currencyCode in integerOverrides) return 0
+
     return try {
         Currency.getInstance(currencyCode).defaultFractionDigits.coerceAtLeast(0)
     } catch (e: Exception) {
@@ -71,61 +104,42 @@ fun getCurrencyFractionDigits(lang: AppLanguage): Int {
 }
 
 /**
- * ★ 通貨の小数表示ルール（確定版）
+ * ★ 金額を通貨に応じたフォーマットで表示（ロケール依存・桁区切りあり）
  *
- * 小数を表示する言語：en, de, fr, es, it, ar → 0〜2桁（ロケール準拠）
- * 常に整数表示の言語：ja, ko, zh-TW, id, th, vi, tr, pt-BR → 四捨五入で整数
- */
-fun isDecimalCurrency(lang: AppLanguage): Boolean {
-    return when (lang) {
-        // ★ 小数表示する言語
-        AppLanguage.ENGLISH,
-        AppLanguage.GERMAN,
-        AppLanguage.FRENCH,
-        AppLanguage.SPANISH,
-        AppLanguage.ITALIAN,
-        AppLanguage.ARABIC -> true
-
-        // ★ 常に整数表示の言語
-        AppLanguage.JAPANESE,
-        AppLanguage.KOREAN,
-        AppLanguage.CHINESE_TRADITIONAL,
-        AppLanguage.INDONESIAN,
-        AppLanguage.THAI,
-        AppLanguage.VIETNAMESE,
-        AppLanguage.TURKISH,
-        AppLanguage.PORTUGUESE_BR -> false
-
-        // SYSTEM: 端末のロケールから推定
-        AppLanguage.SYSTEM -> {
-            val systemLang = Locale.getDefault().language
-            systemLang in listOf("en", "de", "fr", "es", "it", "ar")
-        }
-    }
-}
-
-/**
- * ★ 金額を通貨に応じたフォーマットで表示
+ * 小数桁数：getCurrencyFractionDigits()で判定
+ *   JPY(0), KRW(0), VND(0), IDR(0:オーバーライド) → 整数表示
+ *   USD(2), EUR(2), BRL(2), THB(2), TRY(2), TWD(2), EGP(2) → 小数2桁表示
  *
- * 小数表示言語（en, de, fr, es, it, ar）：
- *   → ロケール準拠で0〜2桁の小数（例：$127.50, €2.88）
+ * 小数点記号：ロケールで自動判定
+ *   en, ar, th, zh-TW → "."（ドット）
+ *   de, fr, es, it, pt-BR, tr → ","（カンマ）
  *
- * 整数表示言語（ja, ko, zh-TW, id, th, vi, tr, pt-BR）：
- *   → 常に整数（四捨五入）（例：¥128, Rp125000, ₩3000）
+ * 桁区切り：ロケールで自動判定（%,d / %,.2f）
+ *   en, ja, ko, th, zh-TW, ar → ","（カンマ）
+ *   de, es, it, pt-BR, id, tr, vi → "."（ドット）
+ *   fr → " "（空白）
+ *
+ * 例：
+ *   en: $125,000.50    de: €125.000,50    fr: €125 000,50
+ *   ja: ¥125,000       ko: ₩125,000       id: Rp125.000
+ *   th: ฿125,000.50    tr: ₺125.000,50    vi: ₫125.000
  */
 fun formatCurrencyAmount(lang: AppLanguage, symbol: String, amount: Double): String {
-    return if (isDecimalCurrency(lang)) {
-        // 小数表示言語：2桁固定
-        "$symbol${String.format(Locale.US, "%.2f", amount)}"
+    val fractionDigits = getCurrencyFractionDigits(lang)
+    val locale = localeFor(lang)
+    return if (fractionDigits == 0) {
+        // 整数系通貨：四捨五入 + 桁区切り
+        "$symbol${String.format(locale, "%,d", Math.round(amount))}"
     } else {
-        // 整数表示言語：四捨五入
-        "$symbol${amount.roundToLong()}"
+        // 小数系通貨：ロケールの小数点記号 + 桁区切り
+        "$symbol${String.format(locale, "%,.${fractionDigits}f", amount)}"
     }
 }
 
 /**
  * ★ 本数のスマートフォーマット（全画面共通）
  * 整数なら小数点なし（3）、小数ありなら小数1桁（1.4）
+ * ★ 本数は常にLocale.USでドット表示（通貨ではないため）
  */
 fun formatBeerCount(value: Double): String {
     return if (value == value.toLong().toDouble()) {
