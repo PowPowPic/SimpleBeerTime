@@ -190,4 +190,5 @@
     <string name="history_cd_edit">Modifier</string>
 
     <string name="calendar_per_day_suffix">/jour</string>
+    <string name="edit_day_about_label">Environ</string>
 </resources>

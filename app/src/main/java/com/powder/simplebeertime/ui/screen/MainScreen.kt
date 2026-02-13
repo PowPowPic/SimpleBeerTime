@@ -77,16 +77,26 @@ fun MainScreen(
             .withLocale(Locale.getDefault())
     }
 
+    // ★ ロケール対応: デフォルト値をロケールの小数点記号で表示
+    val defaultAmountText = remember {
+        String.format(Locale.getDefault(), "%.1f", 1.4)
+    }
+
     // 小数入力用の状態
-    var amountText by rememberSaveable { mutableStateOf("1.4") }
+    var amountText by rememberSaveable { mutableStateOf(defaultAmountText) }
 
     // 小数入力を処理する関数
     fun addCustomAmount() {
-        val rawText = amountText.trim().ifEmpty { "1.4" }
+        val rawText = amountText.trim().ifEmpty { defaultAmountText }
 
-        val raw = rawText.toDoubleOrNull() ?: return
+        // ★ ロケール対応: NumberFormat.parse()でカンマ小数点も正しくパース
+        val raw = try {
+            java.text.NumberFormat.getInstance(Locale.getDefault()).parse(rawText)?.toDouble()
+        } catch (e: Exception) {
+            rawText.replace(',', '.').toDoubleOrNull()
+        } ?: return
         if (raw <= 0) {
-            amountText = "1.4"
+            amountText = defaultAmountText
             return
         }
 
@@ -94,7 +104,7 @@ fun MainScreen(
         val v = (raw * 10).roundToInt() / 10.0
         viewModel.insertBeer(amount = v)
 
-        amountText = "1.4"
+        amountText = defaultAmountText
     }
 
     // ▼ 支出計算
@@ -247,8 +257,8 @@ fun MainScreen(
             OutlinedTextField(
                 value = amountText,
                 onValueChange = { new ->
-                    // 数字と小数点のみ許可
-                    if (new.matches(Regex("""^\d*\.?\d*$"""))) {
+                    // ★ ロケール対応: ドットとカンマの両方を許可
+                    if (new.matches(Regex("""^\d*[.,]?\d*$"""))) {
                         amountText = new
                     }
                 },

@@ -177,4 +177,5 @@
     <string name="history_cd_edit">Edit</string>
 
     <string name="calendar_per_day_suffix">/hari</string>
+    <string name="edit_day_about_label">Sekitar</string>
 </resources>

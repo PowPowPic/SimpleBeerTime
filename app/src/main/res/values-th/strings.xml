@@ -43,7 +43,7 @@
 
 
     <string name="main_currency_hint">
-        หากสัญลักษณ์สกุลเงินแสดงไม่ถูกต้อง โปรดลองเปลี่ยนภาษาใน ⚙การตั้งค่า
+        หากสัญลักษณ์สกุลเงินแสดงไม่ถูกต้อง โปรดลองเปลี่ยนภาษาใน ⚙ การตั้งค่า
     </string>
 
     <string name="main_button_add_one">เพิ่ม 1 ขวด</string>
@@ -196,4 +196,5 @@
     <string name="history_cd_edit">แก้ไข</string>
 
     <string name="calendar_per_day_suffix">/วัน</string>
+    <string name="edit_day_about_label">ประมาณ</string>
 </resources>

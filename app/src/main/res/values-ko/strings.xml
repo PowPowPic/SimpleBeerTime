@@ -196,4 +196,5 @@
     <string name="history_cd_edit">수정</string>
 
     <string name="calendar_per_day_suffix">/일</string>
+    <string name="edit_day_about_label">약</string>
 </resources>

@@ -174,4 +174,6 @@
     <string name="history_cd_edit">Edit</string>
 
     <string name="calendar_per_day_suffix">/day</string>
+    <!-- ④ EditDayAmountDialog: "About" label -->
+    <string name="edit_day_about_label">About</string>
 </resources>

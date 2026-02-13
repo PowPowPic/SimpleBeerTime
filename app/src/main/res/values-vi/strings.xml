@@ -196,4 +196,5 @@
     <string name="history_cd_edit">Chỉnh sửa</string>
 
     <string name="calendar_per_day_suffix">/ngày</string>
+    <string name="edit_day_about_label">Khoảng</string>
 </resources>

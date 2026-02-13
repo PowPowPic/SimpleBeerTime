@@ -196,4 +196,5 @@
     <string name="history_cd_edit">Editar</string>
 
     <string name="calendar_per_day_suffix">/dia</string>
+    <string name="edit_day_about_label">Aprox.</string>
 </resources>

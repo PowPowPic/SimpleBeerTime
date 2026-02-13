@@ -19,6 +19,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.powder.simplebeertime.R
 import com.powder.simplebeertime.ui.theme.SimpleColors
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun PriceSettingDialog(
@@ -26,7 +28,13 @@ fun PriceSettingDialog(
     onConfirm: (Float) -> Unit,
     onDismiss: () -> Unit
 ) {
-    var textState = remember { mutableStateOf(currentPrice.toString()) }
+    // ★ ロケール対応: 初期値をロケールの小数点記号で表示
+    var textState = remember {
+        mutableStateOf(
+            String.format(Locale.getDefault(), "%.2f", currentPrice)
+                .trimEnd('0').trimEnd('.').trimEnd(',')
+        )
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -47,7 +55,8 @@ fun PriceSettingDialog(
                 TextField(
                     value = textState.value,
                     onValueChange = { new ->
-                        if (new.matches(Regex("""\d*\.?\d*"""))) {
+                        // ★ ロケール対応: ドットとカンマの両方を許可
+                        if (new.matches(Regex("""\d*[.,]?\d*"""))) {
                             textState.value = new
                         }
                     },
@@ -68,7 +77,13 @@ fun PriceSettingDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    val value = textState.value.toFloatOrNull()
+                    // ★ ロケール対応: NumberFormat.parse()でカンマ小数点も正しくパース
+                    val value = try {
+                        NumberFormat.getInstance(Locale.getDefault())
+                            .parse(textState.value.trim())?.toFloat()
+                    } catch (e: Exception) {
+                        textState.value.trim().replace(',', '.').toFloatOrNull()
+                    }
                     if (value != null) {
                         onConfirm(value)
                     }

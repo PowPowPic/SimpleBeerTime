@@ -196,4 +196,5 @@
     <string name="history_cd_edit">編輯</string>
 
     <string name="calendar_per_day_suffix">/日</string>
+    <string name="edit_day_about_label">約</string>
 </resources>

@@ -173,4 +173,5 @@
 
 
     <string name="calendar_per_day_suffix">/日</string>
+    <string name="edit_day_about_label">約</string>
 </resources>

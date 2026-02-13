@@ -142,8 +142,32 @@ fun HistoryScreen(
         DateTimeFormatter.ofPattern(pattern, currentLocale)
     }
 
+    // ★ 同月の場合は月名を1回にまとめる（例: "2 feb. - 8 feb." → "2–8 feb."）
     val weekRangeText = remember(weekMonday, weekSunday, dateFormatter) {
-        "${weekMonday.format(dateFormatter)} - ${weekSunday.format(dateFormatter)}"
+        if (weekMonday.month == weekSunday.month && weekMonday.year == weekSunday.year) {
+            val uLocale = android.icu.util.ULocale.forLocale(currentLocale)
+            val monthDayPattern = android.icu.text.DateTimePatternGenerator.getInstance(uLocale).getBestPattern("MMMd")
+            val dayOnlyPattern = android.icu.text.DateTimePatternGenerator.getInstance(uLocale).getBestPattern("d")
+            val sdf = android.icu.text.SimpleDateFormat(monthDayPattern, uLocale)
+            val daySdf = android.icu.text.SimpleDateFormat(dayOnlyPattern, uLocale)
+            fun toDate(ld: java.time.LocalDate): java.util.Date =
+                java.util.Date.from(ld.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant())
+            val startFull = sdf.format(toDate(weekMonday))
+            val endFull = sdf.format(toDate(weekSunday))
+            val startDay = daySdf.format(toDate(weekMonday))
+            val endDay = daySdf.format(toDate(weekSunday))
+            val dayFirst = monthDayPattern.indexOf('d') < monthDayPattern.indexOf('M')
+            if (dayFirst) {
+                val monthPart = endFull.substring(endDay.length).trim()
+                "$startDay–$endDay $monthPart"
+            } else {
+                val monthPart = startFull.substring(0, startFull.length - startDay.length)
+                val endDayStr = endFull.substring(endFull.length - endDay.length)
+                "$monthPart$startDay–$endDayStr"
+            }
+        } else {
+            "${weekMonday.format(dateFormatter)}–${weekSunday.format(dateFormatter)}"
+        }
     }
 
     // ★ ルール①：スクロール可能

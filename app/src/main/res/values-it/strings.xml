@@ -189,4 +189,5 @@
     <string name="history_cd_edit">Modifica</string>
 
     <string name="calendar_per_day_suffix">/giorno</string>
+    <string name="edit_day_about_label">Circa</string>
 </resources>
