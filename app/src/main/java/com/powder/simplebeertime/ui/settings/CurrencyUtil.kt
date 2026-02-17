@@ -138,14 +138,16 @@ fun formatCurrencyAmount(lang: AppLanguage, symbol: String, amount: Double): Str
 
 /**
  * ★ 本数のスマートフォーマット（全画面共通）
- * 整数なら小数点なし（3）、小数ありなら小数1桁（1.4）
- * ★ 本数は常にLocale.USでドット表示（通貨ではないため）
+ * 整数なら小数点なし（3）、小数ありなら小数1桁（1.4 / 1,4）
+ * ★ ロケール準拠: 小数点記号はロケールに従う（de/fr/es/it等 → カンマ）
+ * lang省略時はシステムロケールを使用
  */
-fun formatBeerCount(value: Double): String {
+fun formatBeerCount(value: Double, lang: AppLanguage? = null): String {
     return if (value == value.toLong().toDouble()) {
         value.toLong().toString()
     } else {
-        String.format(Locale.US, "%.1f", value)
+        val locale = if (lang != null) localeFor(lang) else Locale.getDefault()
+        String.format(locale, "%.1f", value)
     }
 }
 
