@@ -25,14 +25,20 @@ import java.util.Locale
 @Composable
 fun PriceSettingDialog(
     currentPrice: Float,
+    currentLang: AppLanguage = AppLanguage.SYSTEM,
     onConfirm: (Float) -> Unit,
     onDismiss: () -> Unit
 ) {
-    // ★ ロケール対応: 初期値をロケールの小数点記号で表示
+    val locale = localeFor(currentLang)
+    val fractionDigits = getCurrencyFractionDigits(currentLang)
     var textState = remember {
         mutableStateOf(
-            String.format(Locale.getDefault(), "%.2f", currentPrice)
-                .trimEnd('0').trimEnd('.').trimEnd(',')
+            if (fractionDigits == 0) {
+                String.format(locale, "%d", Math.round(currentPrice))
+            } else {
+                String.format(locale, "%.${fractionDigits}f", currentPrice)
+                    .trimEnd('0').trimEnd('.').trimEnd(',')
+            }
         )
     }
 

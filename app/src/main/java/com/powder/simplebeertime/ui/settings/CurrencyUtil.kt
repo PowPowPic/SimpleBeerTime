@@ -93,7 +93,9 @@ fun getCurrencyFractionDigits(lang: AppLanguage): Int {
     val currencyCode = currencyCodeFor(lang)
 
     // ★ 実生活で整数のみの通貨をオーバーライド
-    val integerOverrides = setOf("IDR")
+    //   IDR: 実生活では Rp1,000 が最小単位（小数なし）
+    //   VND: ₫1,000 が最小単位（小数なし）
+    val integerOverrides = setOf("IDR", "VND")
     if (currencyCode in integerOverrides) return 0
 
     return try {
@@ -102,6 +104,15 @@ fun getCurrencyFractionDigits(lang: AppLanguage): Int {
         0
     }
 }
+
+// 通貨記号を数値の後に置く通貨コードセット（後置き）
+//   Android の NumberFormat は端末バージョンによって記号位置が不安定なため
+//   既知の後置き通貨はハードコードで管理する
+private val POSTFIX_CURRENCIES = setOf(
+    "EUR",   // ユーロ（de/fr/it/es）→ 17,88 €
+    "VND",   // ベトナムドン        → 1.234 ₫
+    "TRY",   // トルコリラ          → 1.234,56 ₺
+)
 
 /**
  * ★ 金額を通貨に応じたフォーマットで表示（ロケール依存・桁区切りあり）
@@ -114,25 +125,29 @@ fun getCurrencyFractionDigits(lang: AppLanguage): Int {
  *   en, ar, th, zh-TW → "."（ドット）
  *   de, fr, es, it, pt-BR, tr → ","（カンマ）
  *
- * 桁区切り：ロケールで自動判定（%,d / %,.2f）
+ * 桁区切り：ロケールで自動判定
  *   en, ja, ko, th, zh-TW, ar → ","（カンマ）
  *   de, es, it, pt-BR, id, tr, vi → "."（ドット）
  *   fr → " "（空白）
  *
- * 例：
- *   en: $125,000.50    de: €125.000,50    fr: €125 000,50
- *   ja: ¥125,000       ko: ₩125,000       id: Rp125.000
- *   th: ฿125,000.50    tr: ₺125.000,50    vi: ₫125.000
+ * 記号位置：POSTFIX_CURRENCIES に従い後置き対応
+ *   en: $125,000.50    de: 125.000,50 €    fr: 125 000,50 €
+ *   ja: ¥125,000       ko: ₩125,000        id: Rp125.000
+ *   th: ฿125,000.50    tr: 125.000,50 ₺    vi: 125.000 ₫
  */
 fun formatCurrencyAmount(lang: AppLanguage, symbol: String, amount: Double): String {
     val fractionDigits = getCurrencyFractionDigits(lang)
     val locale = localeFor(lang)
-    return if (fractionDigits == 0) {
-        // 整数系通貨：四捨五入 + 桁区切り
-        "$symbol${String.format(locale, "%,d", Math.round(amount))}"
+    val number = if (fractionDigits == 0) {
+        String.format(locale, "%,d", Math.round(amount))
     } else {
-        // 小数系通貨：ロケールの小数点記号 + 桁区切り
-        "$symbol${String.format(locale, "%,.${fractionDigits}f", amount)}"
+        String.format(locale, "%,.${fractionDigits}f", amount)
+    }
+    val currencyCode = currencyCodeFor(lang)
+    return if (currencyCode in POSTFIX_CURRENCIES) {
+        "$number $symbol"   // 例: 17,88 €
+    } else {
+        "$symbol$number"    // 例: $125,000.50
     }
 }
 
