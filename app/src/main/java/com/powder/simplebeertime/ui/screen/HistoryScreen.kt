@@ -382,7 +382,10 @@ private fun DayCard(
 
             // ★ 未来日は「-」表示、過去・今日は数値表示
             Text(
-                text = if (isFutureDay) "-" else String.format(Locale.getDefault(), "%.1f", value),
+                text = if (isFutureDay) "-" else String.format(
+                            if (Locale.getDefault().country == "ZA") Locale.US else Locale.getDefault(),
+                            "%.1f", value
+                        ),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = valueColor

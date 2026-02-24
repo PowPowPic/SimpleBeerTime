@@ -78,8 +78,11 @@ fun MainScreen(
     }
 
     // ★ ロケール対応: デフォルト値をロケールの小数点記号で表示
+    //   en-ZA は ICU 規格が "," だが実生活慣習に合わせて "." を強制
     val defaultAmountText = remember {
-        String.format(Locale.getDefault(), "%.1f", 1.4)
+        val locale = Locale.getDefault()
+        val displayLocale = if (locale.country == "ZA") Locale.US else locale
+        String.format(displayLocale, "%.1f", 1.4)
     }
 
     // 小数入力用の状態

@@ -10,7 +10,10 @@ fun currencySymbolFor(lang: AppLanguage): String {
     return when (lang) {
         AppLanguage.SYSTEM -> {
             val locale = Locale.getDefault()
-            runCatching { Currency.getInstance(locale).symbol }
+            val code = runCatching { Currency.getInstance(locale).currencyCode }.getOrElse { "" }
+            // ★ SGD は java.util.Currency が "$" を返す端末があるためハードコード
+            if (code == "SGD") return "S$"
+            runCatching { Currency.getInstance(locale).getSymbol(locale) }
                 .getOrElse { "$" }
         }
         AppLanguage.ENGLISH -> "$"
@@ -63,7 +66,13 @@ fun currencyCodeFor(lang: AppLanguage): String {
  */
 fun localeFor(lang: AppLanguage): Locale {
     return when (lang) {
-        AppLanguage.SYSTEM -> Locale.getDefault()
+        AppLanguage.SYSTEM -> {
+            val locale = Locale.getDefault()
+            // ★ en-ZA: ICU/CLDR の公式規格は小数点","・桁区切り" "だが
+            //   実生活（スーパー・銀行明細）では小数点"."・桁区切り","が標準。
+            //   ユーザー体験に合わせて en-US フォーマット（. と ,）を強制適用。
+            if (locale.country == "ZA") Locale.US else locale
+        }
         AppLanguage.ENGLISH -> Locale.US
         AppLanguage.JAPANESE -> Locale.JAPAN
         AppLanguage.FRENCH -> Locale.FRANCE
@@ -161,7 +170,11 @@ fun formatBeerCount(value: Double, lang: AppLanguage? = null): String {
     return if (value == value.toLong().toDouble()) {
         value.toLong().toString()
     } else {
-        val locale = if (lang != null) localeFor(lang) else Locale.getDefault()
+        val locale = run {
+            val l = if (lang != null) localeFor(lang) else Locale.getDefault()
+            // ★ en-ZA: 実生活慣習に合わせて小数点"."を強制
+            if (l.country == "ZA") Locale.US else l
+        }
         String.format(locale, "%.1f", value)
     }
 }

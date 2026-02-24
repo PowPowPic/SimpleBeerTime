@@ -479,7 +479,7 @@ private fun MonthlyBarChart(
             yMax to yTop
         ).forEach { (v, yy) ->
             drawContext.canvas.nativeCanvas.drawText(
-                String.format(Locale.getDefault(), "%.1f", v),
+                String.format(if (Locale.getDefault().country == "ZA") Locale.US else Locale.getDefault(), "%.1f", v),
                 paddingLeft - 8f,
                 yy + 8f,
                 yPaint
@@ -525,7 +525,7 @@ private fun MonthlyBarChart(
                 if (labelY < paddingTop + 20f) labelY = top + 28f
 
                 drawContext.canvas.nativeCanvas.drawText(
-                    String.format(Locale.getDefault(), "%.1f", v),
+                    String.format(if (Locale.getDefault().country == "ZA") Locale.US else Locale.getDefault(), "%.1f", v),
                     labelX,
                     labelY,
                     valuePaint
@@ -641,7 +641,7 @@ private fun WeeklyLineChart(
             yMax to yTop
         ).forEach { (v, yy) ->
             drawContext.canvas.nativeCanvas.drawText(
-                String.format(Locale.getDefault(), "%.1f", v),
+                String.format(if (Locale.getDefault().country == "ZA") Locale.US else Locale.getDefault(), "%.1f", v),
                 paddingLeft - 8f,
                 yy + 8f,
                 yPaint
@@ -696,7 +696,7 @@ private fun WeeklyLineChart(
             )
 
             // 数値ラベル（%.2f）
-            val labelText = String.format(Locale.getDefault(), "%.2f", v)
+            val labelText = String.format(if (Locale.getDefault().country == "ZA") Locale.US else Locale.getDefault(), "%.2f", v)
             var labelY = y - 14f
             if (labelY < paddingTop + 20f) labelY = y + 28f
 

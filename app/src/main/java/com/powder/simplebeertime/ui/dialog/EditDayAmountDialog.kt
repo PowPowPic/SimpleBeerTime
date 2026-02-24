@@ -28,10 +28,10 @@ fun EditDayAmountDialog(
     var text by remember(currentAmount) {
         mutableStateOf(
             if (currentAmount > 0.0) {
-                String.format(Locale.getDefault(), "%.1f", currentAmount)
+                String.format(if (Locale.getDefault().country == "ZA") Locale.US else Locale.getDefault(), "%.1f", currentAmount)
             } else {
                 // ★ ロケール対応: デフォルト値もロケール表記
-                String.format(Locale.getDefault(), "%.1f", 1.4)
+                String.format(if (Locale.getDefault().country == "ZA") Locale.US else Locale.getDefault(), "%.1f", 1.4)
             }
         )
     }
