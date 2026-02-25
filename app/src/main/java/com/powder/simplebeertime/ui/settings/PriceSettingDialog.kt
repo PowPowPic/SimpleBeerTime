@@ -83,9 +83,12 @@ fun PriceSettingDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    // ★ ロケール対応: NumberFormat.parse()でカンマ小数点も正しくパース
+                    // ★ ロケール対応: en-ZA は実生活慣習に合わせて "." 小数点でパース
+                    val parseLoc = Locale.getDefault().let {
+                        if (it.country == "ZA") Locale.US else it
+                    }
                     val value = try {
-                        NumberFormat.getInstance(Locale.getDefault())
+                        NumberFormat.getInstance(parseLoc)
                             .parse(textState.value.trim())?.toFloat()
                     } catch (e: Exception) {
                         textState.value.trim().replace(',', '.').toFloatOrNull()

@@ -14,8 +14,8 @@ android {
         applicationId = "com.powder.simplebeertime"
         minSdk = 24
         targetSdk = 36
-        versionCode = 30
-        versionName = "1.6.4"
+        versionCode = 31
+        versionName = "1.6.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -38,7 +38,7 @@ fun EditDayAmountDialog(
 
     // ★ ロケール対応: NumberFormat.parse()でカンマ小数点も正しくパース
     val parsed = try {
-        NumberFormat.getInstance(Locale.getDefault()).parse(text.trim())?.toDouble()
+        NumberFormat.getInstance(Locale.getDefault().let { if (it.country == "ZA") Locale.US else it }).parse(text.trim())?.toDouble()
     } catch (e: Exception) {
         text.trim().replace(',', '.').toDoubleOrNull()
     }

@@ -94,7 +94,7 @@ fun MainScreen(
 
         // ★ ロケール対応: NumberFormat.parse()でカンマ小数点も正しくパース
         val raw = try {
-            java.text.NumberFormat.getInstance(Locale.getDefault()).parse(rawText)?.toDouble()
+            java.text.NumberFormat.getInstance(Locale.getDefault().let { if (it.country == "ZA") Locale.US else it }).parse(rawText)?.toDouble()
         } catch (e: Exception) {
             rawText.replace(',', '.').toDoubleOrNull()
         } ?: return
