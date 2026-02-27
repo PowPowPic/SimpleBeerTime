@@ -36,6 +36,9 @@
     <string name="main_today_cost">ค่าใช้จ่ายวันนี้: %1$s</string>
     <string name="main_week_cost">%1$s</string>
 
+    <!-- th -->
+    <string name="calendar_tap_hint">แตะวันที่เพื่อแก้ไขจำนวน</string>
+
     <string name="main_midnight_rule_note">
     บันทึกที่เพิ่มระหว่างเวลา 0:00–3:00
     จะถูกนับเป็นของวันก่อนหน้า

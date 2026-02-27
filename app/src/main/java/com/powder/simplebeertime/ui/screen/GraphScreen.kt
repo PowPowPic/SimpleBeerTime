@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -250,24 +251,28 @@ fun GraphScreen(
                     .height(250.dp)
                     .padding(12.dp)
             ) {
+                // ① グラフタイトル（1行目）
+                Text(
+                    text = stringResource(R.string.graph_weekly_title),
+                    color = SimpleColors.TextPrimary
+                )
+
+                // ② 「最新」ボタン（2行目・右詰）
+                // ★ ボタン高さの調整はここで行う
+                //    高さを変えたい場合は height(...dp) の数値を変更してください
+                //    例: 28.dp → 小さめ / 36.dp → 標準 / 48.dp → タップしやすい大きさ
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    Text(
-                        text = stringResource(R.string.graph_weekly_title),
-                        color = SimpleColors.TextPrimary
-                    )
-
-                    // ★ 「最新」ボタン → 右端へスクロール
                     Button(
                         onClick = {
                             coroutineScope.launch {
                                 horizontalScrollState.scrollTo(horizontalScrollState.maxValue)
                             }
                         },
-                        modifier = Modifier.heightIn(min = 48.dp),
+                        modifier = Modifier.height(32.dp), // ← ボタン高さ（dp）をここで調整
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = SimpleColors.ButtonPrimary)
                     ) {
                         Text(

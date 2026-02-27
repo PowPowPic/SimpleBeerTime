@@ -36,6 +36,9 @@
     <string name="main_today_cost">Bugünün harcaması: %1$s</string>
     <string name="main_week_cost">%1$s</string>
 
+    <!-- tr -->
+    <string name="calendar_tap_hint">Sayımı düzenlemek için bir tarihe dokunun.</string>
+
     <string name="main_midnight_rule_note">
     0:00–3:00 arasında eklenen kayıtlar
     bir önceki güne sayılır.

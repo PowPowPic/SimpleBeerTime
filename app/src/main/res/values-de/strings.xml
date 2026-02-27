@@ -176,4 +176,7 @@
 
     <string name="calendar_per_day_suffix">/Tag</string>
     <string name="edit_day_about_label">Ca.</string>
+
+    <!-- de -->
+    <string name="calendar_tap_hint">Tippen Sie auf ein Datum, um die Anzahl zu bearbeiten.</string>
 </resources>

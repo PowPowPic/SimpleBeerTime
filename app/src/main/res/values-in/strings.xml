@@ -178,4 +178,7 @@
 
     <string name="calendar_per_day_suffix">/hari</string>
     <string name="edit_day_about_label">Sekitar</string>
+
+    <!-- id -->
+    <string name="calendar_tap_hint">Ketuk tanggal untuk mengedit jumlah.</string>
 </resources>

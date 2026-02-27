@@ -191,4 +191,7 @@
 
     <string name="calendar_per_day_suffix">/día</string>
     <string name="edit_day_about_label">Aprox.</string>
+
+    <!-- es -->
+    <string name="calendar_tap_hint">Toca una fecha para editar la cantidad.</string>
 </resources>

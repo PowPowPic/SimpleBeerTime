@@ -30,6 +30,13 @@ fun currencySymbolFor(lang: AppLanguage): String {
         AppLanguage.CHINESE_TRADITIONAL -> "NT$"
         AppLanguage.KOREAN -> "₩"
         AppLanguage.ARABIC -> "ج.م"
+        AppLanguage.POLISH -> "zł"
+        AppLanguage.ROMANIAN -> "lei"
+        AppLanguage.UZBEK -> "soʻm"
+        AppLanguage.KAZAKH -> "₸"
+        AppLanguage.URDU -> "₨"
+        AppLanguage.KYRGYZ -> "сом"
+        AppLanguage.BULGARIAN -> "лв"
     }
 }
 
@@ -57,6 +64,13 @@ fun currencyCodeFor(lang: AppLanguage): String {
         AppLanguage.CHINESE_TRADITIONAL -> "TWD"
         AppLanguage.KOREAN -> "KRW"
         AppLanguage.ARABIC -> "EGP"
+        AppLanguage.POLISH -> "PLN"
+        AppLanguage.ROMANIAN -> "RON"
+        AppLanguage.UZBEK -> "UZS"
+        AppLanguage.KAZAKH -> "KZT"
+        AppLanguage.URDU -> "PKR"
+        AppLanguage.KYRGYZ -> "KGS"
+        AppLanguage.BULGARIAN -> "BGN"
     }
 }
 
@@ -87,6 +101,13 @@ fun localeFor(lang: AppLanguage): Locale {
         AppLanguage.CHINESE_TRADITIONAL -> Locale("zh", "TW")
         AppLanguage.KOREAN -> Locale.KOREA
         AppLanguage.ARABIC -> Locale("ar", "EG")
+        AppLanguage.POLISH -> Locale("pl", "PL")
+        AppLanguage.ROMANIAN -> Locale("ro", "RO")
+        AppLanguage.UZBEK -> Locale("uz", "UZ")
+        AppLanguage.KAZAKH -> Locale("kk", "KZ")
+        AppLanguage.URDU -> Locale("ur", "PK")
+        AppLanguage.KYRGYZ -> Locale("ky", "KG")
+        AppLanguage.BULGARIAN -> Locale("bg", "BG")
     }
 }
 
@@ -104,7 +125,7 @@ fun getCurrencyFractionDigits(lang: AppLanguage): Int {
     // ★ 実生活で整数のみの通貨をオーバーライド
     //   IDR: 実生活では Rp1,000 が最小単位（小数なし）
     //   VND: ₫1,000 が最小単位（小数なし）
-    val integerOverrides = setOf("IDR", "VND")
+    val integerOverrides = setOf("IDR", "VND", "UZS", "KZT", "KGS")
     if (currencyCode in integerOverrides) return 0
 
     return try {
@@ -121,6 +142,12 @@ private val POSTFIX_CURRENCIES = setOf(
     "EUR",   // ユーロ（de/fr/it/es）→ 17,88 €
     "VND",   // ベトナムドン        → 1.234 ₫
     "TRY",   // トルコリラ          → 1.234,56 ₺
+    "PLN",   // ポーランドズウォティ → 100 zł
+    "RON",   // ルーマニアレウ      → 100 lei
+    "UZS",   // ウズベクスム        → 100 soʻm
+    "KZT",   // カザフテンゲ        → 100 ₸
+    "KGS",   // キルギスソム        → 100 сом
+    "BGN",   // ブルガリアレフ      → 100 лв
 )
 
 /**

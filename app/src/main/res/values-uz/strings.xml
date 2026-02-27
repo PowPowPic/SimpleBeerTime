@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- =========================================================
+         App (DO NOT TRANSLATE)
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">Asosiy</string>
+    <string name="nav_history">Tarix</string>
+    <string name="nav_calendar">Taqvim</string>
+    <string name="nav_graph">Grafik</string>
+    <string name="nav_settings">Sozlama</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Bekor qilish</string>
+    <string name="close_button_text">Yopish</string>
+    <string name="cancel_button_text">Bekor qilish</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">Bu haftadagi xarajatlar</string>
+
+    <string name="main_today_count">Bugun: %1$s pivo</string>
+    <string name="main_week_count">Bu hafta: %1$s pivo</string>
+    <string name="main_week_avg">Kunlik o‘rtacha: %1$s pivo</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">Bugungi xarajat: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
+
+    <string name="main_midnight_rule_note">
+    00:00 dan 03:00 gacha qo‘shilgan yozuvlar oldingi kunga hisoblanadi.
+</string>
+
+    <string name="main_currency_hint">Agar valyuta belgisi to‘g‘ri ko‘rsatilmasa, ⚙Sozlama bo‘limida tilni o‘zgartirib ko‘ring.</string>
+
+    <string name="main_button_add_one">1 pivo qo‘shish</string>
+    <string name="main_button_undo_last">Oxirgisini bekor qilish</string>
+
+    <!-- Decimal input area -->
+    <string name="main_amount_prefix">Taxminan</string>
+    <string name="main_amount_suffix">pivo</string>
+    <string name="main_button_add">+</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">Qo‘shildi</string>
+    <string name="msg_undo_success">Oxirgi yozuv o‘chirildi</string>
+    <string name="msg_no_record_to_undo">Bekor qilish uchun yozuv yo‘q</string>
+    <string name="msg_all_records_deleted">Barcha ma’lumotlar o‘chirildi</string>
+
+    <!-- =========================================================
+         Settings
+         ========================================================= -->
+    <string name="settings_title">Sozlamalar</string>
+
+    <string name="settings_language_title">Til</string>
+    <string name="settings_language_description">Ilovaning ko‘rsatilish tilini o‘zgartiring.</string>
+
+    <string name="settings_price_title">Bir pivo narxi</string>
+    <string name="settings_price_description">Bir pivo narxini belgilang.</string>
+
+    <string name="settings_delete_title">Barcha ma’lumotlarni o‘chirish</string>
+    <string name="settings_delete_description">Barcha ichimlik yozuvlarini o‘chirish.</string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">Sozlamalar oynasi</string>
+    <string name="settings_cd_language">Til sozlamalari</string>
+    <string name="settings_cd_price">Narx sozlamalari</string>
+    <string name="settings_cd_delete_all">Barcha ma’lumotlarni o‘chirish</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">Barcha ma’lumotlarni o‘chirish</string>
+    <string name="delete_all_message">Barcha ichimlik yozuvlarini o‘chirmoqchimisiz? Bu amalni bekor qilib bo‘lmaydi.</string>
+    <string name="delete_all_confirm">O‘chirish</string>
+    <string name="delete_all_cancel">Bekor qilish</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">Bir pivo narxini belgilang</string>
+    <string name="price_dialog_message">Iltimos, bir pivo narxini kiriting:</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">Til</string>
+    <string name="dialog_language_message">Ilova tili keyingi ishga tushirilganda o‘zgaradi.</string>
+    <string name="dialog_language_ok">OK</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">Tizim tili</string>
+    <string name="language_apply_restart">Qo‘llash</string>
+    <string name="language_confirm_title">Tilni qo‘llash</string>
+    <string name="language_confirm_message">Tanlangan tilni qo‘llamoqchimisiz?</string>
+    <string name="language_confirm_ok">Qo‘llash</string>
+    <string name="language_confirm_cancel">Bekor qilish</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">Tarix</string>
+
+    <string name="history_cd_previous_week">Oldingi hafta</string>
+    <string name="history_cd_next_week">Keyingi hafta</string>
+    <string name="history_week_summary_title">Bu haftaning tarixi</string>
+    <string name="history_week_total">Jami: Taxminan %1$s pivo</string>
+    <string name="history_week_avg">O‘rtacha: %1$s pivo/kun</string>
+
+    <string name="history_delete_title">Ushbu yozuvni o‘chirish</string>
+    <string name="history_delete_message">Ushbu yozuvni o‘chirmoqchimisiz?</string>
+    <string name="history_delete_yes">Ha</string>
+    <string name="history_delete_no">Yo‘q</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_delete">O‘chirish</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <string name="calendar_cd_previous_month">Oldingi oy</string>
+    <string name="calendar_cd_next_month">Keyingi oy</string>
+
+    <!-- Weekday labels (Mon-first) -->
+    <string name="weekday_mon">Du</string>
+    <string name="weekday_tue">Se</string>
+    <string name="weekday_wed">Ch</string>
+    <string name="weekday_thu">Pa</string>
+    <string name="weekday_fri">Ju</string>
+    <string name="weekday_sat">Sh</string>
+    <string name="weekday_sun">Ya</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">Jami pivo</string>
+    <string name="calendar_daily_average_label">Kunlik o‘rtacha</string>
+    <string name="calendar_total_cost_label">Jami xarajat</string>
+    <string name="calendar_average_cost_label">O‘rtacha xarajat</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/kun</string>
+    <string name="format_daily_average_beers">%1$s /kun</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s /kun</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_now_button">So‘nggi</string>
+    <string name="graph_weekly_no_data">Ma’lumot yetarli emas.\n2 pivodan kam bo‘lgan haftalar 24 soat sifatida ko‘rsatiladi.</string>
+
+    <string name="graph_monthly_title">Oylik jami pivo</string>
+    <string name="graph_weekly_title">Haftalik kunlik o‘rtacha pivo</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">Oldingi yil</string>
+    <string name="graph_cd_next_year">Keyingi yil</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
+    <string name="edit_day_dialog_title">Pivo sonini tahrirlash</string>
+    <string name="calendar_tap_hint">Sonni tahrirlash uchun sanaga teging.</string>
+    <string name="delete_day_dialog_title">Ushbu kun o‘chirilsinmi?</string>
+    <string name="delete_day_dialog_message">Ushbu kundagi barcha pivo yozuvlarini o‘chirish.</string>
+    <string name="history_cd_edit">Tahrirlash</string>
+
+    <string name="calendar_per_day_suffix">/kun</string>
+    <!-- ④ EditDayAmountDialog: "About" label -->
+    <string name="edit_day_about_label">Taxminan</string>
+</resources>

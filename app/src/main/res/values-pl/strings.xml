@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- =========================================================
+         App (DO NOT TRANSLATE)
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">Start</string>
+    <string name="nav_history">Historia</string>
+    <string name="nav_calendar">Kalendarz</string>
+    <string name="nav_graph">Wykres</string>
+    <string name="nav_settings">Ustaw.</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Anuluj</string>
+    <string name="close_button_text">Zamknij</string>
+    <string name="cancel_button_text">Anuluj</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">Wydatki w tym tygodniu</string>
+
+    <string name="main_today_count">Dzisiaj: %1$s piw</string>
+    <string name="main_week_count">Ten tydzień: %1$s piw</string>
+    <string name="main_week_avg">Średnio dziennie: %1$s piw</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">Dzisiejsze wydatki: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
+
+    <string name="main_midnight_rule_note">
+    Zapisy dodane między 00:00 a 03:00 są liczone jako poprzedni dzień.
+</string>
+
+    <string name="main_currency_hint">Jeśli symbol waluty nie jest wyświetlany poprawnie, spróbuj zmienić język w ⚙Ustawieniach.</string>
+
+    <string name="main_button_add_one">Dodaj 1 piwo</string>
+    <string name="main_button_undo_last">Cofnij ostatni wpis</string>
+
+    <!-- Decimal input area -->
+    <string name="main_amount_prefix">Około</string>
+    <string name="main_amount_suffix">piw</string>
+    <string name="main_button_add">+</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">Dodano</string>
+    <string name="msg_undo_success">Ostatni wpis został usunięty</string>
+    <string name="msg_no_record_to_undo">Brak wpisu do cofnięcia</string>
+    <string name="msg_all_records_deleted">Wszystkie dane zostały usunięte</string>
+
+    <!-- =========================================================
+         Settings
+         ========================================================= -->
+    <string name="settings_title">Ustawienia</string>
+
+    <string name="settings_language_title">Język</string>
+    <string name="settings_language_description">Zmień język wyświetlania aplikacji.</string>
+
+    <string name="settings_price_title">Cena za piwo</string>
+    <string name="settings_price_description">Ustaw cenę za jedno piwo.</string>
+
+    <string name="settings_delete_title">Usuń wszystkie dane</string>
+    <string name="settings_delete_description">Usuń całą zapisaną historię picia.</string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">Okno ustawień</string>
+    <string name="settings_cd_language">Ustawienia języka</string>
+    <string name="settings_cd_price">Ustawienia ceny</string>
+    <string name="settings_cd_delete_all">Usuń wszystkie dane</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">Usuń wszystkie dane</string>
+    <string name="delete_all_message">Czy chcesz usunąć wszystkie zapisy picia? Tej operacji nie można cofnąć.</string>
+    <string name="delete_all_confirm">Usuń</string>
+    <string name="delete_all_cancel">Anuluj</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">Ustaw cenę za piwo</string>
+    <string name="price_dialog_message">Wprowadź cenę za jedno piwo:</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">Język</string>
+    <string name="dialog_language_message">Język aplikacji zostanie zmieniony przy następnym uruchomieniu.</string>
+    <string name="dialog_language_ok">OK</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">Język systemowy</string>
+    <string name="language_apply_restart">Zastosuj</string>
+    <string name="language_confirm_title">Zastosuj język</string>
+    <string name="language_confirm_message">Czy chcesz zastosować wybrany język?</string>
+    <string name="language_confirm_ok">Zastosuj</string>
+    <string name="language_confirm_cancel">Anuluj</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">Historia</string>
+
+    <string name="history_cd_previous_week">Poprzedni tydzień</string>
+    <string name="history_cd_next_week">Następny tydzień</string>
+    <string name="history_week_summary_title">Historia w tym tygodniu</string>
+    <string name="history_week_total">Łącznie: Około %1$s piw</string>
+    <string name="history_week_avg">Średnio: %1$s piw/dzień</string>
+
+    <string name="history_delete_title">Usuń ten wpis</string>
+    <string name="history_delete_message">Czy chcesz usunąć ten wpis?</string>
+    <string name="history_delete_yes">Tak</string>
+    <string name="history_delete_no">Nie</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_delete">Usuń</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <string name="calendar_cd_previous_month">Poprzedni miesiąc</string>
+    <string name="calendar_cd_next_month">Następny miesiąc</string>
+
+    <!-- Weekday labels (Mon-first) -->
+    <string name="weekday_mon">Pon</string>
+    <string name="weekday_tue">Wt</string>
+    <string name="weekday_wed">Śr</string>
+    <string name="weekday_thu">Czw</string>
+    <string name="weekday_fri">Pt</string>
+    <string name="weekday_sat">Sob</string>
+    <string name="weekday_sun">Nd</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">Łącznie piw</string>
+    <string name="calendar_daily_average_label">Średnio dziennie</string>
+    <string name="calendar_total_cost_label">Łączne wydatki</string>
+    <string name="calendar_average_cost_label">Średnie wydatki</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/dzień</string>
+    <string name="format_daily_average_beers">%1$s /dzień</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s /dzień</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_now_button">Najnowsze</string>
+    <string name="graph_weekly_no_data">Brak wystarczających danych.\nTygodnie z mniej niż 2 piwami są wyświetlane jako 24h.</string>
+
+    <string name="graph_monthly_title">Miesięczna łączna liczba piw</string>
+    <string name="graph_weekly_title">Tygodniowa średnia dzienna liczba piw</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">Poprzedni rok</string>
+    <string name="graph_cd_next_year">Następny rok</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
+    <string name="edit_day_dialog_title">Edytuj liczbę piw</string>
+    <string name="calendar_tap_hint">Dotknij daty, aby edytować liczbę.</string>
+    <string name="delete_day_dialog_title">Usunąć ten dzień?</string>
+    <string name="delete_day_dialog_message">Usuń wszystkie zapisy piwa z tego dnia.</string>
+    <string name="history_cd_edit">Edytuj</string>
+
+    <string name="calendar_per_day_suffix">/dzień</string>
+    <!-- ④ EditDayAmountDialog: "About" label -->
+    <string name="edit_day_about_label">Około</string>
+</resources>

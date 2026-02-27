@@ -18,5 +18,13 @@ enum class AppLanguage(val tag: String) {
     TURKISH("tr"),
     VIETNAMESE("vi"),
     CHINESE_TRADITIONAL("zh-TW"),
-    KOREAN("ko");
+    KOREAN("ko"),
+
+    POLISH("pl"),
+    ROMANIAN("ro"),
+    UZBEK("uz"),
+    KAZAKH("kk"),
+    URDU("ur"),
+    KYRGYZ("ky"),
+    BULGARIAN("bg");
 }

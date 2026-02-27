@@ -36,6 +36,9 @@
     <string name="main_today_cost">Gasto de hoje: %1$s</string>
     <string name="main_week_cost">%1$s</string>
 
+    <!-- pt-BR -->
+    <string name="calendar_tap_hint">Toque em uma data para editar a quantidade.</string>
+
     <string name="main_midnight_rule_note">
     Registros adicionados entre 0:00 e 3:00
     são contabilizados como do dia anterior.

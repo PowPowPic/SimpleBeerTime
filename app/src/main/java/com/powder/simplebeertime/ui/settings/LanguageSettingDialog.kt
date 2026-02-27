@@ -213,6 +213,69 @@ fun LanguageSettingDialog(
                         showConfirm = true
                     }
                 )
+
+                LanguageOption(
+                    label = "Polski",
+                    selected = currentLang == AppLanguage.POLISH,
+                    onSelect = {
+                        pendingLang = AppLanguage.POLISH
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "Română",
+                    selected = currentLang == AppLanguage.ROMANIAN,
+                    onSelect = {
+                        pendingLang = AppLanguage.ROMANIAN
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "Oʻzbekcha",
+                    selected = currentLang == AppLanguage.UZBEK,
+                    onSelect = {
+                        pendingLang = AppLanguage.UZBEK
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "Қазақша",
+                    selected = currentLang == AppLanguage.KAZAKH,
+                    onSelect = {
+                        pendingLang = AppLanguage.KAZAKH
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "اردو",
+                    selected = currentLang == AppLanguage.URDU,
+                    onSelect = {
+                        pendingLang = AppLanguage.URDU
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "Кыргызча",
+                    selected = currentLang == AppLanguage.KYRGYZ,
+                    onSelect = {
+                        pendingLang = AppLanguage.KYRGYZ
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "Български",
+                    selected = currentLang == AppLanguage.BULGARIAN,
+                    onSelect = {
+                        pendingLang = AppLanguage.BULGARIAN
+                        showConfirm = true
+                    }
+                )
             }
         },
         confirmButton = {

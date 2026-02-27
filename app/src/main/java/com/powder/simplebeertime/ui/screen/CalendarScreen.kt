@@ -19,6 +19,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.powder.simplebeertime.R
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import com.powder.simplebeertime.ui.dialog.EditDayAmountDialog
 import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.currencySymbolFor
 import com.powder.simplebeertime.ui.settings.formatBeerCount
@@ -43,6 +46,8 @@ fun CalendarScreen(
 
     val currentLang by languageViewModel.appLanguage.collectAsState()
     val currencySymbol = currencySymbolFor(currentLang)
+
+    var dialogTargetDate by remember { mutableStateOf<LocalDate?>(null) }
 
     val logicalToday = remember { currentLogicalDate(cutoffHour = 3) }
     val currentMonthFirst = remember { logicalToday.withDayOfMonth(1) }
@@ -108,6 +113,10 @@ fun CalendarScreen(
     // ★ スマート本数フォーマット
     val totalBeersText = formatBeerCount(totalBeers)
     val avgBeersText = formatBeerCount(avgBeersPerDay)
+
+    val dateLabelFormatter = remember {
+        DateTimeFormatter.ofPattern("M/d", Locale.getDefault())
+    }
 
     val currentLocale = Locale.getDefault()
     val monthFormatter = remember(currentLocale) {
@@ -183,10 +192,23 @@ fun CalendarScreen(
         MonthGrid(
             monthDate = monthDate,
             dailyCounts = dailyCounts,
-            logicalToday = logicalToday
+            logicalToday = logicalToday,
+            onDayClick = { date -> dialogTargetDate = date }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        // ★ タップヒント（赤文字）
+        // ★ タップヒント（赤文字）
+        Text(
+            text = stringResource(R.string.calendar_tap_hint),
+            color = Color.Red,
+            style = MaterialTheme.typography.bodySmall,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp, vertical = 4.dp)
+        )
 
         // ★ スマートフォーマット適用
         MonthlySummarySection(
@@ -196,6 +218,18 @@ fun CalendarScreen(
             totalCostText = totalCostText,
             avgCostPerDayText = avgCostPerDayText
         )
+        // ★ 日付タップ編集ダイアログ
+        dialogTargetDate?.let { targetDate ->
+            EditDayAmountDialog(
+                dateTitle = targetDate.format(dateLabelFormatter),
+                currentAmount = dailyCounts[targetDate] ?: 0.0,
+                onConfirm = { newAmount ->
+                    viewModel.updateDayAmount(targetDate, newAmount)
+                    dialogTargetDate = null
+                },
+                onDismiss = { dialogTargetDate = null }
+            )
+        }
     }
 }
 
@@ -235,7 +269,8 @@ private fun WeekdayHeader() {
 private fun MonthGrid(
     monthDate: LocalDate,
     dailyCounts: Map<LocalDate, Double>,
-    logicalToday: LocalDate
+    logicalToday: LocalDate,
+    onDayClick: (LocalDate) -> Unit
 ) {
     val firstDayOfMonth = monthDate
     val daysInMonth = firstDayOfMonth.lengthOfMonth()
@@ -271,7 +306,8 @@ private fun MonthGrid(
                             DayCell(
                                 day = day,
                                 count = dailyCounts[date] ?: 0.0,
-                                isFutureDay = isFutureDay
+                                isFutureDay = isFutureDay,
+                                onClick = { if (!isFutureDay) onDayClick(date) }
                             )
                         } else {
                             DayCellEmpty()
@@ -292,9 +328,13 @@ private fun MonthGrid(
 private fun DayCell(
     day: Int,
     count: Double,
-    isFutureDay: Boolean
+    isFutureDay: Boolean,
+    onClick: () -> Unit = {}
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = if (isFutureDay) Modifier else Modifier.clickable { onClick() }
+    ) {
         Text(
             text = day.toString(),
             fontSize = 14.sp,

@@ -66,6 +66,13 @@ class MainActivity : ComponentActivity() {
             "vi" -> Locale("vi")
             "zh-TW" -> Locale("zh", "TW")
             "ko" -> Locale("ko")
+            "pl" -> Locale("pl")
+            "ro" -> Locale("ro")
+            "uz" -> Locale("uz")
+            "kk" -> Locale("kk")
+            "ur" -> Locale("ur")
+            "ky" -> Locale("ky")
+            "bg" -> Locale("bg")
             else -> null
         }
     }

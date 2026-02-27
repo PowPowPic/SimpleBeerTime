@@ -36,6 +36,9 @@
     <string name="main_today_cost">Chi tiêu hôm nay: %1$s</string>
     <string name="main_week_cost">%1$s</string>
 
+    <!-- vi -->
+    <string name="calendar_tap_hint">Chạm vào một ngày để chỉnh sửa số lượng.</string>
+
     <string name="main_midnight_rule_note">
     Các bản ghi được thêm từ 0:00 đến 3:00
     được tính cho ngày hôm trước.

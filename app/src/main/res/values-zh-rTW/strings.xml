@@ -36,6 +36,9 @@
     <string name="main_today_cost">今天支出：%1$s</string>
     <string name="main_week_cost">%1$s</string>
 
+    <!-- zh-TW -->
+    <string name="calendar_tap_hint">點選日期以編輯數量。</string>
+
     <string name="main_midnight_rule_note">
     0:00–3:00 新增的紀錄將計入前一天。
 </string>

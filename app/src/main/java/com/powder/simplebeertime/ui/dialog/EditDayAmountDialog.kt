@@ -20,6 +20,7 @@ import java.util.Locale
 
 @Composable
 fun EditDayAmountDialog(
+    dateTitle: String = "",
     currentAmount: Double,
     onDismiss: () -> Unit,
     onConfirm: (Double) -> Unit
@@ -30,8 +31,8 @@ fun EditDayAmountDialog(
             if (currentAmount > 0.0) {
                 String.format(if (Locale.getDefault().country == "ZA") Locale.US else Locale.getDefault(), "%.1f", currentAmount)
             } else {
-                // ★ ロケール対応: デフォルト値もロケール表記
-                String.format(if (Locale.getDefault().country == "ZA") Locale.US else Locale.getDefault(), "%.1f", 1.4)
+                // ★ 0本のときは"0"を表示（そのままOKで0本として上書き可能）
+                "0"
             }
         )
     }
@@ -50,7 +51,10 @@ fun EditDayAmountDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = stringResource(R.string.edit_day_dialog_title)) },
+        title = {
+            Text(text = if (dateTitle.isNotEmpty()) dateTitle
+                        else stringResource(R.string.edit_day_dialog_title))
+        },
         confirmButton = {
             TextButton(
                 onClick = { normalized?.let(onConfirm) },

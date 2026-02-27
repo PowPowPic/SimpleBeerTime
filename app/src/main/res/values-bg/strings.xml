@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- =========================================================
+         App (DO NOT TRANSLATE)
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">Начало</string>
+    <string name="nav_history">История</string>
+    <string name="nav_calendar">Календар</string>
+    <string name="nav_graph">Графика</string>
+    <string name="nav_settings">Настройки</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Отказ</string>
+    <string name="close_button_text">Затвори</string>
+    <string name="cancel_button_text">Отказ</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">Разходи за тази седмица</string>
+
+    <string name="main_today_count">Днес: %1$s бири</string>
+    <string name="main_week_count">Тази седмица: %1$s бири</string>
+    <string name="main_week_avg">Средно на ден: %1$s бири</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">Разходи днес: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
+
+    <string name="main_midnight_rule_note">
+    Записите, добавени между 00:00 и 03:00 ч., се отчитат към предходния ден.
+</string>
+
+    <string name="main_currency_hint">Ако символът на валутата не се показва правилно, опитайте да промените езика в ⚙Настройки.</string>
+
+    <string name="main_button_add_one">Добави 1 бира</string>
+    <string name="main_button_undo_last">Отмени последното</string>
+
+    <!-- Decimal input area -->
+    <string name="main_amount_prefix">Около</string>
+    <string name="main_amount_suffix">бири</string>
+    <string name="main_button_add">+</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">Добавено</string>
+    <string name="msg_undo_success">Последният запис беше изтрит</string>
+    <string name="msg_no_record_to_undo">Няма запис за отмяна</string>
+    <string name="msg_all_records_deleted">Всички данни бяха изтрити</string>
+
+    <!-- =========================================================
+         Settings
+         ========================================================= -->
+    <string name="settings_title">Настройки</string>
+
+    <string name="settings_language_title">Език</string>
+    <string name="settings_language_description">Променете езика на приложението.</string>
+
+    <string name="settings_price_title">Цена на бира</string>
+    <string name="settings_price_description">Задайте цената за една бира.</string>
+
+    <string name="settings_delete_title">Изтрий всички данни</string>
+    <string name="settings_delete_description">Изтрий цялата записана история на пиене.</string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">Диалог за настройки</string>
+    <string name="settings_cd_language">Настройки за език</string>
+    <string name="settings_cd_price">Настройки за цена</string>
+    <string name="settings_cd_delete_all">Изтрий всички данни</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">Изтрий всички данни</string>
+    <string name="delete_all_message">Искате ли да изтриете всички записи за пиене? Това действие не може да бъде отменено.</string>
+    <string name="delete_all_confirm">Изтрий</string>
+    <string name="delete_all_cancel">Отказ</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">Задайте цена на бира</string>
+    <string name="price_dialog_message">Моля, въведете цената за една бира:</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">Език</string>
+    <string name="dialog_language_message">Езикът на приложението ще бъде променен при следващото стартиране.</string>
+    <string name="dialog_language_ok">OK</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">Системен език</string>
+    <string name="language_apply_restart">Приложи</string>
+    <string name="language_confirm_title">Приложи езика</string>
+    <string name="language_confirm_message">Искате ли да приложите избрания език?</string>
+    <string name="language_confirm_ok">Приложи</string>
+    <string name="language_confirm_cancel">Отказ</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">История</string>
+
+    <string name="history_cd_previous_week">Предходна седмица</string>
+    <string name="history_cd_next_week">Следваща седмица</string>
+    <string name="history_week_summary_title">История за тази седмица</string>
+    <string name="history_week_total">Общо: Около %1$s бири</string>
+    <string name="history_week_avg">Средно: %1$s бири/ден</string>
+
+    <string name="history_delete_title">Изтрий този запис</string>
+    <string name="history_delete_message">Искате ли да изтриете този запис?</string>
+    <string name="history_delete_yes">Да</string>
+    <string name="history_delete_no">Не</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_delete">Изтрий</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <string name="calendar_cd_previous_month">Предходен месец</string>
+    <string name="calendar_cd_next_month">Следващ месец</string>
+
+    <!-- Weekday labels (Mon-first) -->
+    <string name="weekday_mon">Пон</string>
+    <string name="weekday_tue">Вто</string>
+    <string name="weekday_wed">Сря</string>
+    <string name="weekday_thu">Чет</string>
+    <string name="weekday_fri">Пет</string>
+    <string name="weekday_sat">Съб</string>
+    <string name="weekday_sun">Нед</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">Общо бири</string>
+    <string name="calendar_daily_average_label">Средно на ден</string>
+    <string name="calendar_total_cost_label">Общо разходи</string>
+    <string name="calendar_average_cost_label">Средни разходи</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/ден</string>
+    <string name="format_daily_average_beers">%1$s /ден</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s /ден</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_now_button">Последни</string>
+    <string name="graph_weekly_no_data">Няма достатъчно данни.\nСедмици с по-малко от 2 бири се показват като 24ч.</string>
+
+    <string name="graph_monthly_title">Месечен общ брой бири</string>
+    <string name="graph_weekly_title">Седмична средна дневна бройка</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">Предходна година</string>
+    <string name="graph_cd_next_year">Следваща година</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
+    <string name="edit_day_dialog_title">Редактирай брой бири</string>
+    <string name="calendar_tap_hint">Докоснете дата, за да редактирате броя.</string>
+    <string name="delete_day_dialog_title">Изтриване на този ден?</string>
+    <string name="delete_day_dialog_message">Изтрийте всички записи за бира за този ден.</string>
+    <string name="history_cd_edit">Редактирай</string>
+
+    <string name="calendar_per_day_suffix">/ден</string>
+    <!-- ④ EditDayAmountDialog: "About" label -->
+    <string name="edit_day_about_label">Около</string>
+</resources>

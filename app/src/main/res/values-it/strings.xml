@@ -190,4 +190,7 @@
 
     <string name="calendar_per_day_suffix">/giorno</string>
     <string name="edit_day_about_label">Circa</string>
+
+    <!-- it -->
+    <string name="calendar_tap_hint">Tocca una data per modificare il numero.</string>
 </resources>

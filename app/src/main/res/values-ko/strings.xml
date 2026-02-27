@@ -36,9 +36,13 @@
     <string name="main_today_cost">오늘 지출: %1$s</string>
     <string name="main_week_cost">%1$s</string>
 
+    <!-- ko -->
+    <string name="calendar_tap_hint">날짜를 탭하여 개수를 수정하세요.</string>
+
     <string name="main_midnight_rule_note">
     0:00~3:00 사이에 추가된 기록은
     전날 기록으로 처리됩니다.
+
 </string>
 
 

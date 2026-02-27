@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- =========================================================
+         App (DO NOT TRANSLATE)
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">Acasă</string>
+    <string name="nav_history">Istoric</string>
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_graph">Grafic</string>
+    <string name="nav_settings">Setări</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Anulează</string>
+    <string name="close_button_text">Închide</string>
+    <string name="cancel_button_text">Anulează</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">Cheltuieli în această săptămână</string>
+
+    <string name="main_today_count">Astăzi: %1$s beri</string>
+    <string name="main_week_count">Această săptămână: %1$s beri</string>
+    <string name="main_week_avg">Medie zilnică: %1$s beri</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">Cheltuieli azi: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
+
+    <string name="main_midnight_rule_note">
+    Înregistrările adăugate între 00:00 și 03:00 sunt considerate ca fiind din ziua precedentă.
+</string>
+
+    <string name="main_currency_hint">Dacă simbolul valutei nu este afișat corect, încercați să schimbați limba din ⚙Setări.</string>
+
+    <string name="main_button_add_one">Adaugă 1 bere</string>
+    <string name="main_button_undo_last">Anulează ultima</string>
+
+    <!-- Decimal input area -->
+    <string name="main_amount_prefix">Aproximativ</string>
+    <string name="main_amount_suffix">beri</string>
+    <string name="main_button_add">+</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">Adăugat</string>
+    <string name="msg_undo_success">Ultima înregistrare a fost ștearsă</string>
+    <string name="msg_no_record_to_undo">Nu există înregistrare de anulat</string>
+    <string name="msg_all_records_deleted">Toate datele au fost șterse</string>
+
+    <!-- =========================================================
+         Settings
+         ========================================================= -->
+    <string name="settings_title">Setări</string>
+
+    <string name="settings_language_title">Limbă</string>
+    <string name="settings_language_description">Schimbă limba de afișare a aplicației.</string>
+
+    <string name="settings_price_title">Preț per bere</string>
+    <string name="settings_price_description">Setează prețul pentru o bere.</string>
+
+    <string name="settings_delete_title">Șterge toate datele</string>
+    <string name="settings_delete_description">Șterge tot istoricul înregistrat al consumului.</string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">Dialog setări</string>
+    <string name="settings_cd_language">Setări limbă</string>
+    <string name="settings_cd_price">Setări preț</string>
+    <string name="settings_cd_delete_all">Șterge toate datele</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">Șterge toate datele</string>
+    <string name="delete_all_message">Doriți să ștergeți toate înregistrările de consum? Această acțiune nu poate fi anulată.</string>
+    <string name="delete_all_confirm">Șterge</string>
+    <string name="delete_all_cancel">Anulează</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">Setează prețul per bere</string>
+    <string name="price_dialog_message">Introduceți prețul pentru o bere:</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">Limbă</string>
+    <string name="dialog_language_message">Limba aplicației va fi schimbată la următoarea pornire.</string>
+    <string name="dialog_language_ok">OK</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">Limba sistemului</string>
+    <string name="language_apply_restart">Aplică</string>
+    <string name="language_confirm_title">Aplică limba</string>
+    <string name="language_confirm_message">Doriți să aplicați limba selectată?</string>
+    <string name="language_confirm_ok">Aplică</string>
+    <string name="language_confirm_cancel">Anulează</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">Istoric</string>
+
+    <string name="history_cd_previous_week">Săptămâna precedentă</string>
+    <string name="history_cd_next_week">Săptămâna următoare</string>
+    <string name="history_week_summary_title">Istoric în această săptămână</string>
+    <string name="history_week_total">Total: Aproximativ %1$s beri</string>
+    <string name="history_week_avg">Medie: %1$s beri/zi</string>
+
+    <string name="history_delete_title">Șterge această înregistrare</string>
+    <string name="history_delete_message">Doriți să ștergeți această înregistrare?</string>
+    <string name="history_delete_yes">Da</string>
+    <string name="history_delete_no">Nu</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_delete">Șterge</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <string name="calendar_cd_previous_month">Luna precedentă</string>
+    <string name="calendar_cd_next_month">Luna următoare</string>
+
+    <!-- Weekday labels (Mon-first) -->
+    <string name="weekday_mon">Lun</string>
+    <string name="weekday_tue">Mar</string>
+    <string name="weekday_wed">Mie</string>
+    <string name="weekday_thu">Joi</string>
+    <string name="weekday_fri">Vin</string>
+    <string name="weekday_sat">Sâm</string>
+    <string name="weekday_sun">Dum</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">Total beri</string>
+    <string name="calendar_daily_average_label">Medie zilnică</string>
+    <string name="calendar_total_cost_label">Cheltuieli totale</string>
+    <string name="calendar_average_cost_label">Cheltuieli medii</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/zi</string>
+    <string name="format_daily_average_beers">%1$s /zi</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s /zi</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_now_button">Ultimele</string>
+    <string name="graph_weekly_no_data">Date insuficiente.\nSăptămânile cu mai puțin de 2 beri sunt afișate ca 24h.</string>
+
+    <string name="graph_monthly_title">Total lunar de beri</string>
+    <string name="graph_weekly_title">Medie zilnică săptămânală de beri</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">Anul precedent</string>
+    <string name="graph_cd_next_year">Anul următor</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
+    <string name="edit_day_dialog_title">Editează numărul de beri</string>
+    <string name="calendar_tap_hint">Atinge o dată pentru a edita numărul.</string>
+    <string name="delete_day_dialog_title">Șterge această zi?</string>
+    <string name="delete_day_dialog_message">Șterge toate înregistrările de bere din această zi.</string>
+    <string name="history_cd_edit">Editează</string>
+
+    <string name="calendar_per_day_suffix">/zi</string>
+    <!-- ④ EditDayAmountDialog: "About" label -->
+    <string name="edit_day_about_label">Aproximativ</string>
+</resources>

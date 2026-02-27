@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- =========================================================
+         App (DO NOT TRANSLATE)
+         ========================================================= -->
+    <string name="app_name">Simple Beer Time</string>
+
+    <!-- =========================================================
+         Navigation
+         ========================================================= -->
+    <string name="nav_home">Басты</string>
+    <string name="nav_history">Тарих</string>
+    <string name="nav_calendar">Күнтізбе</string>
+    <string name="nav_graph">График</string>
+    <string name="nav_settings">Баптаулар</string>
+
+    <!-- =========================================================
+         Common
+         ========================================================= -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Бас тарту</string>
+    <string name="close_button_text">Жабу</string>
+    <string name="cancel_button_text">Бас тарту</string>
+
+    <!-- =========================================================
+         MainScreen
+         ========================================================= -->
+    <string name="label_week_cost">Осы аптадағы шығын</string>
+
+    <string name="main_today_count">Бүгін: %1$s сыра</string>
+    <string name="main_week_count">Осы апта: %1$s сыра</string>
+    <string name="main_week_avg">Күндік орташа: %1$s сыра</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="main_today_cost">Бүгінгі шығын: %1$s</string>
+    <string name="main_week_cost">%1$s</string>
+
+    <string name="main_midnight_rule_note">
+    00:00 мен 03:00 аралығында қосылған жазбалар алдыңғы күнге есептеледі.
+</string>
+
+    <string name="main_currency_hint">Егер валюта белгісі дұрыс көрсетілмесе, ⚙Баптаулар бөлімінде тілді өзгертіп көріңіз.</string>
+
+    <string name="main_button_add_one">1 сыра қосу</string>
+    <string name="main_button_undo_last">Соңғысын болдырмау</string>
+
+    <!-- Decimal input area -->
+    <string name="main_amount_prefix">Шамамен</string>
+    <string name="main_amount_suffix">сыра</string>
+    <string name="main_button_add">+</string>
+
+    <!-- Toast / messages -->
+    <string name="msg_beer_logged">Қосылды</string>
+    <string name="msg_undo_success">Соңғы жазба жойылды</string>
+    <string name="msg_no_record_to_undo">Болдырмайтын жазба жоқ</string>
+    <string name="msg_all_records_deleted">Барлық деректер жойылды</string>
+
+    <!-- =========================================================
+         Settings
+         ========================================================= -->
+    <string name="settings_title">Баптаулар</string>
+
+    <string name="settings_language_title">Тіл</string>
+    <string name="settings_language_description">Қолданбаның көрсетілетін тілін өзгерту.</string>
+
+    <string name="settings_price_title">Бір сыраның бағасы</string>
+    <string name="settings_price_description">Бір сыраның бағасын орнатыңыз.</string>
+
+    <string name="settings_delete_title">Барлық деректерді жою</string>
+    <string name="settings_delete_description">Ішімдік тарихындағы барлық жазбаларды жою.</string>
+
+    <!-- Accessibility (Settings) -->
+    <string name="settings_cd_dialog">Баптаулар диалогы</string>
+    <string name="settings_cd_language">Тіл баптаулары</string>
+    <string name="settings_cd_price">Баға баптаулары</string>
+    <string name="settings_cd_delete_all">Барлық деректерді жою</string>
+
+    <!-- Delete all confirm dialog -->
+    <string name="delete_all_title">Барлық деректерді жою</string>
+    <string name="delete_all_message">Барлық ішімдік жазбаларын жойғыңыз келе ме? Бұл әрекетті кері қайтару мүмкін емес.</string>
+    <string name="delete_all_confirm">Жою</string>
+    <string name="delete_all_cancel">Бас тарту</string>
+
+    <!-- Price dialog -->
+    <string name="price_dialog_title">Бір сыраның бағасын орнату</string>
+    <string name="price_dialog_message">Бір сыраның бағасын енгізіңіз:</string>
+
+    <!-- Language dialog -->
+    <string name="dialog_language_title">Тіл</string>
+    <string name="dialog_language_message">Қолданба тілі келесі іске қосқанда өзгереді.</string>
+    <string name="dialog_language_ok">OK</string>
+
+    <!-- Language selection -->
+    <string name="language_system_default">Жүйе тілі</string>
+    <string name="language_apply_restart">Қолдану</string>
+    <string name="language_confirm_title">Тілді қолдану</string>
+    <string name="language_confirm_message">Таңдалған тілді қолданғыңыз келе ме?</string>
+    <string name="language_confirm_ok">Қолдану</string>
+    <string name="language_confirm_cancel">Бас тарту</string>
+
+    <!-- =========================================================
+         HistoryScreen
+         ========================================================= -->
+    <string name="title_history">Тарих</string>
+
+    <string name="history_cd_previous_week">Алдыңғы апта</string>
+    <string name="history_cd_next_week">Келесі апта</string>
+    <string name="history_week_summary_title">Осы аптаның тарихы</string>
+    <string name="history_week_total">Барлығы: Шамамен %1$s сыра</string>
+    <string name="history_week_avg">Орташа: %1$s сыра/күн</string>
+
+    <string name="history_delete_title">Осы жазбаны жою</string>
+    <string name="history_delete_message">Осы жазбаны жойғыңыз келе ме?</string>
+    <string name="history_delete_yes">Иә</string>
+    <string name="history_delete_no">Жоқ</string>
+
+    <!-- Accessibility (History) -->
+    <string name="history_cd_delete">Жою</string>
+
+    <!-- =========================================================
+         CalendarScreen
+         ========================================================= -->
+    <string name="calendar_cd_previous_month">Алдыңғы ай</string>
+    <string name="calendar_cd_next_month">Келесі ай</string>
+
+    <!-- Weekday labels (Mon-first) -->
+    <string name="weekday_mon">Дс</string>
+    <string name="weekday_tue">Сс</string>
+    <string name="weekday_wed">Ср</string>
+    <string name="weekday_thu">Бс</string>
+    <string name="weekday_fri">Жм</string>
+    <string name="weekday_sat">Сб</string>
+    <string name="weekday_sun">Жс</string>
+
+    <!-- Monthly summary labels -->
+    <string name="calendar_total_beers_label">Барлық сыра</string>
+    <string name="calendar_daily_average_label">Күндік орташа</string>
+    <string name="calendar_total_cost_label">Жалпы шығын</string>
+    <string name="calendar_average_cost_label">Орташа шығын</string>
+
+    <!-- Formats -->
+    <string name="per_day_suffix">/күн</string>
+    <string name="format_daily_average_beers">%1$s /күн</string>
+
+    <!-- %1$s = currency symbol, %2$.2f = amount -->
+    <string name="format_currency_amount">%1$s%2$.2f</string>
+    <string name="format_currency_per_day">%1$s /күн</string>
+
+    <!-- =========================================================
+         GraphScreen
+         ========================================================= -->
+    <string name="graph_now_button">Соңғысы</string>
+    <string name="graph_weekly_no_data">Дерек жеткіліксіз.\n2 сырадан аз апталар 24сағ ретінде көрсетіледі.</string>
+
+    <string name="graph_monthly_title">Айлық жалпы сыра саны</string>
+    <string name="graph_weekly_title">Апталық күндік орташа сыра</string>
+
+    <!-- Accessibility (Graph) -->
+    <string name="graph_cd_previous_year">Алдыңғы жыл</string>
+    <string name="graph_cd_next_year">Келесі жыл</string>
+
+    <!-- Axis labels -->
+    <string name="graph_axis_time_0">0:00</string>
+    <string name="graph_axis_time_12">12:00</string>
+    <string name="graph_axis_time_24">24:00</string>
+
+    <!-- Format (do not translate) -->
+    <string name="graph_week_label_format" translatable="false">%1$dW%2$d</string>
+
+    <string name="edit_day_dialog_title">Сыра санын өңдеу</string>
+    <string name="calendar_tap_hint">Санын өңдеу үшін күнді түртіңіз.</string>
+    <string name="delete_day_dialog_title">Осы күнді жою керек пе?</string>
+    <string name="delete_day_dialog_message">Осы күндегі барлық сыра жазбаларын жою.</string>
+    <string name="history_cd_edit">Өңдеу</string>
+
+    <string name="calendar_per_day_suffix">/күн</string>
+    <!-- ④ EditDayAmountDialog: "About" label -->
+    <string name="edit_day_about_label">Шамамен</string>
+</resources>

@@ -175,4 +175,7 @@
 
     <string name="calendar_per_day_suffix">/يوم</string>
     <string name="edit_day_about_label">حوالي</string>
+
+    <!-- ar -->
+    <string name="calendar_tap_hint">اضغط على التاريخ لتعديل العدد.</string>
 </resources>
