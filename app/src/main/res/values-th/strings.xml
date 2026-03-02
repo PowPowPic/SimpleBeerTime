@@ -46,8 +46,8 @@
 
 
     <string name="main_currency_hint">
-        หากสัญลักษณ์สกุลเงินแสดงไม่ถูกต้อง โปรดลองเปลี่ยนภาษาใน ⚙ การตั้งค่า
-    </string>
+    หากสัญลักษณ์สกุลเงินแสดงไม่ถูกต้อง โปรดลองเปลี่ยนภาษาในการตั้งค่า ⚙
+</string>
 
     <string name="main_button_add_one">เพิ่ม 1 ขวด</string>
     <string name="main_button_undo_last">ยกเลิก</string>

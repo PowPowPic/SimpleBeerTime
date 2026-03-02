@@ -28,8 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.powder.simplebeertime.R
-import com.powder.simplebeertime.ui.settings.LanguageViewModel
-import com.powder.simplebeertime.ui.settings.currencySymbolFor
 import com.powder.simplebeertime.ui.settings.formatBeerCount
 import com.powder.simplebeertime.ui.settings.formatCurrencyAmount
 import com.powder.simplebeertime.ui.theme.SimpleColors
@@ -42,7 +40,6 @@ import kotlin.math.roundToInt
 @Composable
 fun MainScreen(
     viewModel: BeerViewModel,
-    languageViewModel: LanguageViewModel,
     pricePerBeer: Float,
     onSettingsClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -51,11 +48,6 @@ fun MainScreen(
 
     val todayStats by viewModel.todayStats.collectAsState()
     val weekStats by viewModel.weekStats.collectAsState()
-
-    // 言語設定から通貨記号を取得
-    val currentLang by languageViewModel.appLanguage.collectAsState()
-    val currencySymbol = currencySymbolFor(currentLang)
-
 
     var displayDate by remember { mutableStateOf(java.time.LocalDate.now()) }
 
@@ -115,8 +107,8 @@ fun MainScreen(
     val todayCost = todayStats.count * pricePerBeer
 
     // ★ スマート通貨フォーマット（CurrencyUtil使用）
-    val weekCostText = formatCurrencyAmount(currentLang, currencySymbol, weekCostTotal.toDouble())
-    val todayCostText = formatCurrencyAmount(currentLang, currencySymbol, todayCost.toDouble())
+    val weekCostText = formatCurrencyAmount(weekCostTotal.toDouble())
+    val todayCostText = formatCurrencyAmount(todayCost.toDouble())
 
     // ★ スマート本数フォーマット（整数なら小数点なし）
     val weekCountText = formatBeerCount(weekStats.count)

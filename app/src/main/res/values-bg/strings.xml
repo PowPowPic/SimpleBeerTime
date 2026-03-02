@@ -154,7 +154,7 @@
     <string name="graph_weekly_no_data">Няма достатъчно данни.\nСедмици с по-малко от 2 бири се показват като 24ч.</string>
 
     <string name="graph_monthly_title">Месечен общ брой бири</string>
-    <string name="graph_weekly_title">Седмична средна дневна бройка</string>
+    <string name="graph_weekly_title">Среден дневен брой по седмици</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">Предходна година</string>

@@ -89,15 +89,6 @@ fun LanguageSettingDialog(
                 )
 
                 LanguageOption(
-                    label = "English",
-                    selected = currentLang == AppLanguage.ENGLISH,
-                    onSelect = {
-                        pendingLang = AppLanguage.ENGLISH
-                        showConfirm = true
-                    }
-                )
-
-                LanguageOption(
                     label = "日本語",
                     selected = currentLang == AppLanguage.JAPANESE,
                     onSelect = {
@@ -107,10 +98,19 @@ fun LanguageSettingDialog(
                 )
 
                 LanguageOption(
-                    label = "Español",
+                    label = "Español (España)",
                     selected = currentLang == AppLanguage.SPANISH,
                     onSelect = {
                         pendingLang = AppLanguage.SPANISH
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "Español (México)",
+                    selected = currentLang == AppLanguage.SPANISH_MX,
+                    onSelect = {
+                        pendingLang = AppLanguage.SPANISH_MX
                         showConfirm = true
                     }
                 )
@@ -273,6 +273,88 @@ fun LanguageSettingDialog(
                     selected = currentLang == AppLanguage.BULGARIAN,
                     onSelect = {
                         pendingLang = AppLanguage.BULGARIAN
+                        showConfirm = true
+                    }
+                )
+
+                // ── English (regional variants) ──────────────────────────
+                LanguageOption(
+                    label = "English",
+                    selected = currentLang == AppLanguage.ENGLISH,
+                    onSelect = {
+                        pendingLang = AppLanguage.ENGLISH
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "English (US)",
+                    selected = currentLang == AppLanguage.ENGLISH_US,
+                    onSelect = {
+                        pendingLang = AppLanguage.ENGLISH_US
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "English (UK)",
+                    selected = currentLang == AppLanguage.ENGLISH_GB,
+                    onSelect = {
+                        pendingLang = AppLanguage.ENGLISH_GB
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "English (Canada)",
+                    selected = currentLang == AppLanguage.ENGLISH_CA,
+                    onSelect = {
+                        pendingLang = AppLanguage.ENGLISH_CA
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "English (Australia)",
+                    selected = currentLang == AppLanguage.ENGLISH_AU,
+                    onSelect = {
+                        pendingLang = AppLanguage.ENGLISH_AU
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "English (India)",
+                    selected = currentLang == AppLanguage.ENGLISH_IN,
+                    onSelect = {
+                        pendingLang = AppLanguage.ENGLISH_IN
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "English (Philippines)",
+                    selected = currentLang == AppLanguage.ENGLISH_PH,
+                    onSelect = {
+                        pendingLang = AppLanguage.ENGLISH_PH
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "English (Singapore)",
+                    selected = currentLang == AppLanguage.ENGLISH_SG,
+                    onSelect = {
+                        pendingLang = AppLanguage.ENGLISH_SG
+                        showConfirm = true
+                    }
+                )
+
+                LanguageOption(
+                    label = "English (South Africa)",
+                    selected = currentLang == AppLanguage.ENGLISH_ZA,
+                    onSelect = {
+                        pendingLang = AppLanguage.ENGLISH_ZA
                         showConfirm = true
                     }
                 )

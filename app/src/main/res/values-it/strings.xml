@@ -161,7 +161,7 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Recenti</string>
+    <string name="graph_now_button">Ultimi dati</string>
     <string name="graph_weekly_no_data">
         Dati insufficienti.\nLe settimane con meno di 2 birre vengono mostrate come 24h.
     </string>

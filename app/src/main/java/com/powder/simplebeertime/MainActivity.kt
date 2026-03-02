@@ -73,6 +73,17 @@ class MainActivity : ComponentActivity() {
             "ur" -> Locale("ur")
             "ky" -> Locale("ky")
             "bg" -> Locale("bg")
+            // ── 英語地域バリアント ──
+            "en-US" -> Locale("en", "US")
+            "en-GB" -> Locale("en", "GB")
+            "en-CA" -> Locale("en", "CA")
+            "en-AU" -> Locale("en", "AU")
+            "en-IN" -> Locale("en", "IN")
+            "en-PH" -> Locale("en", "PH")
+            "en-SG" -> Locale("en", "SG")
+            "en-ZA" -> Locale("en", "ZA")
+            // ── スペイン語地域バリアント ──
+            "es-MX" -> Locale("es", "MX")
             else -> null
         }
     }

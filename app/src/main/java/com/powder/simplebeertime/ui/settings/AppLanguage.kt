@@ -4,9 +4,9 @@ enum class AppLanguage(val tag: String) {
     SYSTEM("system"),
 
     JAPANESE("ja"),
-    ENGLISH("en"),
 
-    SPANISH("es"),
+    SPANISH("es"),          // Español (España)
+    SPANISH_MX("es-MX"),    // Español (México)
     ITALIAN("it"),
     PORTUGUESE_BR("pt-BR"),
     FRENCH("fr"),
@@ -26,5 +26,16 @@ enum class AppLanguage(val tag: String) {
     KAZAKH("kk"),
     URDU("ur"),
     KYRGYZ("ky"),
-    BULGARIAN("bg");
+    BULGARIAN("bg"),
+
+    // ── 英語地域バリアント（一覧下にまとめる）──
+    ENGLISH("en"),       // English（汎用・その他地域）
+    ENGLISH_US("en-US"),
+    ENGLISH_GB("en-GB"),
+    ENGLISH_CA("en-CA"),
+    ENGLISH_AU("en-AU"),
+    ENGLISH_IN("en-IN"),
+    ENGLISH_PH("en-PH"),
+    ENGLISH_SG("en-SG"),
+    ENGLISH_ZA("en-ZA");
 }

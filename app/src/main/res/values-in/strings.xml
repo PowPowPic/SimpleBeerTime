@@ -26,7 +26,7 @@
     <!-- =========================================================
          MainScreen
          ========================================================= -->
-    <string name="label_week_cost">Pengeluaran Minggu Ini</string>
+    <string name="label_week_cost">Pengeluaran minggu ini</string>
 
     <string name="main_today_count">Hari ini: %1$s botol</string>
     <string name="main_week_count">Minggu ini: %1$s botol</string>
@@ -156,8 +156,8 @@
         Data tidak cukup.\nMinggu dengan kurang dari 2 botol akan ditampilkan sebagai 24h.
     </string>
 
-    <string name="graph_monthly_title">Total Botol Bulanan</string>
-    <string name="graph_weekly_title">Rata-rata Botol Harian Mingguan</string>
+    <string name="graph_monthly_title">Total botol per bulan</string>
+    <string name="graph_weekly_title">Rata-rata harian per minggu</string>
 
     <!-- Accessibility (Graph) -->
     <string name="graph_cd_previous_year">Tahun sebelumnya</string>

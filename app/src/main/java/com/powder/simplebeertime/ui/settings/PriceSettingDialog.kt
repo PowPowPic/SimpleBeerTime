@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.powder.simplebeertime.R
+import com.powder.simplebeertime.ui.settings.getCurrentLocale
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import java.text.NumberFormat
 import java.util.Locale
@@ -25,12 +26,11 @@ import java.util.Locale
 @Composable
 fun PriceSettingDialog(
     currentPrice: Float,
-    currentLang: AppLanguage = AppLanguage.SYSTEM,
     onConfirm: (Float) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val locale = localeFor(currentLang)
-    val fractionDigits = getCurrencyFractionDigits(currentLang)
+    val locale = getCurrentLocale()
+    val fractionDigits = getCurrencyFractionDigits()
     var textState = remember {
         mutableStateOf(
             if (fractionDigits == 0) {

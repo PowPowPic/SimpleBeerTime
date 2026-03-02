@@ -30,7 +30,7 @@
 
     <string name="main_today_count">Bugün: %1$s şişe</string>
     <string name="main_week_count">Bu hafta: %1$s şişe</string>
-    <string name="main_week_avg">Günlük ort.: %1$s şişe</string>
+    <string name="main_week_avg">Günlük ortalama: %1$s şişe</string>
 
     <!-- %1$s = currency symbol, %2$.2f = amount -->
     <string name="main_today_cost">Bugünün harcaması: %1$s</string>

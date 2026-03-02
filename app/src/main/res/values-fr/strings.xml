@@ -162,12 +162,12 @@
     <!-- =========================================================
          GraphScreen
          ========================================================= -->
-    <string name="graph_now_button">Récent</string>
+    <string name="graph_now_button">Plus récent</string>
     <string name="graph_weekly_no_data">
         Données insuffisantes.\nLes semaines avec moins de 2 bières sont affichées comme une journée complète.
     </string>
 
-    <string name="graph_monthly_title">Total mensuel</string>
+    <string name="graph_monthly_title">Total du mois</string>
     <string name="graph_weekly_title">Moyenne quotidienne par semaine</string>
 
     <!-- Accessibility (Graph) -->

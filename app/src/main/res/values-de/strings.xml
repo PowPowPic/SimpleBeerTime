@@ -26,7 +26,7 @@
     <!-- =========================================================
          MainScreen
          ========================================================= -->
-    <string name="label_week_cost">Ausgaben diese Woche</string>
+    <string name="label_week_cost">Ausgaben dieser Woche</string>
 
     <string name="main_today_count">Heute: %1$s Biere</string>
     <string name="main_week_count">Diese Woche: %1$s Biere</string>
@@ -41,7 +41,7 @@
     werden dem Vortag zugeordnet.
 </string>
 
-    <string name="main_currency_hint">Wenn das Währungssymbol nicht korrekt angezeigt wird, versuchen Sie bitte, die Sprache unter ⚙Einst. zu ändern.</string>
+    <string name="main_currency_hint">Wenn das Währungssymbol nicht korrekt angezeigt wird, bitte ändern Sie die Sprache unter ⚙Einst.</string>
 
     <string name="main_button_add_one">1 Bier hinzufügen</string>
     <string name="main_button_undo_last">Rückgängig</string>
@@ -154,7 +154,7 @@
     <string name="graph_now_button">Neueste</string>
     <string name="graph_weekly_no_data">Nicht genügend Daten.\nWochen mit weniger als 2 Bieren werden als 24h dargestellt.</string>
 
-    <string name="graph_monthly_title">Monatlich: Gesamtbiere</string>
+    <string name="graph_monthly_title">Monatlich: Gesamtzahl der Biere</string>
     <string name="graph_weekly_title">Wöchentlich: Ø Biere/Tag</string>
 
     <!-- Accessibility (Graph) -->

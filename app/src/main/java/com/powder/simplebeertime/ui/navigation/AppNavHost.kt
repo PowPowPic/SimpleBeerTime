@@ -36,7 +36,6 @@ import com.powder.simplebeertime.ui.screen.HistoryScreen
 import com.powder.simplebeertime.ui.screen.MainScreen
 import com.powder.simplebeertime.ui.settings.LanguageSettingDialog
 import com.powder.simplebeertime.ui.settings.LanguageViewModel
-import com.powder.simplebeertime.ui.settings.AppLanguage
 import com.powder.simplebeertime.ui.settings.PriceSettingDialog
 import com.powder.simplebeertime.ui.settings.PriceViewModel
 import com.powder.simplebeertime.ui.settings.SettingsDialog
@@ -69,7 +68,6 @@ fun AppNavHost(
         .pricePerBeer
         .collectAsState(initial = 5.00f)
 
-    val currentLang by languageViewModel.appLanguage.collectAsState(initial = AppLanguage.SYSTEM)
 
     // --- 広告削除状態（上部バナー表示用） ---
     val isAdFreeState = adViewModel.isAdFree.collectAsState(initial = false)
@@ -213,7 +211,6 @@ fun AppNavHost(
                     Screen.Main -> {
                         MainScreen(
                             viewModel = beerViewModel,
-                            languageViewModel = languageViewModel,
                             pricePerBeer = priceState.value,
                             onSettingsClick = { showSettingsDialog.value = true }
                         )
@@ -226,7 +223,6 @@ fun AppNavHost(
                     Screen.Calendar -> {
                         CalendarScreen(
                             viewModel = beerViewModel,
-                            languageViewModel = languageViewModel,
                             pricePerBeer = priceState.value
                         )
                     }
@@ -271,7 +267,6 @@ fun AppNavHost(
             if (showPriceDialog.value) {
                 PriceSettingDialog(
                     currentPrice = priceState.value,
-                    currentLang = currentLang,
                     onConfirm = { newPrice ->
                         priceViewModel.updatePrice(newPrice)
                         showPriceDialog.value = false

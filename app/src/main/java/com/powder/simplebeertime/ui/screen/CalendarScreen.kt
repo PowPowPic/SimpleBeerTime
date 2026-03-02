@@ -22,8 +22,6 @@ import com.powder.simplebeertime.R
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import com.powder.simplebeertime.ui.dialog.EditDayAmountDialog
-import com.powder.simplebeertime.ui.settings.LanguageViewModel
-import com.powder.simplebeertime.ui.settings.currencySymbolFor
 import com.powder.simplebeertime.ui.settings.formatBeerCount
 import com.powder.simplebeertime.ui.settings.formatCurrencyAmount
 import com.powder.simplebeertime.ui.settings.formatCurrencyPerDay
@@ -32,20 +30,16 @@ import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.util.currentLogicalDate
 import com.powder.simplebeertime.util.toLogicalDate
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun CalendarScreen(
     viewModel: BeerViewModel,
-    languageViewModel: LanguageViewModel,
     pricePerBeer: Float,
     modifier: Modifier = Modifier
 ) {
     val allRecords by viewModel.allRecords.collectAsState(initial = emptyList())
-
-    val currentLang by languageViewModel.appLanguage.collectAsState()
-    val currencySymbol = currencySymbolFor(currentLang)
 
     var dialogTargetDate by remember { mutableStateOf<LocalDate?>(null) }
 
@@ -104,23 +98,36 @@ fun CalendarScreen(
     val avgCostPerDay: Double = if (daysToUse > 0) totalCost / daysToUse.toDouble() else 0.0
 
     // ★ スマート通貨フォーマット
-    val totalCostText = formatCurrencyAmount(currentLang, currencySymbol, totalCost)
+    val totalCostText = formatCurrencyAmount(totalCost)
 
     // ★ "/day" サフィックスをstringResourceから取得
     val perDaySuffix = stringResource(R.string.calendar_per_day_suffix)
-    val avgCostPerDayText = formatCurrencyPerDay(currentLang, currencySymbol, avgCostPerDay, perDaySuffix)
+    val avgCostPerDayText = formatCurrencyPerDay(avgCostPerDay, perDaySuffix)
 
     // ★ スマート本数フォーマット
     val totalBeersText = formatBeerCount(totalBeers)
     val avgBeersText = formatBeerCount(avgBeersPerDay)
 
     val dateLabelFormatter = remember {
-        DateTimeFormatter.ofPattern("M/d", Locale.getDefault())
+        // ★ ロケール対応: ICU DateTimePatternGenerator で月/日の順序を自動取得
+        //   de: 26.1  / fr: 26/1  / ar: 26/1  / ja: 1/26  / en: 1/26 など
+        val uLocale = android.icu.util.ULocale.forLocale(Locale.getDefault())
+        val pattern = android.icu.text.DateTimePatternGenerator
+            .getInstance(uLocale)
+            .getBestPattern("Md")
+            .replace('L', 'M')  // ICU→java.time 互換変換
+        DateTimeFormatter.ofPattern(pattern, Locale.getDefault())
     }
 
     val currentLocale = Locale.getDefault()
     val monthFormatter = remember(currentLocale) {
-        val pattern = DateFormat.getBestDateTimePattern(currentLocale, "yyyyMMM")
+        // ★ pt-BR オーバーライド: getBestDateTimePattern が返す "jan. de 2026" は
+        //   欧州ポルトガル語寄りで不自然。ブラジルの一般的表記 "jan. 2026" に統一。
+        val pattern = if (currentLocale.language == "pt" && currentLocale.country == "BR") {
+            "MMM yyyy"
+        } else {
+            DateFormat.getBestDateTimePattern(currentLocale, "yyyyMMM")
+        }
         DateTimeFormatter.ofPattern(pattern, currentLocale)
     }
     val monthTitle = remember(monthDate, monthFormatter) {
