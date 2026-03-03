@@ -18,7 +18,7 @@ import com.google.android.gms.ads.AdView
 fun TopBannerAd(
     isAdFree: Boolean,
     modifier: Modifier = Modifier,
-    adUnitId: String = "ca-app-pub-3940256099942544/6300978111" // Test Banner Ad Unit ID
+    adUnitId: String = "ca-app-pub-7305983073191908/3591022221" // Banner Ad Unit ID
 ) {
     // ✅ 広告の有無に関わらず高さを固定で確保（SSmTと同じ仕様）
     Box(
