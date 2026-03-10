@@ -14,8 +14,8 @@ android {
         applicationId = "com.powder.simplebeertime"
         minSdk = 24
         targetSdk = 36
-        versionCode = 35
-        versionName = "2.0.0"
+        versionCode = 36
+        versionName = "2.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation("com.android.billingclient:billing-ktx:7.1.1")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

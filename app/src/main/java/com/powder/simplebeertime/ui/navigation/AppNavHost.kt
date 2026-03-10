@@ -41,7 +41,9 @@ import com.powder.simplebeertime.ui.settings.PriceViewModel
 import com.powder.simplebeertime.ui.settings.SettingsDialog
 import com.powder.simplebeertime.ui.viewmodel.AdViewModel
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
+import com.powder.simplebeertime.ui.viewmodel.RemoveAdsViewModel
 import com.powder.simplebeertime.util.AdManager
+import com.powder.simplebeertime.util.findActivity
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.statusBarsPadding
 
@@ -53,6 +55,7 @@ fun AppNavHost(
     languageViewModel: LanguageViewModel,
     priceViewModel: PriceViewModel,
     adViewModel: AdViewModel,
+    removeAdsViewModel: RemoveAdsViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     val context = LocalContext.current
@@ -68,9 +71,11 @@ fun AppNavHost(
         .pricePerBeer
         .collectAsState(initial = 5.00f)
 
-
     // --- 広告削除状態（上部バナー表示用） ---
     val isAdFreeState = adViewModel.isAdFree.collectAsState(initial = false)
+
+    // --- 広告削除価格文字列 ---
+    val formattedPriceState = removeAdsViewModel.formattedPrice.collectAsState()
 
     // --- 画面定義 ---
     val screens = listOf(
@@ -251,6 +256,16 @@ fun AppNavHost(
                     },
                     onConfirmDeleteAll = {
                         beerViewModel.deleteAllRecords()
+                    },
+                    // ── 広告削除 ──
+                    isAdFree = isAdFreeState.value,
+                    formattedPrice = formattedPriceState.value,
+                    onRemoveAdsClick = {
+                        // ★ ダイアログ内なので LocalContext.current as Activity はNG
+                        //    findActivity() 拡張で安全に Activity を辿る
+                        context.findActivity()?.let { activity ->
+                            removeAdsViewModel.launchBillingFlow(activity)
+                        }
                     }
                 )
             }

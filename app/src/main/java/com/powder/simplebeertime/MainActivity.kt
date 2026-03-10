@@ -19,6 +19,8 @@ import com.powder.simplebeertime.ui.viewmodel.AdViewModel
 import com.powder.simplebeertime.ui.viewmodel.AdViewModelFactory
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModelFactory
+import com.powder.simplebeertime.ui.viewmodel.RemoveAdsViewModel
+import com.powder.simplebeertime.ui.viewmodel.RemoveAdsViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import java.util.Locale
@@ -27,9 +29,7 @@ class MainActivity : ComponentActivity() {
 
     private val beerViewModel: BeerViewModel by viewModels {
         val app = application as BeerApplication
-        BeerViewModelFactory(
-            app.container.beerRepository
-        )
+        BeerViewModelFactory(app.container.beerRepository)
     }
 
     private val languageViewModel: LanguageViewModel by viewModels {
@@ -47,6 +47,11 @@ class MainActivity : ComponentActivity() {
     private val adViewModel: AdViewModel by viewModels {
         val app = application as BeerApplication
         AdViewModelFactory(app.container.adPreferencesRepository)
+    }
+
+    private val removeAdsViewModel: RemoveAdsViewModel by viewModels {
+        val app = application as BeerApplication
+        RemoveAdsViewModelFactory(app.container.billingManager)
     }
 
     private fun tagToLocale(tag: String): Locale? {
@@ -118,7 +123,8 @@ class MainActivity : ComponentActivity() {
                 beerViewModel = beerViewModel,
                 languageViewModel = languageViewModel,
                 priceViewModel = priceViewModel,
-                adViewModel = adViewModel
+                adViewModel = adViewModel,
+                removeAdsViewModel = removeAdsViewModel
             )
         }
     }

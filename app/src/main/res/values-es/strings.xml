@@ -194,4 +194,10 @@
 
     <!-- es -->
     <string name="calendar_tap_hint">Toca una fecha para editar la cantidad.</string>
+    <string name="settings_cd_remove_ads">Remove ads</string>
+    <string name="remove_ads_title">Quitar anuncios</string>
+    <string name="remove_ads_description">Un solo pago elimina permanentemente todos los anuncios de la aplicación.</string>
+    <string name="remove_ads_button">Quitar anuncios (%s)</string>
+    <string name="remove_ads_purchased">Anuncios eliminados ✓</string>
+    <string name="remove_ads_error">La compra falló. Inténtalo de nuevo.</string>
 </resources>

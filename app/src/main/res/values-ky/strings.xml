@@ -177,4 +177,10 @@
     <string name="calendar_per_day_suffix">/күн</string>
     <!-- ④ EditDayAmountDialog: "About" label -->
     <string name="edit_day_about_label">Болжол менен</string>
+    <string name="settings_cd_remove_ads">Remove ads</string>
+    <string name="remove_ads_title">Жарнамаларды алып салуу</string>
+    <string name="remove_ads_description">Бир жолу төлөө менен колдонмодогу бардык жарнамалар биротоло алынып салынат.</string>
+    <string name="remove_ads_button">Жарнамаларды алып салуу (%s)</string>
+    <string name="remove_ads_purchased">Жарнамалар алынды ✓</string>
+    <string name="remove_ads_error">Сатып алуу ишке ашкан жок. Кайра аракет кылып көрүңүз.</string>
 </resources>

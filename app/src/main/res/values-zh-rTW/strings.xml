@@ -200,4 +200,10 @@
 
     <string name="calendar_per_day_suffix">/日</string>
     <string name="edit_day_about_label">約</string>
+    <string name="settings_cd_remove_ads">Remove ads</string>
+    <string name="remove_ads_title">移除廣告</string>
+    <string name="remove_ads_description">一次付款即可永久移除應用程式中的所有廣告。</string>
+    <string name="remove_ads_button">移除廣告（%s）</string>
+    <string name="remove_ads_purchased">已移除廣告 ✓</string>
+    <string name="remove_ads_error">購買失敗，請再試一次。</string>
 </resources>

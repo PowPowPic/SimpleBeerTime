@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Google Play 課金（広告削除 In-App Purchase） -->
+    <uses-permission android:name="com.android.vending.BILLING" />
+
     <application
         android:name=".BeerApplication"
         android:allowBackup="true"

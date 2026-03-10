@@ -8,6 +8,7 @@ import com.powder.simplebeertime.data.preferences.LanguagePreferencesRepository
 import com.powder.simplebeertime.data.preferences.PricePreferencesRepository
 import com.powder.simplebeertime.data.preferences.settingsDataStore
 import com.powder.simplebeertime.data.repository.BeerRepository
+import com.powder.simplebeertime.util.BillingManager
 
 class AppContainer(context: Context) {
 
@@ -24,4 +25,10 @@ class AppContainer(context: Context) {
     val adPreferencesRepository = AdPreferencesRepository(context.settingsDataStore)
     val pricePreferencesRepository = PricePreferencesRepository(context.settingsDataStore)
     val languagePreferencesRepository = LanguagePreferencesRepository(context.settingsDataStore)
+
+    // ── 広告削除 BillingManager ───────────────────────────────────────────────
+    val billingManager = BillingManager(
+        context = context,
+        adRepository = adPreferencesRepository
+    )
 }

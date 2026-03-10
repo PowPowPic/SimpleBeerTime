@@ -177,4 +177,10 @@
     <string name="calendar_per_day_suffix">/ден</string>
     <!-- ④ EditDayAmountDialog: "About" label -->
     <string name="edit_day_about_label">Около</string>
+    <string name="settings_cd_remove_ads">Remove ads</string>
+    <string name="remove_ads_title">Премахване на рекламите</string>
+    <string name="remove_ads_description">Плащането еднократно премахва всички реклами от приложението завинаги.</string>
+    <string name="remove_ads_button">Премахване на рекламите (%s)</string>
+    <string name="remove_ads_purchased">Рекламите са премахнати ✓</string>
+    <string name="remove_ads_error">Покупката не бе успешна. Моля, опитайте отново.</string>
 </resources>

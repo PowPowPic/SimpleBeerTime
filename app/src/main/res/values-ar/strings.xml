@@ -178,4 +178,10 @@
 
     <!-- ar -->
     <string name="calendar_tap_hint">اضغط على التاريخ لتعديل العدد.</string>
+    <string name="settings_cd_remove_ads">Remove ads</string>
+    <string name="remove_ads_title">إزالة الإعلانات</string>
+    <string name="remove_ads_description">الدفع مرة واحدة يزيل جميع الإعلانات من التطبيق نهائيًا.</string>
+    <string name="remove_ads_button">إزالة الإعلانات (%s)</string>
+    <string name="remove_ads_purchased">تمت إزالة الإعلانات ✓</string>
+    <string name="remove_ads_error">فشلت عملية الشراء. يُرجى المحاولة مرة أخرى.</string>
 </resources>

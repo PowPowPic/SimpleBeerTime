@@ -175,4 +175,10 @@
 
     <string name="calendar_per_day_suffix">/日</string>
     <string name="edit_day_about_label">約</string>
+    <string name="settings_cd_remove_ads">Remove ads</string>
+    <string name="remove_ads_title">広告を削除</string>
+    <string name="remove_ads_description">一度のお支払いで、アプリ内のすべての広告が永久に削除されます。</string>
+    <string name="remove_ads_button">広告を削除 (%s)</string>
+    <string name="remove_ads_purchased">広告を削除済み ✓</string>
+    <string name="remove_ads_error">購入に失敗しました。もう一度お試しください。</string>
 </resources>

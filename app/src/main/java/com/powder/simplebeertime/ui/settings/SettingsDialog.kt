@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AttachMoney
+import androidx.compose.material.icons.filled.Block
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Settings
@@ -33,12 +35,19 @@ import com.powder.simplebeertime.ui.theme.SimpleColors
 // 削除項目用の赤色
 private val DeleteRed = Color(0xFFFF0000)
 
+// 購入済み表示用のグレー
+private val PurchasedGray = Color(0xFF888888)
+
 @Composable
 fun SettingsDialog(
     onDismiss: () -> Unit,
     onLanguageSettingClick: () -> Unit = {},
     onPriceSettingClick: () -> Unit = {},
-    onConfirmDeleteAll: () -> Unit = {}
+    onConfirmDeleteAll: () -> Unit = {},
+    // ── 広告削除 ──
+    isAdFree: Boolean = false,
+    formattedPrice: String? = null,
+    onRemoveAdsClick: () -> Unit = {}
 ) {
     val showDeleteAllDialog = remember { mutableStateOf(false) }
 
@@ -60,14 +69,13 @@ fun SettingsDialog(
         text = {
             Column(modifier = Modifier.fillMaxWidth()) {
 
+                // ── 言語 ──────────────────────────────────────────────────────
                 SettingsRow(
                     icon = Icons.Filled.Language,
                     title = stringResource(R.string.settings_language_title),
                     description = stringResource(R.string.settings_language_description),
                     contentDescription = stringResource(R.string.settings_cd_language),
-                    onClick = {
-                        onLanguageSettingClick()
-                    }
+                    onClick = { onLanguageSettingClick() }
                 )
 
                 Divider(
@@ -75,14 +83,13 @@ fun SettingsDialog(
                     color = SimpleColors.TextSecondary.copy(alpha = 0.5f)
                 )
 
+                // ── 単価 ──────────────────────────────────────────────────────
                 SettingsRow(
                     icon = Icons.Filled.AttachMoney,
                     title = stringResource(R.string.settings_price_title),
                     description = stringResource(R.string.settings_price_description),
                     contentDescription = stringResource(R.string.settings_cd_price),
-                    onClick = {
-                        onPriceSettingClick()
-                    }
+                    onClick = { onPriceSettingClick() }
                 )
 
                 Divider(
@@ -90,16 +97,47 @@ fun SettingsDialog(
                     color = SimpleColors.TextSecondary.copy(alpha = 0.5f)
                 )
 
-                // ✅ 削除行は赤字で表示
+                // ── 広告削除（単価と全データ削除の間） ──────────────────────
+                if (isAdFree) {
+                    // 購入済み：チェックアイコン＋グレーで表示（タップ無効）
+                    SettingsRow(
+                        icon = Icons.Filled.CheckCircle,
+                        title = stringResource(R.string.remove_ads_title),
+                        description = stringResource(R.string.remove_ads_purchased),
+                        contentDescription = stringResource(R.string.settings_cd_remove_ads),
+                        tintColor = PurchasedGray,
+                        enabled = false,
+                        onClick = {}
+                    )
+                } else {
+                    // 未購入：価格付きタイトルで表示
+                    val buttonLabel = if (formattedPrice != null) {
+                        stringResource(R.string.remove_ads_button, formattedPrice)
+                    } else {
+                        stringResource(R.string.remove_ads_title)
+                    }
+                    SettingsRow(
+                        icon = Icons.Filled.Block,
+                        title = buttonLabel,
+                        description = stringResource(R.string.remove_ads_description),
+                        contentDescription = stringResource(R.string.settings_cd_remove_ads),
+                        onClick = { onRemoveAdsClick() }
+                    )
+                }
+
+                Divider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    color = SimpleColors.TextSecondary.copy(alpha = 0.5f)
+                )
+
+                // ── 全データ削除 ──────────────────────────────────────────────
                 SettingsRow(
                     icon = Icons.Filled.DeleteForever,
                     title = stringResource(R.string.settings_delete_title),
                     description = stringResource(R.string.settings_delete_description),
                     contentDescription = stringResource(R.string.settings_cd_delete_all),
-                    tintColor = DeleteRed,  // 赤色指定
-                    onClick = {
-                        showDeleteAllDialog.value = true
-                    }
+                    tintColor = DeleteRed,
+                    onClick = { showDeleteAllDialog.value = true }
                 )
             }
         },
@@ -115,9 +153,7 @@ fun SettingsDialog(
 
     DeleteAllConfirmDialog(
         visible = showDeleteAllDialog.value,
-        onDismiss = {
-            showDeleteAllDialog.value = false
-        },
+        onDismiss = { showDeleteAllDialog.value = false },
         onConfirmDeleteAll = {
             onConfirmDeleteAll()
             showDeleteAllDialog.value = false
@@ -131,13 +167,14 @@ private fun SettingsRow(
     title: String,
     description: String,
     contentDescription: String? = null,
-    tintColor: Color = SimpleColors.TextPrimary,  // デフォルトは通常色
+    tintColor: Color = SimpleColors.TextPrimary,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() }
+            .then(if (enabled) Modifier.clickable { onClick() } else Modifier)
             .padding(vertical = 4.dp)
     ) {
         Row(
@@ -147,19 +184,19 @@ private fun SettingsRow(
                 imageVector = icon,
                 contentDescription = contentDescription,
                 modifier = Modifier.padding(end = 8.dp),
-                tint = tintColor  // ✅ 指定された色を使用
+                tint = tintColor
             )
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                color = tintColor  // ✅ 指定された色を使用
+                color = tintColor
             )
         }
         Spacer(modifier = Modifier.height(2.dp))
         Text(
             text = description,
             style = MaterialTheme.typography.bodySmall,
-            color = if (tintColor == DeleteRed) tintColor else SimpleColors.TextSecondary  // ✅ 削除行は説明も赤
+            color = if (tintColor == DeleteRed) tintColor else SimpleColors.TextSecondary
         )
     }
 }

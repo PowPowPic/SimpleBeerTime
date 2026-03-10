@@ -200,4 +200,10 @@
 
     <string name="calendar_per_day_suffix">/ngày</string>
     <string name="edit_day_about_label">Khoảng</string>
+    <string name="settings_cd_remove_ads">Remove ads</string>
+    <string name="remove_ads_title">Xóa quảng cáo</string>
+    <string name="remove_ads_description">Chỉ cần thanh toán một lần để xóa vĩnh viễn toàn bộ quảng cáo khỏi ứng dụng.</string>
+    <string name="remove_ads_button">Xóa quảng cáo (%s)</string>
+    <string name="remove_ads_purchased">Đã xóa quảng cáo ✓</string>
+    <string name="remove_ads_error">Mua hàng thất bại. Vui lòng thử lại.</string>
 </resources>
