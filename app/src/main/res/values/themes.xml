@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.SimpleBeerTime" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- ★ AppCompatActivity を使うため Theme.AppCompat 系にする -->
+    <!-- Compose の MaterialTheme {} でデザインは制御するので、ここは最低限でOK -->
+    <style name="Theme.SimpleBeerTime" parent="Theme.AppCompat.DayNight.NoActionBar">
+    </style>
 </resources>

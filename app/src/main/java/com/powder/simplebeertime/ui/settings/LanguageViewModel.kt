@@ -1,5 +1,7 @@
 package com.powder.simplebeertime.ui.settings
 
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.powder.simplebeertime.data.preferences.LanguagePreferencesRepository
@@ -25,13 +27,23 @@ class LanguageViewModel(
         }
     }
 
+    /**
+     * 言語を設定し AppCompatDelegate で即時適用
+     *
+     * ★ AppCompatActivity を使っているため setApplicationLocales() が
+     *    内部フックで Activity 再生成を自動トリガーする。
+     *    restartApp() や recreate() の手動呼び出しは不要。
+     */
     fun setLanguage(language: AppLanguage) {
         viewModelScope.launch {
             repository.setLanguage(language.tag)
+            if (language == AppLanguage.SYSTEM) {
+                AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
+            } else {
+                AppCompatDelegate.setApplicationLocales(
+                    LocaleListCompat.forLanguageTags(language.tag)
+                )
+            }
         }
-    }
-
-    suspend fun setLanguageSuspend(language: AppLanguage) {
-        repository.setLanguage(language.tag)
     }
 }

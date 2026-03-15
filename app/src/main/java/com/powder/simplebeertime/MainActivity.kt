@@ -1,12 +1,12 @@
 package com.powder.simplebeertime
 
-import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import com.powder.simplebeertime.data.preferences.LanguagePreferencesRepository
 import com.powder.simplebeertime.data.preferences.PricePreferencesRepository
 import com.powder.simplebeertime.data.preferences.settingsDataStore
@@ -23,9 +23,21 @@ import com.powder.simplebeertime.ui.viewmodel.RemoveAdsViewModel
 import com.powder.simplebeertime.ui.viewmodel.RemoveAdsViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import java.util.Locale
 
-class MainActivity : ComponentActivity() {
+/**
+ * ★ ComponentActivity → AppCompatActivity に変更
+ *
+ * 【理由】
+ * ComponentActivity + attachBaseContext(createConfigurationContext()) 方式では
+ * 一部デバイス（Xiaomi 等）で stringResource() のリソース解決パスが
+ * 差し替わらず、本文が英語のまま表示される問題があった。
+ *
+ * AppCompatActivity なら setApplicationLocales() が内部で
+ * Configuration の差し替え＋Activity 再生成を一括で処理するため、
+ * 全デバイスで確実に言語が反映される。
+ * SBM・SSM・SSmT と同じ方式に統一。
+ */
+class MainActivity : AppCompatActivity() {
 
     private val beerViewModel: BeerViewModel by viewModels {
         val app = application as BeerApplication
@@ -54,68 +66,27 @@ class MainActivity : ComponentActivity() {
         RemoveAdsViewModelFactory(app.container.billingManager)
     }
 
-    private fun tagToLocale(tag: String): Locale? {
-        return when (tag) {
-            "system" -> null
-            "en" -> Locale("en")
-            "ja" -> Locale("ja")
-            "es" -> Locale("es")
-            "it" -> Locale("it")
-            "pt-BR" -> Locale("pt", "BR")
-            "fr" -> Locale("fr")
-            "de" -> Locale("de")
-            "ar" -> Locale("ar")
-            "in" -> Locale("in")
-            "th" -> Locale("th")
-            "tr" -> Locale("tr")
-            "vi" -> Locale("vi")
-            "zh-TW" -> Locale("zh", "TW")
-            "ko" -> Locale("ko")
-            "pl" -> Locale("pl")
-            "ro" -> Locale("ro")
-            "uz" -> Locale("uz")
-            "kk" -> Locale("kk")
-            "ur" -> Locale("ur")
-            "ky" -> Locale("ky")
-            "bg" -> Locale("bg")
-            // ── 英語地域バリアント ──
-            "en-US" -> Locale("en", "US")
-            "en-GB" -> Locale("en", "GB")
-            "en-CA" -> Locale("en", "CA")
-            "en-AU" -> Locale("en", "AU")
-            "en-IN" -> Locale("en", "IN")
-            "en-PH" -> Locale("en", "PH")
-            "en-SG" -> Locale("en", "SG")
-            "en-ZA" -> Locale("en", "ZA")
-            // ── スペイン語地域バリアント ──
-            "es-MX" -> Locale("es", "MX")
-            else -> null
-        }
-    }
-
-    override fun attachBaseContext(newBase: Context) {
+    /**
+     * 保存済み言語設定を AppCompatDelegate で適用（SBM・SSM と同じパターン）
+     */
+    private fun applyStoredLanguage() {
+        val languagePrefsRepo = LanguagePreferencesRepository(settingsDataStore)
         val tag = runBlocking {
-            val repo = LanguagePreferencesRepository(newBase.settingsDataStore)
-            repo.languageFlow.first()
+            languagePrefsRepo.languageFlow.first()
         }
-
-        val locale = tagToLocale(tag)
-
-        if (locale == null) {
-            super.attachBaseContext(newBase)
-            return
+        if (tag == "system" || tag.isEmpty()) {
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
+        } else {
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
         }
-
-        Locale.setDefault(locale)
-        val config = Configuration(newBase.resources.configuration)
-        config.setLocale(locale)
-
-        val localizedContext = newBase.createConfigurationContext(config)
-        super.attachBaseContext(localizedContext)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 保存された言語設定を適用（UIより前に実行）
+        applyStoredLanguage()
+
         enableEdgeToEdge()
 
         setContent {

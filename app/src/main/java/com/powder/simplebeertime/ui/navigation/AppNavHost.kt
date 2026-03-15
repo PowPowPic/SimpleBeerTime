@@ -123,9 +123,13 @@ fun AppNavHost(
     }
 
     // --- 連動ロジックA（Pager→Nav） ---
+    // ★ 言語変更による Activity 再生成時、NavGraph が未初期化の状態で
+    //    LaunchedEffect が先に発火する場合がある。
+    //    currentDestination == null なら graph 未セットなのでスキップ。
     LaunchedEffect(pagerState.currentPage) {
-        val targetScreen = screens[pagerState.currentPage]
         val currentRoute = navController.currentDestination?.route
+            ?: return@LaunchedEffect  // ★ NavGraph 未初期化 → スキップ
+        val targetScreen = screens[pagerState.currentPage]
 
         if (currentRoute != targetScreen.route) {
             navController.navigate(targetScreen.route) {
