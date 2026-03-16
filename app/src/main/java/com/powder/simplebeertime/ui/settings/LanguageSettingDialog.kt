@@ -265,6 +265,15 @@ fun LanguageSettingDialog(
                     }
                 )
 
+                LanguageOption(
+                    label = "Azərbaycanca",
+                    selected = currentLang == AppLanguage.AZERBAIJANI,
+                    onSelect = {
+                        pendingLang = AppLanguage.AZERBAIJANI
+                        showConfirm = true
+                    }
+                )
+
                 // ── English (regional variants) ──────────────────────────
                 LanguageOption(
                     label = "English",

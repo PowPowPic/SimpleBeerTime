@@ -14,10 +14,19 @@ android {
         applicationId = "com.powder.simplebeertime"
         minSdk = 24
         targetSdk = 36
-        versionCode = 37
-        versionName = "2.1.1"
+        versionCode = 38
+        versionName = "2.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // ★ 対応言語をビルドに含める（これがないと values-az 等がビルドから除外される）
+        resourceConfigurations += listOf(
+            "ja", "es", "es-rMX", "it", "pt-rBR", "fr", "de", "ar",
+            "in", "th", "tr", "vi", "zh-rTW", "ko",
+            "pl", "ro", "uz", "kk", "ur", "ky", "bg", "az",
+            "en", "en-rUS", "en-rGB", "en-rCA", "en-rAU",
+            "en-rIN", "en-rPH", "en-rSG", "en-rZA"
+        )
     }
 
     buildTypes {

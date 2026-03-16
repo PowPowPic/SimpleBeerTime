@@ -55,6 +55,7 @@ private fun normalizeLocaleForCurrency(locale: Locale): Locale {
         "ur"       -> Locale("ur", "PK")
         "ky"       -> Locale("ky", "KG")
         "bg"       -> Locale("bg", "BG")
+        "az"       -> Locale("az", "AZ")
         else       -> locale
     }
 }
@@ -78,6 +79,7 @@ private val POSTFIX_CURRENCIES = setOf(
     "UZS",  // ウズベクスム → "1 000 soʻm"
     "KZT",  // カザフテンゲ → "1 000 ₸"
     "KGS",  // キルギスソム → "100 сом"
+    "AZN",  // アゼルバイジャンマナト → "100,00 ₼"
 )
 
 /**
@@ -113,6 +115,7 @@ private fun currencyCodeFromLanguage(lang: String): String = when (lang) {
     "ur"       -> "PKR"
     "ky"       -> "KGS"
     "bg"       -> "EUR"
+    "az"       -> "AZN"
     else       -> "USD"
 }
 
@@ -153,6 +156,8 @@ fun getCurrencySymbol(): String {
     if (locale.language == "ur" || locale.country == "PK") return "Rs "
     // ★ KGS→сом
     if (locale.language == "ky" || locale.country == "KG") return "сом"
+    // ★ AZN→₼（古い端末で "AZN" や "man." が返る場合の対策）
+    if (locale.language == "az" || locale.country == "AZ") return "₼"
     // ★ ZAR→R
     if (locale.country == "ZA") return "R"
     // ★ MXN→MX$
@@ -192,6 +197,7 @@ fun getCurrencySymbol(): String {
         "kk"       -> "₸"
         "ur"       -> "Rs "
         "ky"       -> "сом"
+        "az"       -> "₼"
         else       -> symbolFromLocale ?: "$"
     }
 }

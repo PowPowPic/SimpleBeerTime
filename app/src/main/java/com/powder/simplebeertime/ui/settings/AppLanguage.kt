@@ -27,6 +27,7 @@ enum class AppLanguage(val tag: String) {
     URDU("ur"),
     KYRGYZ("ky"),
     BULGARIAN("bg"),
+    AZERBAIJANI("az"),
 
     // ── 英語地域バリアント（一覧下にまとめる）──
     ENGLISH("en"),       // English（汎用・その他地域）

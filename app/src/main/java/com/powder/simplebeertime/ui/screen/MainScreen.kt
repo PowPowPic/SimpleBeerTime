@@ -63,22 +63,39 @@ fun MainScreen(
         }
     }
 
+    // ★ アプリの有効ロケールを AppCompatDelegate から取得
+    //   AppCompatDelegate.getApplicationLocales() は setApplicationLocales() で
+    //   設定された正確なロケールを返す。空の場合はシステム言語にフォールバック。
+    //   remember で1回だけ計算（Activity 再生成で再計算される）
+    val appLocale = remember {
+        val appLocales = androidx.appcompat.app.AppCompatDelegate.getApplicationLocales()
+        val locale = if (appLocales.isEmpty) {
+            Locale.getDefault()
+        } else {
+            appLocales[0] ?: Locale.getDefault()
+        }
+        // en-ZA は ICU 規格が "," だが実生活慣習に合わせて "." を強制
+        if (locale.country == "ZA") Locale.US else locale
+    }
+
     // ロケールに応じた日付フォーマット
     val dateFormatter = remember {
         DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
-            .withLocale(Locale.getDefault())
+            .withLocale(appLocale)
     }
 
     // ★ ロケール対応: デフォルト値をロケールの小数点記号で表示
-    //   en-ZA は ICU 規格が "," だが実生活慣習に合わせて "." を強制
+    //   例: fr → "1,4" / en → "1.4" / de → "1,4"
     val defaultAmountText = remember {
-        val locale = Locale.getDefault()
-        val displayLocale = if (locale.country == "ZA") Locale.US else locale
-        String.format(displayLocale, "%.1f", 1.4)
+        String.format(appLocale, "%.1f", 1.4)
     }
 
     // 小数入力用の状態
-    var amountText by rememberSaveable { mutableStateOf(defaultAmountText) }
+    // ★ ロケール変更時にデフォルト値をリセットするため、appLocale を key に指定
+    //   rememberSaveable は Activity 再生成で値を復元するが、
+    //   ロケールが変わった場合は旧ロケールの小数点記号（例: "1,4"）が残ってしまう。
+    //   key にロケールを入れることで、言語変更時にリセットされる。
+    var amountText by rememberSaveable(appLocale.toString()) { mutableStateOf(defaultAmountText) }
 
     // 小数入力を処理する関数
     fun addCustomAmount() {
@@ -86,7 +103,7 @@ fun MainScreen(
 
         // ★ ロケール対応: NumberFormat.parse()でカンマ小数点も正しくパース
         val raw = try {
-            java.text.NumberFormat.getInstance(Locale.getDefault().let { if (it.country == "ZA") Locale.US else it }).parse(rawText)?.toDouble()
+            java.text.NumberFormat.getInstance(appLocale).parse(rawText)?.toDouble()
         } catch (e: Exception) {
             rawText.replace(',', '.').toDoubleOrNull()
         } ?: return
