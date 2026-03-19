@@ -29,7 +29,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.powder.simplebeertime.R
 import com.powder.simplebeertime.ui.settings.formatBeerCount
-import com.powder.simplebeertime.ui.settings.formatCurrencyAmount
+import com.powder.simplebeertime.ui.settings.formatCurrencyAmountSmart  // ★ Smart表示に変更
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import java.time.format.DateTimeFormatter
@@ -123,9 +123,9 @@ fun MainScreen(
     val weekCostTotal = weekStats.count * pricePerBeer
     val todayCost = todayStats.count * pricePerBeer
 
-    // ★ スマート通貨フォーマット（CurrencyUtil使用）
-    val weekCostText = formatCurrencyAmount(weekCostTotal.toDouble())
-    val todayCostText = formatCurrencyAmount(todayCost.toDouble())
+    // ★ スマート通貨フォーマット（整数なら小数なし、端数あれば小数第1位まで）
+    val weekCostText = formatCurrencyAmountSmart(weekCostTotal.toDouble())
+    val todayCostText = formatCurrencyAmountSmart(todayCost.toDouble())
 
     // ★ スマート本数フォーマット（整数なら小数点なし）
     val weekCountText = formatBeerCount(weekStats.count)

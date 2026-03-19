@@ -68,6 +68,19 @@ private val INTEGER_ONLY_CURRENCIES = setOf(
 )
 
 // ─────────────────────────────────────────────────────────────────────────
+// ★ 整数通貨だが1単価に小数点第1位が有効な通貨
+//   タバコ値上げ・ビール価格端数等で1単価が小数になるケースに対応
+//   （IDR/VND/UZS は桁が大きいため対象外）
+// ─────────────────────────────────────────────────────────────────────────
+private val DECIMAL1_INPUT_CURRENCIES = setOf(
+    "JPY",  // 日本円（例: 26.5円/本）
+    "KRW",  // 韓国ウォン（例: 225.5₩/本）
+    "TWD",  // 台湾ドル（例: 7.5 NT$/本）
+    "KZT",  // カザフテンゲ（例: 50.5₸/本）
+    "KGS",  // キルギスソム（例: 5.5 сом/本）
+)
+
+// ─────────────────────────────────────────────────────────────────────────
 // 後置き通貨（Android バージョンによって前置きで返す端末への対策）
 // ─────────────────────────────────────────────────────────────────────────
 private val POSTFIX_CURRENCIES = setOf(
@@ -130,6 +143,18 @@ fun getCurrencyFractionDigits(): Int {
     } catch (_: Exception) {
         2
     }
+}
+
+/**
+ * ★ 1単価入力で許可する最大小数桁数
+ *   DECIMAL1対象通貨 → 1（小数点第1位まで）
+ *   その他の整数通貨(IDR/VND/UZS) → 0（整数のみ）
+ *   小数点通貨(USD/EUR等) → 2（従来通り）
+ */
+fun getInputMaxDecimalPlaces(): Int {
+    val code = getSelectedCurrencyCode()
+    if (code in DECIMAL1_INPUT_CURRENCIES) return 1
+    return getCurrencyFractionDigits()  // 0 for IDR/VND/UZS, 2 for USD/EUR etc.
 }
 
 /**
@@ -203,19 +228,16 @@ fun getCurrencySymbol(): String {
 }
 
 /**
- * ★ 金額を通貨形式でフォーマット
+ * ★ 金額フォーマットの内部共通処理
  *
- * Locale.getDefault() に委任し、正しく動かない部分のみオーバーライド:
- *   ルーマニア : NNBSP 桁区切り（U+202F）強制
- *   PKR       : 端末依存記号を "Rs " に統一
- *   後置き通貨 : 前置きで返す端末への対策
- *   EGP/PKR   : RTL BiDi 崩れ防止（LRI/PDI wrap）
+ * fractionDigits を外部から指定できるようにし、
+ * formatCurrencyAmount / formatCurrencyAmountSmart / formatCurrencyAmountForAverage
+ * から共通で呼び出す。
  */
-fun formatCurrencyAmount(amount: Double): String {
+private fun formatCurrencyAmountInternal(amount: Double, fractionDigits: Int): String {
     val locale = getCurrentLocale()
     val code = getSelectedCurrencyCode()
     val symbol = getCurrencySymbol()
-    val fractionDigits = getCurrencyFractionDigits()
 
     // ★ ルーマニア: NNBSP 桁区切り強制 → "1 234,56 lei"
     if (locale.language == "ro" || locale.country == "RO") {
@@ -267,10 +289,61 @@ fun formatCurrencyAmount(amount: Double): String {
 }
 
 /**
- * 通貨フォーマット + "/day" サフィックス
+ * ★ 金額を通貨形式でフォーマット（従来互換）
+ *
+ * 整数通貨は小数なし、小数通貨は既定桁数で表示。
+ */
+fun formatCurrencyAmount(amount: Double): String {
+    return formatCurrencyAmountInternal(amount, getCurrencyFractionDigits())
+}
+
+/**
+ * ★ 合計金額のスマート表示（ホーム画面・カレンダー合計用）
+ *
+ * DECIMAL1対象の整数通貨（JPY/KRW/TWD/KZT/KGS）:
+ *   - 端数があれば小数点第1位まで表示（例: 79.5円 → "¥79.5"）
+ *   - 整数なら小数点なし（例: 530円 → "¥530"）
+ * その他の通貨: 従来通り（formatCurrencyAmount と同じ）
+ */
+fun formatCurrencyAmountSmart(amount: Double): String {
+    val code = getSelectedCurrencyCode()
+    if (code in DECIMAL1_INPUT_CURRENCIES) {
+        // ★ 小数部の有無を判定（浮動小数点誤差を考慮して0.001で判定）
+        val hasDecimal = Math.abs(amount - Math.round(amount).toDouble()) > 0.001
+        val digits = if (hasDecimal) 1 else 0
+        return formatCurrencyAmountInternal(amount, digits)
+    }
+    return formatCurrencyAmountInternal(amount, getCurrencyFractionDigits())
+}
+
+/**
+ * ★ 平均支出額の表示（カレンダー画面用）
+ *
+ * DECIMAL1対象の整数通貨（JPY/KRW/TWD/KZT/KGS）:
+ *   - 常に小数点第2位まで表示（例: 456.78円 → "¥456.78"）
+ *   - 割り算で端数が出やすいため固定桁で統一
+ * その他の通貨: 従来通り（formatCurrencyAmount と同じ）
+ */
+fun formatCurrencyAmountForAverage(amount: Double): String {
+    val code = getSelectedCurrencyCode()
+    if (code in DECIMAL1_INPUT_CURRENCIES) {
+        return formatCurrencyAmountInternal(amount, 2)
+    }
+    return formatCurrencyAmountInternal(amount, getCurrencyFractionDigits())
+}
+
+/**
+ * 通貨フォーマット + "/day" サフィックス（合計用）
  */
 fun formatCurrencyPerDay(amount: Double, perDaySuffix: String): String {
-    return "${formatCurrencyAmount(amount)} $perDaySuffix"
+    return "${formatCurrencyAmountSmart(amount)} $perDaySuffix"
+}
+
+/**
+ * ★ 通貨フォーマット + "/day" サフィックス（平均用・常時小数2桁）
+ */
+fun formatCurrencyPerDayForAverage(amount: Double, perDaySuffix: String): String {
+    return "${formatCurrencyAmountForAverage(amount)} $perDaySuffix"
 }
 
 /**
@@ -301,12 +374,13 @@ private fun bidiWrap(text: String, locale: Locale): String {
     }
 }
 
+/**
+ * ★ フォーマッター生成（fractionDigits を外部指定）
+ */
 private fun buildFormatter(locale: Locale, code: String, fractionDigits: Int): NumberFormat {
     val fmt = NumberFormat.getCurrencyInstance(locale)
     try { fmt.currency = Currency.getInstance(code) } catch (_: Exception) {}
-    if (code in INTEGER_ONLY_CURRENCIES) {
-        fmt.maximumFractionDigits = 0
-        fmt.minimumFractionDigits = 0
-    }
+    fmt.maximumFractionDigits = fractionDigits
+    fmt.minimumFractionDigits = fractionDigits
     return fmt
 }

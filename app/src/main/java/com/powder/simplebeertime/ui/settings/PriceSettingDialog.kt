@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.powder.simplebeertime.R
 import com.powder.simplebeertime.ui.settings.getCurrentLocale
+import com.powder.simplebeertime.ui.settings.getInputMaxDecimalPlaces
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import java.text.NumberFormat
 import java.util.Locale
@@ -30,13 +31,19 @@ fun PriceSettingDialog(
     onDismiss: () -> Unit
 ) {
     val locale = getCurrentLocale()
-    val fractionDigits = getCurrencyFractionDigits()
+    // ★ 通貨ごとの最大小数桁数を取得（JPY/KRW/TWD/KZT/KGS→1, IDR/VND/UZS→0, USD等→2）
+    //   従来: getCurrencyFractionDigits() → 整数通貨は0桁固定
+    //   変更後: getInputMaxDecimalPlaces() → DECIMAL1通貨は1桁まで許可
+    val maxDecimals = remember { getInputMaxDecimalPlaces() }
+
     var textState = remember {
         mutableStateOf(
-            if (fractionDigits == 0) {
+            if (maxDecimals == 0) {
                 String.format(locale, "%d", Math.round(currentPrice))
             } else {
-                String.format(locale, "%.${fractionDigits}f", currentPrice)
+                // ★ maxDecimalsに応じたフォーマット文字列を使用
+                //   例: JPY(maxDecimals=1) → "%.1f", USD(maxDecimals=2) → "%.2f"
+                String.format(locale, "%.${maxDecimals}f", currentPrice)
                     .trimEnd('0').trimEnd('.').trimEnd(',')
             }
         )
@@ -61,8 +68,16 @@ fun PriceSettingDialog(
                 TextField(
                     value = textState.value,
                     onValueChange = { new ->
-                        // ★ ロケール対応: ドットとカンマの両方を許可
-                        if (new.matches(Regex("""\d*[.,]?\d*"""))) {
+                        // ★ 通貨ごとの小数桁数制限付きバリデーション
+                        //   maxDecimals=0 → 整数のみ（IDR/VND/UZS）
+                        //   maxDecimals=1 → 小数点第1位まで（JPY/KRW/TWD/KZT/KGS）
+                        //   maxDecimals=2 → 小数点第2位まで（USD/EUR等、従来通り）
+                        val isValid = if (maxDecimals == 0) {
+                            new.matches(Regex("""\d*"""))
+                        } else {
+                            new.matches(Regex("""\d*[.,]?\d{0,$maxDecimals}"""))
+                        }
+                        if (isValid) {
                             textState.value = new
                         }
                     },

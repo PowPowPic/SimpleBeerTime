@@ -23,8 +23,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import com.powder.simplebeertime.ui.dialog.EditDayAmountDialog
 import com.powder.simplebeertime.ui.settings.formatBeerCount
-import com.powder.simplebeertime.ui.settings.formatCurrencyAmount
-import com.powder.simplebeertime.ui.settings.formatCurrencyPerDay
+import com.powder.simplebeertime.ui.settings.formatCurrencyAmountSmart          // ★ 合計用：スマート表示
+import com.powder.simplebeertime.ui.settings.formatCurrencyPerDayForAverage     // ★ 平均用：常時小数2桁
 import com.powder.simplebeertime.ui.theme.SimpleColors
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.util.currentLogicalDate
@@ -97,12 +97,12 @@ fun CalendarScreen(
     val totalCost: Double = totalBeers * price
     val avgCostPerDay: Double = if (daysToUse > 0) totalCost / daysToUse.toDouble() else 0.0
 
-    // ★ スマート通貨フォーマット
-    val totalCostText = formatCurrencyAmount(totalCost)
+    // ★ 合計 → スマート表示（整数なら小数なし、端数あれば小数第1位まで）
+    val totalCostText = formatCurrencyAmountSmart(totalCost)
 
-    // ★ "/day" サフィックスをstringResourceから取得
+    // ★ 平均 → 常時小数第2位まで表示（割り算で端数が出やすいため）
     val perDaySuffix = stringResource(R.string.calendar_per_day_suffix)
-    val avgCostPerDayText = formatCurrencyPerDay(avgCostPerDay, perDaySuffix)
+    val avgCostPerDayText = formatCurrencyPerDayForAverage(avgCostPerDay, perDaySuffix)
 
     // ★ スマート本数フォーマット
     val totalBeersText = formatBeerCount(totalBeers)
