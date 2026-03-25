@@ -23,6 +23,7 @@ import com.powder.simplebeertime.ui.viewmodel.RemoveAdsViewModel
 import com.powder.simplebeertime.ui.viewmodel.RemoveAdsViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import com.powder.simplebeertime.util.ReviewHelper
 
 /**
  * ★ ComponentActivity → AppCompatActivity に変更
@@ -86,6 +87,9 @@ class MainActivity : AppCompatActivity() {
 
         // 保存された言語設定を適用（UIより前に実行）
         applyStoredLanguage()
+
+        // ★ In-App Review: 条件を満たしていればレビューダイアログをリクエスト
+        ReviewHelper.checkAndRequest(this)
 
         enableEdgeToEdge()
 
