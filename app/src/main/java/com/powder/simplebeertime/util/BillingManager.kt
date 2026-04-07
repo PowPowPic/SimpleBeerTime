@@ -52,7 +52,6 @@ class BillingManager(
                 handlePurchase(purchase)
             }
         }
-        // ITEM_ALREADY_OWNED: ユーザーが既に購入済みの場合も確認
         if (billingResult.responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
             queryExistingPurchases()
         }
@@ -64,7 +63,6 @@ class BillingManager(
         .enablePendingPurchases()
         .build()
 
-    // ── 初期化 ────────────────────────────────────────────────────────────────
     init {
         connectAndQuery()
     }
@@ -79,12 +77,12 @@ class BillingManager(
             }
 
             override fun onBillingServiceDisconnected() {
-                // 再接続はシステムが自動で行う
+                // ★ 切断時に自動再接続
+                connectAndQuery()
             }
         })
     }
 
-    // ── 製品詳細（価格）取得 ──────────────────────────────────────────────────
     private fun queryProductDetails() {
         val productList = listOf(
             QueryProductDetailsParams.Product.newBuilder()
@@ -99,14 +97,12 @@ class BillingManager(
         billingClient.queryProductDetailsAsync(params) { _, productDetailsList ->
             productDetailsList.firstOrNull()?.let { details ->
                 productDetails = details
-                // 価格文字列（例: "¥370"）を抽出して公開
                 _formattedPrice.value =
                     details.oneTimePurchaseOfferDetails?.formattedPrice
             }
         }
     }
 
-    // ── 既存購入チェック（アプリ再起動後の復元） ──────────────────────────────
     private fun queryExistingPurchases() {
         billingClient.queryPurchasesAsync(
             QueryPurchasesParams.newBuilder()
@@ -123,12 +119,10 @@ class BillingManager(
         }
     }
 
-    // ── 購入処理 ──────────────────────────────────────────────────────────────
     private fun handlePurchase(purchase: Purchase) {
         if (purchase.purchaseState != Purchase.PurchaseState.PURCHASED) return
         if (!purchase.products.contains(PRODUCT_ID)) return
 
-        // 未 Acknowledge の場合は Acknowledge する
         if (!purchase.isAcknowledged) {
             val ackParams = AcknowledgePurchaseParams.newBuilder()
                 .setPurchaseToken(purchase.purchaseToken)
@@ -139,7 +133,6 @@ class BillingManager(
                 }
             }
         } else {
-            // 既に Acknowledge 済み → 広告削除を付与
             grantAdFree()
         }
     }
@@ -151,14 +144,14 @@ class BillingManager(
     }
 
     // ── 購入フロー起動 ────────────────────────────────────────────────────────
-    /**
-     * SettingsDialog などのダイアログから呼ぶ場合は必ず findActivity() で取得した Activity を渡すこと。
-     * LocalContext.current as Activity は ContextThemeWrapper でクラッシュする。
-     */
     fun launchBillingFlow(activity: Activity) {
+        // ★ 接続が切れている場合は再接続してから実行
+        if (!billingClient.isReady) {
+            connectAndQuery()
+            return
+        }
         val details = productDetails ?: run {
-            // 製品詳細未取得の場合は再取得して終了
-            if (billingClient.isReady) queryProductDetails()
+            queryProductDetails()
             return
         }
 
@@ -176,11 +169,6 @@ class BillingManager(
 }
 
 // ── Context 拡張: Activity を安全に取得 ────────────────────────────────────────
-/**
- * ダイアログ内では LocalContext.current が ContextThemeWrapper のため
- * as Activity キャストがクラッシュする。
- * この関数で Activity を辿って安全に取得する。
- */
 fun Context.findActivity(): Activity? {
     var ctx = this
     while (ctx is ContextWrapper) {
