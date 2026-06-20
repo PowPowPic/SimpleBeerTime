@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.powder.simplebeertime.ui.ads.GoogleMobileAdsConsentManager
 import com.powder.simplebeertime.ui.navigation.AppNavHost
 import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.PriceViewModel
@@ -18,7 +19,8 @@ fun SimpleBeerTimeApp(
     languageViewModel: LanguageViewModel,
     priceViewModel: PriceViewModel,
     adViewModel: AdViewModel,
-    removeAdsViewModel: RemoveAdsViewModel
+    removeAdsViewModel: RemoveAdsViewModel,
+    consentManager: GoogleMobileAdsConsentManager
 ) {
     MaterialTheme {
         Surface(
@@ -30,7 +32,8 @@ fun SimpleBeerTimeApp(
                 languageViewModel = languageViewModel,
                 priceViewModel = priceViewModel,
                 adViewModel = adViewModel,
-                removeAdsViewModel = removeAdsViewModel
+                removeAdsViewModel = removeAdsViewModel,
+                consentManager = consentManager
             )
         }
     }

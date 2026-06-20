@@ -2,6 +2,7 @@ package com.powder.simplebeertime.util
 
 import android.app.Activity
 import android.content.Context
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -16,64 +17,74 @@ object AdManager {
     private var interstitialAd: InterstitialAd? = null
     private var isLoading = false
 
+    @Volatile
+    private var adsEnabled = false
+
+    /** Apply the shared UMP, SDK-initialization, and ad-removal gate. */
+    fun setAdsEnabled(context: Context, enabled: Boolean) {
+        adsEnabled = enabled
+        if (enabled) {
+            loadAd(context.applicationContext)
+        } else {
+            interstitialAd = null
+            isLoading = false
+        }
+    }
+
     fun loadAd(context: Context) {
-        if (interstitialAd != null || isLoading) return
+        if (!adsEnabled || interstitialAd != null || isLoading) return
 
         isLoading = true
-        val adRequest = AdRequest.Builder().build()
-
         InterstitialAd.load(
-            context,
+            context.applicationContext,
             AD_UNIT_ID,
-            adRequest,
+            AdRequest.Builder().build(),
             object : InterstitialAdLoadCallback() {
-
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     interstitialAd = null
                     isLoading = false
                 }
 
                 override fun onAdLoaded(ad: InterstitialAd) {
-                    interstitialAd = ad
                     isLoading = false
+                    interstitialAd = if (adsEnabled) ad else null
                 }
             }
         )
     }
 
     /**
-     * @param onAdClosed 広告が閉じられた / 表示できなかった後に必ず呼ばれる
-     * @param onAdShown  広告が実際に表示され、ユーザーが閉じた場合のみ呼ばれる
+     * @param onAdClosed Called after the ad closes or when it cannot be displayed.
+     * @param onAdShown Called only when the interstitial was actually shown.
      */
     fun showInterstitial(
         activity: Activity,
         onAdClosed: () -> Unit,
         onAdShown: () -> Unit
     ) {
-        val ad = interstitialAd
+        if (!adsEnabled) {
+            onAdClosed()
+            return
+        }
 
-        // --- 広告がまだ無い場合 ---
+        val ad = interstitialAd
         if (ad == null) {
-            // 次回に備えてロードだけはしておく
-            loadAd(activity)
+            loadAd(activity.applicationContext)
             onAdClosed()
             return
         }
 
         ad.fullScreenContentCallback = object : FullScreenContentCallback() {
-
             override fun onAdDismissedFullScreenContent() {
-                // 表示成功 → ユーザーが閉じた
                 interstitialAd = null
-                onAdShown()          // ★ここで6時間枠を消費
-                loadAd(activity)     // 次を準備
+                onAdShown()
+                loadAd(activity.applicationContext)
                 onAdClosed()
             }
 
-            override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
-                // 表示失敗 → 枠は消費しない
+            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                 interstitialAd = null
-                loadAd(activity)     // 次を準備
+                loadAd(activity.applicationContext)
                 onAdClosed()
             }
         }

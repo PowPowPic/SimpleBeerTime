@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
@@ -43,6 +44,8 @@ fun SettingsDialog(
     onDismiss: () -> Unit,
     onLanguageSettingClick: () -> Unit = {},
     onPriceSettingClick: () -> Unit = {},
+    onPrivacyOptionsClick: () -> Unit = {},
+    privacyOptionsRequired: Boolean = false,
     onConfirmDeleteAll: () -> Unit = {},
     // ── 広告削除 ──
     isAdFree: Boolean = false,
@@ -96,6 +99,21 @@ fun SettingsDialog(
                     modifier = Modifier.padding(vertical = 8.dp),
                     color = SimpleColors.TextSecondary.copy(alpha = 0.5f)
                 )
+
+                // ── 広告のプライバシー設定（必要な地域のみ） ────────────────
+                if (privacyOptionsRequired) {
+                    SettingsRow(
+                        icon = Icons.Filled.PrivacyTip,
+                        title = stringResource(R.string.privacy_options_title),
+                        description = stringResource(R.string.privacy_options_description),
+                        onClick = { onPrivacyOptionsClick() }
+                    )
+
+                    Divider(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = SimpleColors.TextSecondary.copy(alpha = 0.5f)
+                    )
+                }
 
                 // ── 広告削除（単価と全データ削除の間） ──────────────────────
                 if (isAdFree) {

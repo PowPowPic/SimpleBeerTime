@@ -16,29 +16,26 @@ import com.google.android.gms.ads.AdView
 
 @Composable
 fun TopBannerAd(
-    isAdFree: Boolean,
+    showAds: Boolean,
     modifier: Modifier = Modifier,
-    adUnitId: String = "ca-app-pub-7305983073191908/3591022221" // Banner Ad Unit ID
+    adUnitId: String = "ca-app-pub-7305983073191908/3591022221"
 ) {
-    // ✅ 広告の有無に関わらず高さを固定で確保（SSmTと同じ仕様）
+    // Keep the existing 50dp banner area while consent is being resolved or ads are off.
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(50.dp)
     ) {
-        if (!isAdFree) {
+        if (showAds) {
             val context = LocalContext.current
-
-            // 再コンポーズで毎回作り直さない
-            val adView = remember {
+            val adView = remember(context, adUnitId) {
                 AdView(context).apply {
                     setAdSize(AdSize.BANNER)
                     this.adUnitId = adUnitId
                 }
             }
 
-            // 初回だけロード、離脱時に破棄
-            DisposableEffect(Unit) {
+            DisposableEffect(adView) {
                 adView.loadAd(AdRequest.Builder().build())
                 onDispose { adView.destroy() }
             }
@@ -50,6 +47,5 @@ fun TopBannerAd(
                     .height(50.dp)
             )
         }
-        // isAdFree のときは何も描画しない＝空席だけ残る
     }
 }

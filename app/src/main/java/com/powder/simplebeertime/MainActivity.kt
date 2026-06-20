@@ -11,6 +11,7 @@ import com.powder.simplebeertime.data.preferences.LanguagePreferencesRepository
 import com.powder.simplebeertime.data.preferences.PricePreferencesRepository
 import com.powder.simplebeertime.data.preferences.settingsDataStore
 import com.powder.simplebeertime.ui.SimpleBeerTimeApp
+import com.powder.simplebeertime.ui.ads.GoogleMobileAdsConsentManager
 import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.LanguageViewModelFactory
 import com.powder.simplebeertime.ui.settings.PriceViewModel
@@ -39,6 +40,8 @@ import com.powder.simplebeertime.util.ReviewHelper
  * SBM・SSM・SSmT と同じ方式に統一。
  */
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var consentManager: GoogleMobileAdsConsentManager
 
     private val beerViewModel: BeerViewModel by viewModels {
         val app = application as BeerApplication
@@ -88,10 +91,14 @@ class MainActivity : AppCompatActivity() {
         // 保存された言語設定を適用（UIより前に実行）
         applyStoredLanguage()
 
-        // ★ In-App Review: 条件を満たしていればレビューダイアログをリクエスト
-        ReviewHelper.checkAndRequest(this)
-
         enableEdgeToEdge()
+
+        // Refresh UMP information on every launch. Check the review prompt only after
+        // the consent flow finishes so the two dialogs cannot overlap.
+        consentManager = GoogleMobileAdsConsentManager.getInstance(applicationContext)
+        consentManager.gatherConsent(this) {
+            ReviewHelper.checkAndRequest(this)
+        }
 
         setContent {
             SimpleBeerTimeApp(
@@ -99,7 +106,8 @@ class MainActivity : AppCompatActivity() {
                 languageViewModel = languageViewModel,
                 priceViewModel = priceViewModel,
                 adViewModel = adViewModel,
-                removeAdsViewModel = removeAdsViewModel
+                removeAdsViewModel = removeAdsViewModel,
+                consentManager = consentManager
             )
         }
     }

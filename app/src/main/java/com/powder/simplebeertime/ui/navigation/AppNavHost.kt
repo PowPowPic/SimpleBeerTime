@@ -1,6 +1,5 @@
 package com.powder.simplebeertime.ui.navigation
 
-import android.app.Activity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,6 +13,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,6 +29,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.powder.simplebeertime.ui.ads.GoogleMobileAdsConsentManager
 import com.powder.simplebeertime.ui.ads.TopBannerAd
 import com.powder.simplebeertime.ui.screen.CalendarScreen
 import com.powder.simplebeertime.ui.screen.GraphScreen
@@ -56,6 +57,7 @@ fun AppNavHost(
     priceViewModel: PriceViewModel,
     adViewModel: AdViewModel,
     removeAdsViewModel: RemoveAdsViewModel,
+    consentManager: GoogleMobileAdsConsentManager,
     navController: NavHostController = rememberNavController()
 ) {
     val context = LocalContext.current
@@ -74,6 +76,36 @@ fun AppNavHost(
     // --- 広告削除状態（上部バナー表示用） ---
     val isAdFreeState = adViewModel.isAdFree.collectAsState(initial = false)
 
+    // --- UMP同意・広告SDK初期化状態 ---
+    val consentGatheringComplete by consentManager.consentGatheringComplete.collectAsState()
+    val canRequestAds by consentManager.canRequestAds.collectAsState()
+    val mobileAdsInitialized by consentManager.mobileAdsInitialized.collectAsState()
+    val privacyOptionsRequired by consentManager.privacyOptionsRequired.collectAsState()
+
+    // 今回の起動時のUMP確認が完了し、広告リクエスト可能な場合だけSDKを初期化する。
+    LaunchedEffect(consentGatheringComplete, canRequestAds, isAdFreeState.value) {
+        if (consentGatheringComplete && canRequestAds && !isAdFreeState.value) {
+            consentManager.initializeMobileAds()
+        }
+    }
+
+    val showAds =
+        consentGatheringComplete &&
+            canRequestAds &&
+            mobileAdsInitialized &&
+            !isAdFreeState.value
+
+    // バナーとインタースティシャルで同じ同意・購入状態ゲートを使用する。
+    LaunchedEffect(showAds) {
+        AdManager.setAdsEnabled(context.applicationContext, showAds)
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            AdManager.setAdsEnabled(context.applicationContext, false)
+        }
+    }
+
     // --- 広告削除価格文字列 ---
     val formattedPriceState = removeAdsViewModel.formattedPrice.collectAsState()
 
@@ -91,9 +123,14 @@ fun AppNavHost(
     // --- 広告表示とGraph遷移（Graphタップ時のみ） ---
     fun navigateToGraph() {
         scope.launch {
-            if (adViewModel.shouldShowAd()) {
+            if (showAds && adViewModel.shouldShowAd()) {
+                val activity = context.findActivity()
+                if (activity == null) {
+                    pagerState.animateScrollToPage(screens.indexOf(Screen.Graph))
+                    return@launch
+                }
                 AdManager.showInterstitial(
-                    activity = context as Activity,
+                    activity = activity,
                     onAdClosed = {
                         scope.launch {
                             pagerState.animateScrollToPage(screens.indexOf(Screen.Graph))
@@ -165,7 +202,7 @@ fun AppNavHost(
                     .wrapContentHeight()
             ) {
                 TopBannerAd(
-                    isAdFree = isAdFreeState.value,
+                    showAds = showAds,
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
@@ -258,6 +295,12 @@ fun AppNavHost(
                         showSettingsDialog.value = false
                         showPriceDialog.value = true
                     },
+                    onPrivacyOptionsClick = {
+                        context.findActivity()?.let { activity ->
+                            consentManager.showPrivacyOptionsForm(activity)
+                        }
+                    },
+                    privacyOptionsRequired = privacyOptionsRequired,
                     onConfirmDeleteAll = {
                         beerViewModel.deleteAllRecords()
                     },

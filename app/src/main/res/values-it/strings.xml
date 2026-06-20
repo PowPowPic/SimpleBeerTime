@@ -199,4 +199,8 @@
     <string name="remove_ads_button">Rimuovi pubblicità (%s)</string>
     <string name="remove_ads_purchased">Pubblicità rimosse ✓</string>
     <string name="remove_ads_error">Acquisto non riuscito. Riprova.</string>
+
+    <!-- Advertising privacy options -->
+    <string name="privacy_options_title">Impostazioni sulla privacy</string>
+    <string name="privacy_options_description">Controlla o modifica le tue scelte sulla privacy per gli annunci.</string>
 </resources>

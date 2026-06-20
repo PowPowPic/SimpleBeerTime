@@ -200,4 +200,8 @@
     <string name="remove_ads_button">Supprimer les publicités (%s)</string>
     <string name="remove_ads_purchased">Publicités supprimées ✓</string>
     <string name="remove_ads_error">L\'achat a échoué. Veuillez réessayer.</string>
+
+    <!-- Advertising privacy options -->
+    <string name="privacy_options_title">Paramètres de confidentialité</string>
+    <string name="privacy_options_description">Consultez ou modifiez vos choix de confidentialité publicitaire.</string>
 </resources>
