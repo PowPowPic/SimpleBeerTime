@@ -111,4 +111,10 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
+    override fun onResume() {
+        super.onResume()
+        val app = application as BeerApplication
+        app.container.billingManager.refreshPurchases()
+    }
+
 }

@@ -8,6 +8,7 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -44,23 +45,30 @@ class BillingManager(
     val formattedPrice: StateFlow<String?> = _formattedPrice
 
     private var productDetails: ProductDetails? = null
+    private var isConnecting = false
 
     // ── PurchasesUpdatedListener ──────────────────────────────────────────────
     private val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-            for (purchase in purchases) {
-                handlePurchase(purchase)
+        when (billingResult.responseCode) {
+            BillingClient.BillingResponseCode.OK -> {
+                purchases.orEmpty().forEach(::handlePurchase)
             }
-        }
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
-            queryExistingPurchases()
+
+            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> {
+                queryExistingPurchases()
+            }
         }
     }
 
     // ── BillingClient ─────────────────────────────────────────────────────────
     private val billingClient = BillingClient.newBuilder(context)
         .setListener(purchasesUpdatedListener)
-        .enablePendingPurchases()
+        .enablePendingPurchases(
+            PendingPurchasesParams.newBuilder()
+                .enableOneTimeProducts()
+                .build()
+        )
+        .enableAutoServiceReconnection()
         .build()
 
     init {
@@ -68,8 +76,17 @@ class BillingManager(
     }
 
     private fun connectAndQuery() {
+        if (billingClient.isReady) {
+            queryProductDetails()
+            queryExistingPurchases()
+            return
+        }
+        if (isConnecting) return
+
+        isConnecting = true
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
+                isConnecting = false
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     queryProductDetails()
                     queryExistingPurchases()
@@ -77,8 +94,8 @@ class BillingManager(
             }
 
             override fun onBillingServiceDisconnected() {
-                // ★ 切断時に自動再接続
-                connectAndQuery()
+                isConnecting = false
+                // enableAutoServiceReconnection() により、次回API呼び出し時に自動再接続される。
             }
         })
     }
@@ -94,27 +111,41 @@ class BillingManager(
             .setProductList(productList)
             .build()
 
-        billingClient.queryProductDetailsAsync(params) { _, productDetailsList ->
-            productDetailsList.firstOrNull()?.let { details ->
-                productDetails = details
-                _formattedPrice.value =
-                    details.oneTimePurchaseOfferDetails?.formattedPrice
+        billingClient.queryProductDetailsAsync(params) { billingResult, queryResult ->
+            if (billingResult.responseCode != BillingClient.BillingResponseCode.OK) {
+                return@queryProductDetailsAsync
             }
+
+            val details = queryResult.productDetailsList.firstOrNull()
+            productDetails = details
+            _formattedPrice.value = details?.oneTimePurchaseOfferDetails?.formattedPrice
         }
     }
 
     private fun queryExistingPurchases() {
+        if (!billingClient.isReady) {
+            connectAndQuery()
+            return
+        }
+
         billingClient.queryPurchasesAsync(
             QueryPurchasesParams.newBuilder()
                 .setProductType(BillingClient.ProductType.INAPP)
                 .build()
-        ) { _, purchases ->
-            for (purchase in purchases) {
-                if (purchase.products.contains(PRODUCT_ID) &&
+        ) { billingResult, purchases ->
+            if (billingResult.responseCode != BillingClient.BillingResponseCode.OK) {
+                return@queryPurchasesAsync
+            }
+
+            val activePurchases = purchases.filter { purchase ->
+                purchase.products.contains(PRODUCT_ID) &&
                     purchase.purchaseState == Purchase.PurchaseState.PURCHASED
-                ) {
-                    handlePurchase(purchase)
-                }
+            }
+
+            if (activePurchases.isEmpty()) {
+                setAdFree(false)
+            } else {
+                activePurchases.forEach(::handlePurchase)
             }
         }
     }
@@ -129,23 +160,31 @@ class BillingManager(
                 .build()
             billingClient.acknowledgePurchase(ackParams) { billingResult ->
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    grantAdFree()
+                    setAdFree(true)
                 }
             }
         } else {
-            grantAdFree()
+            setAdFree(true)
         }
     }
 
-    private fun grantAdFree() {
+    private fun setAdFree(enabled: Boolean) {
         scope.launch {
-            adRepository.setAdFree(true)
+            adRepository.setAdFree(enabled)
+        }
+    }
+
+    /** アプリ復帰時などに、購入・返金・取消後の状態をGoogle Playから再確認する。 */
+    fun refreshPurchases() {
+        if (billingClient.isReady) {
+            queryExistingPurchases()
+        } else {
+            connectAndQuery()
         }
     }
 
     // ── 購入フロー起動 ────────────────────────────────────────────────────────
     fun launchBillingFlow(activity: Activity) {
-        // ★ 接続が切れている場合は再接続してから実行
         if (!billingClient.isReady) {
             connectAndQuery()
             return
@@ -164,7 +203,11 @@ class BillingManager(
             .setProductDetailsParamsList(productDetailsParamsList)
             .build()
 
-        billingClient.launchBillingFlow(activity, billingFlowParams)
+        val result = billingClient.launchBillingFlow(activity, billingFlowParams)
+        when (result.responseCode) {
+            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> queryExistingPurchases()
+            BillingClient.BillingResponseCode.SERVICE_DISCONNECTED -> connectAndQuery()
+        }
     }
 }
 

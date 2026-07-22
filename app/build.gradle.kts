@@ -14,8 +14,8 @@ android {
         applicationId = "com.powder.simplebeertime"
         minSdk = 24
         targetSdk = 36
-        versionCode = 43
-        versionName = "2.4.0"
+        versionCode = 44
+        versionName = "2.5.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -59,7 +59,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    implementation("com.android.billingclient:billing-ktx:7.1.1")
+    implementation("com.android.billingclient:billing:9.1.0")
     implementation("com.google.android.play:review-ktx:2.0.1") // ★ In-App Review API
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.fragment:fragment:1.8.9")
