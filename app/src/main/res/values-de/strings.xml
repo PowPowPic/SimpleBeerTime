@@ -179,14 +179,6 @@
 
     <!-- de -->
     <string name="calendar_tap_hint">Tippen Sie auf ein Datum, um die Anzahl zu bearbeiten.</string>
-    <string name="settings_cd_remove_ads">Remove ads</string>
-    <string name="remove_ads_title">Werbung entfernen</string>
-    <string name="remove_ads_description">Eine einmalige Zahlung entfernt dauerhaft alle Werbeanzeigen aus der App.</string>
-    <string name="remove_ads_button">Werbung entfernen (%s)</string>
-    <string name="remove_ads_purchased">Werbung entfernt ✓</string>
-    <string name="remove_ads_error">Der Kauf ist fehlgeschlagen. Bitte versuchen Sie es erneut.</string>
 
     <!-- Advertising privacy options -->
-    <string name="privacy_options_title">Datenschutzeinstellungen</string>
-    <string name="privacy_options_description">Überprüfen oder ändern Sie Ihre Datenschutzauswahl für Werbung.</string>
 </resources>

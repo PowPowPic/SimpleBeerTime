@@ -9,11 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AttachMoney
-import androidx.compose.material.icons.filled.Block
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
@@ -36,21 +33,12 @@ import com.powder.simplebeertime.ui.theme.SimpleColors
 // 削除項目用の赤色
 private val DeleteRed = Color(0xFFFF0000)
 
-// 購入済み表示用のグレー
-private val PurchasedGray = Color(0xFF888888)
-
 @Composable
 fun SettingsDialog(
     onDismiss: () -> Unit,
     onLanguageSettingClick: () -> Unit = {},
     onPriceSettingClick: () -> Unit = {},
-    onPrivacyOptionsClick: () -> Unit = {},
-    privacyOptionsRequired: Boolean = false,
-    onConfirmDeleteAll: () -> Unit = {},
-    // ── 広告削除 ──
-    isAdFree: Boolean = false,
-    formattedPrice: String? = null,
-    onRemoveAdsClick: () -> Unit = {}
+    onConfirmDeleteAll: () -> Unit = {}
 ) {
     val showDeleteAllDialog = remember { mutableStateOf(false) }
 
@@ -94,54 +82,6 @@ fun SettingsDialog(
                     contentDescription = stringResource(R.string.settings_cd_price),
                     onClick = { onPriceSettingClick() }
                 )
-
-                Divider(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    color = SimpleColors.TextSecondary.copy(alpha = 0.5f)
-                )
-
-                // ── 広告のプライバシー設定（必要な地域のみ） ────────────────
-                if (privacyOptionsRequired) {
-                    SettingsRow(
-                        icon = Icons.Filled.PrivacyTip,
-                        title = stringResource(R.string.privacy_options_title),
-                        description = stringResource(R.string.privacy_options_description),
-                        onClick = { onPrivacyOptionsClick() }
-                    )
-
-                    Divider(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        color = SimpleColors.TextSecondary.copy(alpha = 0.5f)
-                    )
-                }
-
-                // ── 広告削除（単価と全データ削除の間） ──────────────────────
-                if (isAdFree) {
-                    // 購入済み：チェックアイコン＋グレーで表示（タップ無効）
-                    SettingsRow(
-                        icon = Icons.Filled.CheckCircle,
-                        title = stringResource(R.string.remove_ads_title),
-                        description = stringResource(R.string.remove_ads_purchased),
-                        contentDescription = stringResource(R.string.settings_cd_remove_ads),
-                        tintColor = PurchasedGray,
-                        enabled = false,
-                        onClick = {}
-                    )
-                } else {
-                    // 未購入：価格付きタイトルで表示
-                    val buttonLabel = if (formattedPrice != null) {
-                        stringResource(R.string.remove_ads_button, formattedPrice)
-                    } else {
-                        stringResource(R.string.remove_ads_title)
-                    }
-                    SettingsRow(
-                        icon = Icons.Filled.Block,
-                        title = buttonLabel,
-                        description = stringResource(R.string.remove_ads_description),
-                        contentDescription = stringResource(R.string.settings_cd_remove_ads),
-                        onClick = { onRemoveAdsClick() }
-                    )
-                }
 
                 Divider(
                     modifier = Modifier.padding(vertical = 8.dp),

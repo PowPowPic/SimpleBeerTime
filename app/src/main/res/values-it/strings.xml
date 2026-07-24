@@ -193,14 +193,6 @@
 
     <!-- it -->
     <string name="calendar_tap_hint">Tocca una data per modificare il numero.</string>
-    <string name="settings_cd_remove_ads">Remove ads</string>
-    <string name="remove_ads_title">Rimuovi pubblicità</string>
-    <string name="remove_ads_description">Un unico pagamento rimuove definitivamente tutte le pubblicità dall\'app.</string>
-    <string name="remove_ads_button">Rimuovi pubblicità (%s)</string>
-    <string name="remove_ads_purchased">Pubblicità rimosse ✓</string>
-    <string name="remove_ads_error">Acquisto non riuscito. Riprova.</string>
 
     <!-- Advertising privacy options -->
-    <string name="privacy_options_title">Impostazioni sulla privacy</string>
-    <string name="privacy_options_description">Controlla o modifica le tue scelte sulla privacy per gli annunci.</string>
 </resources>

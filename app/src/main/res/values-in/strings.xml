@@ -181,14 +181,6 @@
 
     <!-- id -->
     <string name="calendar_tap_hint">Ketuk tanggal untuk mengedit jumlah.</string>
-    <string name="settings_cd_remove_ads">Remove ads</string>
-    <string name="remove_ads_title">Hapus Iklan</string>
-    <string name="remove_ads_description">Bayar sekali untuk menghapus semua iklan dari aplikasi secara permanen.</string>
-    <string name="remove_ads_button">Hapus Iklan (%s)</string>
-    <string name="remove_ads_purchased">Iklan Dihapus ✓</string>
-    <string name="remove_ads_error">Pembelian gagal. Silakan coba lagi.</string>
 
     <!-- Advertising privacy options -->
-    <string name="privacy_options_title">Setelan privasi</string>
-    <string name="privacy_options_description">Tinjau atau ubah pilihan privasi iklan Anda.</string>
 </resources>

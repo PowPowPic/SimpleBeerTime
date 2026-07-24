@@ -26,7 +26,8 @@ class AppContainer(context: Context) {
     val pricePreferencesRepository = PricePreferencesRepository(context.settingsDataStore)
     val languagePreferencesRepository = LanguagePreferencesRepository(context.settingsDataStore)
 
-    // ── 広告削除 BillingManager ───────────────────────────────────────────────
+    // 既存の広告削除購入者の購入履歴確認・権利復元用。
+    // 新規購入導線は撤去済み。
     val billingManager = BillingManager(
         context = context,
         adRepository = adPreferencesRepository

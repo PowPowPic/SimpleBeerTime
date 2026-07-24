@@ -200,14 +200,6 @@
 
     <string name="calendar_per_day_suffix">/dia</string>
     <string name="edit_day_about_label">Aprox.</string>
-    <string name="settings_cd_remove_ads">Remove ads</string>
-    <string name="remove_ads_title">Remover anúncios</string>
-    <string name="remove_ads_description">Um pagamento único remove permanentemente todos os anúncios do aplicativo.</string>
-    <string name="remove_ads_button">Remover anúncios (%s)</string>
-    <string name="remove_ads_purchased">Anúncios removidos ✓</string>
-    <string name="remove_ads_error">A compra falhou. Tente novamente.</string>
 
     <!-- Advertising privacy options -->
-    <string name="privacy_options_title">Configurações de privacidade</string>
-    <string name="privacy_options_description">Revise ou altere suas escolhas de privacidade para anúncios.</string>
 </resources>

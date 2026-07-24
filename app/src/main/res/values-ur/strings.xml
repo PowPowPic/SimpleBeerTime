@@ -177,14 +177,6 @@
     <string name="calendar_per_day_suffix">/دن</string>
     <!-- ④ EditDayAmountDialog: "About" label -->
     <string name="edit_day_about_label">تقریباً</string>
-    <string name="settings_cd_remove_ads">Remove ads</string>
-    <string name="remove_ads_title">اشتہارات ہٹائیں</string>
-    <string name="remove_ads_description">ایک بار ادائیگی کرنے سے ایپ کے تمام اشتہارات مستقل طور پر ہٹ جائیں گے۔</string>
-    <string name="remove_ads_button">اشتہارات ہٹائیں (%s)</string>
-    <string name="remove_ads_purchased">اشتہارات ہٹا دیے گئے ✓</string>
-    <string name="remove_ads_error">خریداری ناکام ہو گئی۔ براہ کرم دوبارہ کوشش کریں۔</string>
 
     <!-- Advertising privacy options -->
-    <string name="privacy_options_title">رازداری کی ترتیبات</string>
-    <string name="privacy_options_description">اشتہارات سے متعلق اپنی رازداری کی ترجیحات دیکھیں یا تبدیل کریں۔</string>
 </resources>

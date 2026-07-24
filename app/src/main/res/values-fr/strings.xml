@@ -194,14 +194,6 @@
 
     <!-- fr -->
     <string name="calendar_tap_hint">Appuyez sur une date pour modifier le nombre.</string>
-    <string name="settings_cd_remove_ads">Remove ads</string>
-    <string name="remove_ads_title">Supprimer les publicités</string>
-    <string name="remove_ads_description">Un paiement unique supprime définitivement toutes les publicités de l\'application.</string>
-    <string name="remove_ads_button">Supprimer les publicités (%s)</string>
-    <string name="remove_ads_purchased">Publicités supprimées ✓</string>
-    <string name="remove_ads_error">L\'achat a échoué. Veuillez réessayer.</string>
 
     <!-- Advertising privacy options -->
-    <string name="privacy_options_title">Paramètres de confidentialité</string>
-    <string name="privacy_options_description">Consultez ou modifiez vos choix de confidentialité publicitaire.</string>
 </resources>

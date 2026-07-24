@@ -13,24 +13,19 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.powder.simplebeertime.ui.ads.GoogleMobileAdsConsentManager
-import com.powder.simplebeertime.ui.ads.TopBannerAd
 import com.powder.simplebeertime.ui.screen.CalendarScreen
 import com.powder.simplebeertime.ui.screen.GraphScreen
 import com.powder.simplebeertime.ui.screen.HistoryScreen
@@ -40,11 +35,7 @@ import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.PriceSettingDialog
 import com.powder.simplebeertime.ui.settings.PriceViewModel
 import com.powder.simplebeertime.ui.settings.SettingsDialog
-import com.powder.simplebeertime.ui.viewmodel.AdViewModel
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
-import com.powder.simplebeertime.ui.viewmodel.RemoveAdsViewModel
-import com.powder.simplebeertime.util.AdManager
-import com.powder.simplebeertime.util.findActivity
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.statusBarsPadding
 
@@ -55,12 +46,8 @@ fun AppNavHost(
     beerViewModel: BeerViewModel,
     languageViewModel: LanguageViewModel,
     priceViewModel: PriceViewModel,
-    adViewModel: AdViewModel,
-    removeAdsViewModel: RemoveAdsViewModel,
-    consentManager: GoogleMobileAdsConsentManager,
     navController: NavHostController = rememberNavController()
 ) {
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     // --- ダイアログの状態（一元管理） ---
@@ -73,42 +60,6 @@ fun AppNavHost(
         .pricePerBeer
         .collectAsState(initial = 5.00f)
 
-    // --- 広告削除状態（上部バナー表示用） ---
-    val isAdFreeState = adViewModel.isAdFree.collectAsState(initial = false)
-
-    // --- UMP同意・広告SDK初期化状態 ---
-    val consentGatheringComplete by consentManager.consentGatheringComplete.collectAsState()
-    val canRequestAds by consentManager.canRequestAds.collectAsState()
-    val mobileAdsInitialized by consentManager.mobileAdsInitialized.collectAsState()
-    val privacyOptionsRequired by consentManager.privacyOptionsRequired.collectAsState()
-
-    // 今回の起動時のUMP確認が完了し、広告リクエスト可能な場合だけSDKを初期化する。
-    LaunchedEffect(consentGatheringComplete, canRequestAds, isAdFreeState.value) {
-        if (consentGatheringComplete && canRequestAds && !isAdFreeState.value) {
-            consentManager.initializeMobileAds()
-        }
-    }
-
-    val showAds =
-        consentGatheringComplete &&
-            canRequestAds &&
-            mobileAdsInitialized &&
-            !isAdFreeState.value
-
-    // バナーとインタースティシャルで同じ同意・購入状態ゲートを使用する。
-    LaunchedEffect(showAds) {
-        AdManager.setAdsEnabled(context.applicationContext, showAds)
-    }
-
-    DisposableEffect(Unit) {
-        onDispose {
-            AdManager.setAdsEnabled(context.applicationContext, false)
-        }
-    }
-
-    // --- 広告削除価格文字列 ---
-    val formattedPriceState = removeAdsViewModel.formattedPrice.collectAsState()
-
     // --- 画面定義 ---
     val screens = listOf(
         Screen.Main,
@@ -120,30 +71,10 @@ fun AppNavHost(
     // --- Pager状態 ---
     val pagerState = rememberPagerState(pageCount = { screens.size })
 
-    // --- 広告表示とGraph遷移（Graphタップ時のみ） ---
+    // --- Graph遷移（広告を挟まず直接遷移） ---
     fun navigateToGraph() {
         scope.launch {
-            if (showAds && adViewModel.shouldShowAd()) {
-                val activity = context.findActivity()
-                if (activity == null) {
-                    pagerState.animateScrollToPage(screens.indexOf(Screen.Graph))
-                    return@launch
-                }
-                AdManager.showInterstitial(
-                    activity = activity,
-                    onAdClosed = {
-                        scope.launch {
-                            pagerState.animateScrollToPage(screens.indexOf(Screen.Graph))
-                        }
-                    },
-                    onAdShown = {
-                        // ★広告が実際に表示され、閉じられたときだけ枠を消費
-                        adViewModel.onAdShown()
-                    }
-                )
-            } else {
-                pagerState.animateScrollToPage(screens.indexOf(Screen.Graph))
-            }
+            pagerState.animateScrollToPage(screens.indexOf(Screen.Graph))
         }
     }
 
@@ -193,23 +124,16 @@ fun AppNavHost(
     Scaffold(
         containerColor = Color.Transparent,
 
-        // ★上部バナー（全画面共通）
+        // 旧レイアウトの上部インセットは維持する。
+        // 実機で余白が目立つ場合に限り、後続調整で見直す。
         topBar = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .statusBarsPadding()
                     .wrapContentHeight()
-            ) {
-                TopBannerAd(
-                    showAds = showAds,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                )
-            }
+            ) {}
         },
-
 
         bottomBar = {
             NavBar(
@@ -295,24 +219,8 @@ fun AppNavHost(
                         showSettingsDialog.value = false
                         showPriceDialog.value = true
                     },
-                    onPrivacyOptionsClick = {
-                        context.findActivity()?.let { activity ->
-                            consentManager.showPrivacyOptionsForm(activity)
-                        }
-                    },
-                    privacyOptionsRequired = privacyOptionsRequired,
                     onConfirmDeleteAll = {
                         beerViewModel.deleteAllRecords()
-                    },
-                    // ── 広告削除 ──
-                    isAdFree = isAdFreeState.value,
-                    formattedPrice = formattedPriceState.value,
-                    onRemoveAdsClick = {
-                        // ★ ダイアログ内なので LocalContext.current as Activity はNG
-                        //    findActivity() 拡張で安全に Activity を辿る
-                        context.findActivity()?.let { activity ->
-                            removeAdsViewModel.launchBillingFlow(activity)
-                        }
                     }
                 )
             }

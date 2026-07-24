@@ -11,20 +11,15 @@ import com.powder.simplebeertime.data.preferences.LanguagePreferencesRepository
 import com.powder.simplebeertime.data.preferences.PricePreferencesRepository
 import com.powder.simplebeertime.data.preferences.settingsDataStore
 import com.powder.simplebeertime.ui.SimpleBeerTimeApp
-import com.powder.simplebeertime.ui.ads.GoogleMobileAdsConsentManager
 import com.powder.simplebeertime.ui.settings.LanguageViewModel
 import com.powder.simplebeertime.ui.settings.LanguageViewModelFactory
 import com.powder.simplebeertime.ui.settings.PriceViewModel
 import com.powder.simplebeertime.ui.settings.PriceViewModelFactory
-import com.powder.simplebeertime.ui.viewmodel.AdViewModel
-import com.powder.simplebeertime.ui.viewmodel.AdViewModelFactory
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModel
 import com.powder.simplebeertime.ui.viewmodel.BeerViewModelFactory
-import com.powder.simplebeertime.ui.viewmodel.RemoveAdsViewModel
-import com.powder.simplebeertime.ui.viewmodel.RemoveAdsViewModelFactory
+import com.powder.simplebeertime.util.ReviewHelper
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import com.powder.simplebeertime.util.ReviewHelper
 
 /**
  * ★ ComponentActivity → AppCompatActivity に変更
@@ -41,8 +36,6 @@ import com.powder.simplebeertime.util.ReviewHelper
  */
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var consentManager: GoogleMobileAdsConsentManager
-
     private val beerViewModel: BeerViewModel by viewModels {
         val app = application as BeerApplication
         BeerViewModelFactory(app.container.beerRepository)
@@ -58,16 +51,6 @@ class MainActivity : AppCompatActivity() {
         PriceViewModelFactory(
             PricePreferencesRepository(applicationContext.settingsDataStore)
         )
-    }
-
-    private val adViewModel: AdViewModel by viewModels {
-        val app = application as BeerApplication
-        AdViewModelFactory(app.container.adPreferencesRepository)
-    }
-
-    private val removeAdsViewModel: RemoveAdsViewModel by viewModels {
-        val app = application as BeerApplication
-        RemoveAdsViewModelFactory(app.container.billingManager)
     }
 
     /**
@@ -93,28 +76,22 @@ class MainActivity : AppCompatActivity() {
 
         enableEdgeToEdge()
 
-        // Refresh UMP information on every launch. Check the review prompt only after
-        // the consent flow finishes so the two dialogs cannot overlap.
-        consentManager = GoogleMobileAdsConsentManager.getInstance(applicationContext)
-        consentManager.gatherConsent(this) {
-            ReviewHelper.checkAndRequest(this)
-        }
+        // UMP同意画面を撤去したため、レビュー確認は起動時に直接実行する。
+        ReviewHelper.checkAndRequest(this)
 
         setContent {
             SimpleBeerTimeApp(
                 beerViewModel = beerViewModel,
                 languageViewModel = languageViewModel,
-                priceViewModel = priceViewModel,
-                adViewModel = adViewModel,
-                removeAdsViewModel = removeAdsViewModel,
-                consentManager = consentManager
+                priceViewModel = priceViewModel
             )
         }
     }
+
     override fun onResume() {
         super.onResume()
         val app = application as BeerApplication
+        // 既存の広告削除購入者の権利を引き続きGoogle Playから確認する。
         app.container.billingManager.refreshPurchases()
     }
-
 }

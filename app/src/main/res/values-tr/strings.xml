@@ -200,14 +200,6 @@
 
     <string name="calendar_per_day_suffix">/gün</string>
     <string name="edit_day_about_label">Yakl.</string>
-    <string name="settings_cd_remove_ads">Remove ads</string>
-    <string name="remove_ads_title">Reklamları Kaldır</string>
-    <string name="remove_ads_description">Tek seferlik ödeme, uygulamadaki tüm reklamları kalıcı olarak kaldırır.</string>
-    <string name="remove_ads_button">Reklamları Kaldır (%s)</string>
-    <string name="remove_ads_purchased">Reklamlar Kaldırıldı ✓</string>
-    <string name="remove_ads_error">Satın alma başarısız oldu. Lütfen tekrar deneyin.</string>
 
     <!-- Advertising privacy options -->
-    <string name="privacy_options_title">Gizlilik ayarları</string>
-    <string name="privacy_options_description">Reklamlarla ilgili gizlilik tercihlerinizi inceleyin veya değiştirin.</string>
 </resources>
