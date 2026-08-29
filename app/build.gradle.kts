@@ -1,9 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("kotlin-kapt")  // ← これを追加
-
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -14,12 +12,12 @@ android {
         applicationId = "com.powder.simplebeertime"
         minSdk = 24
         targetSdk = 36
-        versionCode = 45 // ★調整ポイント（変更前: 44）
-        versionName = "2.6.0" // ★調整ポイント（変更前: 2.5.0）
+        versionCode = 46
+        versionName = "2.7.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // ★ 対応言語をビルドに含める（これがないと values-az 等がビルドから除外される）
+        // 対応言語をビルドに含める
         resourceConfigurations += listOf(
             "ja", "es", "es-rMX", "it", "pt-rBR", "fr", "de", "ar",
             "in", "th", "tr", "vi", "zh-rTW", "ko",
@@ -31,20 +29,20 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+
     buildFeatures {
         compose = true
     }
@@ -59,8 +57,13 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+
+    // Google Play Billing: existing-purchase entitlement check/restore
     implementation("com.android.billingclient:billing:9.1.0")
-    implementation("com.google.android.play:review-ktx:2.0.1") // ★ In-App Review API
+
+    // In-App Review
+    implementation("com.google.android.play:review-ktx:2.0.2")
+
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.fragment:fragment:1.8.9")
 
@@ -72,10 +75,10 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
+    // Room: kapt -> KSP
+    implementation("androidx.room:room-runtime:2.8.4")
+    implementation("androidx.room:room-ktx:2.8.4")
+    ksp("androidx.room:room-compiler:2.8.4")
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -84,5 +87,5 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
     // Material Icons Extended
-    implementation("androidx.compose.material:material-icons-extended:1.6.0")
+    implementation("androidx.compose.material:material-icons-extended")
 }
